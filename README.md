@@ -18,6 +18,7 @@ Usage
 __Actions__
 
 Start scanning:
+    
     noble.startScanning(); // any service UUID, no duplicates
 
 
@@ -65,7 +66,7 @@ Roadmap (TODO)
 
  * Mac OS X:
    * ~~Adapter state (unknown | reseting | unsupported | unauthorized | off | on)~~
-   * Scan
+   * ~~Scan~~
       * ~~startScanning~~
          * ~~service UUID's~~
          * ~~allow duplicates~~
