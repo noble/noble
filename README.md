@@ -44,6 +44,7 @@ Scan stopped:
 Peripheral discovered:
 
     peripheral = {
+      uuid: "<uuid>",
       localName: "<name>",
       services: ["<service UUID>", ...],
       rssi: <rssi>
@@ -61,7 +62,7 @@ Roadmap (TODO)
          * service UUID's
          * allow duplicates
       * ~~stopScanning~~
-   * Peripheral (local name, service UUID's, RSSI)
+   * Peripheral (uuid, local name, service UUID's, RSSI)
      * ~~discovered~~
      * connect
      * cancel

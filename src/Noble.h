@@ -22,9 +22,10 @@ public:
 
   class Peripheral {
   public:
-    Peripheral(std::string localName, std::vector<std::string> services, int rssi);
+    Peripheral(std::string uuid, std::string localName, std::vector<std::string> services, int rssi);
     ~Peripheral();
 
+    std::string uuid;
     std::string localName;
     std::vector<std::string> services;
     int rssi;

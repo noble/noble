@@ -12,8 +12,8 @@ struct PeripheralDiscoveredData {
   Noble::Peripheral *peripheral;
 };
 
-Noble::Peripheral::Peripheral(std::string localName, std::vector<std::string> services, int rssi) :
-  localName(localName), services(services), rssi(rssi)
+Noble::Peripheral::Peripheral(std::string uuid, std::string localName, std::vector<std::string> services, int rssi) :
+  uuid(uuid), localName(localName), services(services), rssi(rssi)
 {
 
 }
@@ -165,6 +165,7 @@ void Noble::PeripheralDiscovered(uv_work_t* req)
     services->Set(i, v8::String::New(peripheral->services[i].c_str()));
   }
 
+  object->Set(v8::String::New("uuid"), v8::String::New(peripheral->uuid.c_str()));
   object->Set(v8::String::New("localName"), v8::String::New(peripheral->localName.c_str()));
   object->Set(v8::String::New("rssi"), v8::Integer::New(peripheral->rssi));
   object->Set(v8::String::New("services"), services);

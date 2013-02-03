@@ -16,11 +16,15 @@
 {
   const unsigned char *uuidBytes = (const unsigned char *)self.data.bytes;
 
-  return [NSString stringWithFormat:@"%.2X%.2X%.2X%.2X-%.2X%.2X-%.2X%.2X-%.2X%.2X-%.2X%.2X%.2X%.2X%.2X%.2X",
+  if (self.data.length == 2) {
+    return [NSString stringWithFormat:@"%.2X%.2X", uuidBytes[0], uuidBytes[1]];
+  } else {
+    return [NSString stringWithFormat:@"%.2X%.2X%.2X%.2X-%.2X%.2X-%.2X%.2X-%.2X%.2X-%.2X%.2X%.2X%.2X%.2X%.2X",
                               uuidBytes[0], uuidBytes[1], uuidBytes[2], uuidBytes[3],
                               uuidBytes[4], uuidBytes[5],
                               uuidBytes[6], uuidBytes[7],
                               uuidBytes[8], uuidBytes[9], uuidBytes[10], uuidBytes[11], uuidBytes[12], uuidBytes[13], uuidBytes[14], uuidBytes[15]];
+  }
 }
 
 @end
@@ -105,6 +109,11 @@
   if ([advertisementData objectForKey:CBAdvertisementDataLocalNameKey]) {
     localName =  [[advertisementData objectForKey:CBAdvertisementDataLocalNameKey] cStringUsingEncoding:NSASCIIStringEncoding];
   }
+
+  CFStringRef uuidStringRef = CFUUIDCreateString(NULL, [peripheral UUID]);
+  std::string uuid = [(NSString *)uuidStringRef cStringUsingEncoding:NSASCIIStringEncoding];
+  CFRelease(uuidStringRef);
+
   std::vector<std::string> services;
   int rssi = [RSSI intValue];
 
@@ -113,7 +122,7 @@
     services.push_back(service);
   }
 
-  _noble->peripheralDiscovered(new Noble::Peripheral(localName, services, rssi));
+  _noble->peripheralDiscovered(new Noble::Peripheral(uuid, localName, services, rssi));
 }
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
