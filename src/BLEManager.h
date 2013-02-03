@@ -1,6 +1,9 @@
 #import <Foundation/Foundation.h>
 #import <IOBluetooth/IOBluetooth.h>
 
+#include <string>
+#include <vector>
+
 #include "Noble.h"
 
 @interface BLEManager : NSObject <CBCentralManagerDelegate> {
@@ -9,7 +12,7 @@
 }
 
 - (id)initWithNoble:(Noble *)noble;
-- (void)startScanning;
+- (void)startScanningForServices:(std::vector<std::string>)services allowDuplicates:(bool)allowDuplicates;
 - (void)stopScanning;
 
 @end

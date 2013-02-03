@@ -47,7 +47,7 @@ private:
   Noble();
   ~Noble();
 
-  void startScanning();
+  void startScanning(std::vector<std::string> services, bool allowDuplicates);
   void stopScanning();
 
 private:

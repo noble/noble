@@ -18,8 +18,16 @@ Usage
 __Actions__
 
 Start scanning:
+    noble.startScanning(); // any service UUID, no duplicates
 
-    noble.startScanning();
+
+    noble.startScanning([], true); // any service UUID, allow duplicates
+
+
+    var serviceUUIDs = ["<service UUID 1>", ...]; // default: [] => all
+    var allowDuplicates = <false|true>; // default: false
+
+    noble.startScanning(serviceUUIDs, allowDuplicates); // particular UUID's
 
 Stop scanning:
 
@@ -59,8 +67,8 @@ Roadmap (TODO)
    * ~~Adapter state (unknown | reseting | unsupported | unauthorized | off | on)~~
    * Scan
       * ~~startScanning~~
-         * service UUID's
-         * allow duplicates
+         * ~~service UUID's~~
+         * ~~allow duplicates~~
       * ~~stopScanning~~
    * Peripheral (uuid, local name, service UUID's, RSSI)
      * ~~discovered~~

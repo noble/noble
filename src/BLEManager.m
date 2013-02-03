@@ -67,11 +67,25 @@
   return self;
 }
 
-- (void)startScanning
+- (void)startScanningForServices:(std::vector<std::string>)services allowDuplicates:(bool)allowDuplicates
 {
-  NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:CBCentralManagerScanOptionAllowDuplicatesKey];
+  NSMutableArray *serviceUUIDs = [[NSMutableArray alloc] init];
+  for (size_t i = 0; i < services.size(); i++) {
+    NSString *serviceUUID = [NSString stringWithCString:services[i].c_str() encoding:NSASCIIStringEncoding];
+    CBUUID *uuid = [CBUUID UUIDWithString:serviceUUID];
 
-  [self.centralManager scanForPeripheralsWithServices:nil options:options];
+    [serviceUUIDs addObject:uuid];
+  }
+
+  NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
+  if (allowDuplicates) {
+    [options setObject:[NSNumber numberWithBool:YES] forKey:CBCentralManagerScanOptionAllowDuplicatesKey];
+  }
+
+  [self.centralManager scanForPeripheralsWithServices:serviceUUIDs options:options];
+
+  [options release];
+  [serviceUUIDs release];
 }
 
 - (void)stopScanning

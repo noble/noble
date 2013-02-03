@@ -67,8 +67,8 @@ void Noble::peripheralDiscovered(Peripheral* peripheral) {
   uv_queue_work(uv_default_loop(), req, NULL, Noble::PeripheralDiscovered);
 }
 
-void Noble::startScanning() {
-  [this->bleManager startScanning];
+void Noble::startScanning(std::vector<std::string> services, bool allowDuplicates) {
+  [this->bleManager startScanningForServices:services allowDuplicates:allowDuplicates];
 }
 
 void Noble::stopScanning() {
@@ -86,7 +86,35 @@ v8::Handle<v8::Value> Noble::New(const v8::Arguments& args) {
 v8::Handle<v8::Value> Noble::StartScanning(const v8::Arguments& args) {
   v8::HandleScope scope;
   Noble* p = ObjectWrap::Unwrap<Noble>(args.This());
-  p->startScanning();
+
+  std::vector<std::string> services;
+  bool allowDuplicates = false;
+
+  if (args.Length() > 0) {
+    v8::Handle<v8::Value> arg0 = args[0];
+    if (arg0->IsArray()) {
+      v8::Handle<v8::Array> servicesArray = v8::Handle<v8::Array>::Cast(arg0);
+
+      for(uint32_t i = 0; i < servicesArray->Length(); i++) {
+        v8::Handle<v8::Value> serviceValue = servicesArray->Get(i);
+
+        if (serviceValue->IsString()) {
+          v8::String::AsciiValue serviceString(serviceValue->ToString());
+
+          services.push_back(std::string(*serviceString));
+        }
+      }
+    }
+  }
+
+  if (args.Length() > 1) {
+    v8::Handle<v8::Value> arg1 = args[1];
+    if (arg1->IsBoolean()) {
+      allowDuplicates = arg1->ToBoolean()->Value();
+    }
+  }
+
+  p->startScanning(services, allowDuplicates);
 
   v8::Handle<v8::Value> argv[1] = {
     v8::String::New("scanStart")
