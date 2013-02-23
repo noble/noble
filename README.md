@@ -46,6 +46,10 @@ Peripheral update RSSI
 
     peripheral.updateRssi();
 
+Peripheral discover services
+
+    peripheral.discoverServices();
+
 __Events__
 
 Adapter state change:
@@ -97,6 +101,12 @@ Peripheral RSSI update
 
     peripheral.on('rssiUpdate', callback(rssi));
 
+Peripheral services discovered
+
+    noble.on('peripheralServicesDiscover', callback(peripheral, services));
+
+    peripheral.on('servicesDiscovered', callback(services));
+
 Roadmap (TODO)
 --------------
 
@@ -113,7 +123,7 @@ Roadmap (TODO)
      * ~~disconnect/cancel connect~~
      * ~~update RSSI~~
      * services
-         * discover
+         * ~~discover~~
          * disover included
          * discover characteristics for services
      * characteristics

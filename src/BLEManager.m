@@ -86,6 +86,21 @@
     [peripheral readRSSI];
 }
 
+- (void)discoverPeripheral:(std::string)uuid services:(std::vector<std::string>)services
+{
+  NSMutableArray *serviceUUIDs = [[NSMutableArray alloc] init];
+  for (size_t i = 0; i < services.size(); i++) {
+    NSString *serviceUUID = [NSString stringWithCString:services[i].c_str() encoding:NSASCIIStringEncoding];
+    CBUUID *uuid = [CBUUID UUIDWithString:serviceUUID];
+
+    [serviceUUIDs addObject:uuid];
+  }
+
+  CBPeripheral *peripheral = [self.peripherals objectForKey:[NSString stringWithCString:uuid.c_str() encoding:NSASCIIStringEncoding]];
+
+  [peripheral discoverServices:serviceUUIDs];
+}
+
 - (void)dealloc
 {
   self.peripherals = nil;
@@ -223,7 +238,15 @@
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
-  NSLog(@"peripheralDidDiscoverServices: %@ %@", peripheral, error);
+  std::string uuid = [[peripheral uuid] cStringUsingEncoding:NSASCIIStringEncoding];
+  std::vector<std::string> services;
+
+  for (CBService *service in peripheral.services) {
+    std::string serviceUUID = [[[service UUID] string] cStringUsingEncoding:NSASCIIStringEncoding];
+    services.push_back(serviceUUID);
+  }
+
+  _noble->peripheralServicesDiscovered(uuid, services);
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverIncludedServicesForService:(CBService *)service error:(NSError *)error

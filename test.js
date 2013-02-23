@@ -41,6 +41,11 @@ noble.on('peripheralDiscover', function(peripheral) {
 
   peripheral.on('rssiUpdate', function(rssi) {
     console.log('on -> peripheral RSSI update ' + rssi);
+    this.discoverServices();
+  });
+
+  peripheral.on('servicesDiscover', function(services) {
+    console.log('on -> peripheral services discovered ' + services);
     this.disconnect();
   });
 
@@ -67,6 +72,12 @@ noble.on('peripheralRssiUpdate', function(peripheral, rssi) {
   console.log('on -> peripheralRssiUpdate: ');
   console.log(peripheral);
   console.log(rssi);
+});
+
+noble.on('peripheralServicesDiscover', function(peripheral, services) {
+  console.log('on -> peripheralServicesDiscover: ');
+  console.log(peripheral);
+  console.log(services);
 });
 
 noble.startScanning();

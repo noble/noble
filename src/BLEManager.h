@@ -17,6 +17,7 @@
 - (void)connectPeripheral:(std::string)uuid;
 - (void)disconnectPeripheral:(std::string)uuid;
 - (void)updatePeripheralRssi:(std::string)uuid;
+- (void)discoverPeripheral:(std::string)uuid services:(std::vector<std::string>)services;
 
 @end
 

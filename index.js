@@ -65,6 +65,14 @@ function Noble() {
     self.emit('peripheralRssiUpdate', peripheral, rssi);
     peripheral.emit('rssiUpdate', rssi);
   });
+
+  this._bindings.on('peripheralServicesDiscover', function(uuid, services) {
+    var peripheral = self._peripherals[uuid];
+    peripheral.services = services;
+
+    self.emit('peripheralServicesDiscover', peripheral, services);
+    peripheral.emit('servicesDiscover', services);
+  });
 }
 
 util.inherits(Noble, events.EventEmitter);
@@ -89,6 +97,11 @@ Noble.prototype.updatePeripheralRssi = function(uuid) {
   this._bindings.updatePeripheralRssi(uuid);
 };
 
+Noble.prototype.discoverPeripheralServices = function(uuid, serviceUUIDs) {
+  this._bindings.discoverPeripheralServices(uuid, serviceUUIDs);
+};
+
+
 var noble = new Noble();
 module.exports = noble;
 
@@ -111,5 +124,9 @@ NoblePeripheral.prototype.disconnect = function() {
 
 NoblePeripheral.prototype.updateRssi = function() {
   noble.updatePeripheralRssi(this.uuid);
+};
+
+NoblePeripheral.prototype.discoverServices = function(serviceUUIDs) {
+  noble.discoverPeripheralServices(this.uuid, serviceUUIDs);
 };
 
