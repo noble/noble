@@ -9,18 +9,8 @@ static v8::Persistent<v8::FunctionTemplate> s_ct;
 
 struct PeripheralDiscoveredData {
   Noble::Noble *noble;
-  Noble::Peripheral *peripheral;
+  Peripheral *peripheral;
 };
-
-Noble::Peripheral::Peripheral(std::string uuid, std::string localName, std::vector<std::string> services, int rssi) :
-  uuid(uuid), localName(localName), services(services), rssi(rssi)
-{
-
-}
-
-Noble::Peripheral::~Peripheral() {
-
-}
 
 void Noble::Init(v8::Handle<v8::Object> target) {
   v8::HandleScope scope;
@@ -184,7 +174,7 @@ void Noble::PeripheralDiscovered(uv_work_t* req)
   v8::HandleScope scope;
   PeripheralDiscoveredData* data = static_cast<PeripheralDiscoveredData*>(req->data);
   Noble::Noble *noble = data->noble;
-  Noble::Peripheral *peripheral = data->peripheral;
+  Peripheral *peripheral = data->peripheral;
 
   v8::Handle<v8::Object> object = v8::Object::New();
   v8::Handle<v8::Array> services = v8::Array::New();

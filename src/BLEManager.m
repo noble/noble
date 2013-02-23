@@ -1,47 +1,16 @@
-#import <objc/runtime.h>
+#import "CBUUID+String.h"
+#import "CBCentralManager+Concrete.h"
+
+#include "Peripheral.h"
 
 #import "BLEManager.h"
 
 #define UNUSED(x) ( (void)(x) )
 
-@interface CBUUID (String)
-
-- (NSString *)string;
-
-@end
-
-@implementation CBUUID (String)
-
-- (NSString *)string
-{
-  const unsigned char *uuidBytes = (const unsigned char *)self.data.bytes;
-
-  if (self.data.length == 2) {
-    return [NSString stringWithFormat:@"%.2X%.2X", uuidBytes[0], uuidBytes[1]];
-  } else {
-    return [NSString stringWithFormat:@"%.2X%.2X%.2X%.2X-%.2X%.2X-%.2X%.2X-%.2X%.2X-%.2X%.2X%.2X%.2X%.2X%.2X",
-                              uuidBytes[0], uuidBytes[1], uuidBytes[2], uuidBytes[3],
-                              uuidBytes[4], uuidBytes[5],
-                              uuidBytes[6], uuidBytes[7],
-                              uuidBytes[8], uuidBytes[9], uuidBytes[10], uuidBytes[11], uuidBytes[12], uuidBytes[13], uuidBytes[14], uuidBytes[15]];
-  }
-}
-
-@end
-
-//
-// class-dump /System/Library/Frameworks/IOBluetooth.framework/Frameworks/CoreBluetooth.framework/
-//
-// @interface CBConcreteCentralManager : CBCentralManager
-// {
-//     struct _xpc_connection_s *_xpcConnection;
-//     NSMutableDictionary *_peripherals;
-// }
-//
-
 @implementation BLEManager 
 
 @synthesize centralManager = _centralManager;
+@synthesize peripherals = _peripherals;
 
 - (id)initWithNoble:(Noble *)noble
 {
@@ -49,10 +18,9 @@
   if (self) {
     _noble = noble;
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    self.peripherals = [[NSMutableDictionary alloc] init];
 
-    // get the private _xpcConnection instance var from the centralManager
-    xpc_connection_t xpcConnnection = NULL;
-    object_getInstanceVariable(self.centralManager , "_xpcConnection", (void**)&xpcConnnection);
+    xpc_connection_t xpcConnnection = self.centralManager.xpcConnection;
     
     // create a new dispatch queue for it
     _dispatchQueue = dispatch_queue_create(xpc_connection_get_name(xpcConnnection), 0);
@@ -95,6 +63,7 @@
 
 - (void)dealloc
 {
+  self.peripherals = nil;
   self.centralManager = nil;
 
   dispatch_release(_dispatchQueue);
@@ -136,7 +105,9 @@
     services.push_back(service);
   }
 
-  _noble->peripheralDiscovered(new Noble::Peripheral(uuid, localName, services, rssi));
+  [self.peripherals setObject:peripheral forKey:[NSString stringWithFormat:@"%s", uuid.c_str()]];
+
+  _noble->peripheralDiscovered(new Peripheral(uuid, localName, services, rssi));
 }
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error

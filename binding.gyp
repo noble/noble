@@ -5,8 +5,11 @@
       'conditions': [
         ['OS=="mac"', {
           'sources': [
-            'src/Noble.cc',
-            'src/BLEManager.m'
+            'src/Noble.cpp',
+            'src/Peripheral.cpp',
+            'src/BLEManager.m',
+            'src/CBUUID+String.m',
+            'src/CBCentralManager+Concrete.m'
           ],
           # cflags on OS X are stupid and have to be defined like this
           'defines': [

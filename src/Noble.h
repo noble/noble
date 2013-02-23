@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "Peripheral.h"
+
 #ifndef __NOBLE_H__
 #define __NOBLE_H__
 
@@ -18,17 +20,6 @@ public:
     StateUnauthorized,
     StatePoweredOff,
     StatePoweredOn
-  };
-
-  class Peripheral {
-  public:
-    Peripheral(std::string uuid, std::string localName, std::vector<std::string> services, int rssi);
-    ~Peripheral();
-
-    std::string uuid;
-    std::string localName;
-    std::vector<std::string> services;
-    int rssi;
   };
 
   static void Init(v8::Handle<v8::Object> target);

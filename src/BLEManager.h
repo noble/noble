@@ -20,5 +20,6 @@
 @interface BLEManager () 
 
 @property (nonatomic, retain) CBCentralManager *centralManager;
+@property (nonatomic, retain) NSMutableDictionary *peripherals;
 
 @end
