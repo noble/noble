@@ -102,9 +102,19 @@ Roadmap (TODO)
      * ~~discovered~~
      * ~~connect~~
      * ~~disconnect/cancel connect~~
-     * discover services
-     * read
-     * write
+     * services
+       * discover
+       * disover included
+       * discover characteristics for services
+     * characteristics
+       * read
+       * write
+       * set broadcast value
+       * set notify value
+       * descriptors
+         * discover
+         * read
+         * write
  * Linux
    * TDB
  * Windows
