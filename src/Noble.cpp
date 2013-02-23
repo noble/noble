@@ -35,6 +35,13 @@ public:
   std::string uuid;
 };
 
+class PeripheralRssiUpdatedData {
+public:
+  Noble::Noble *noble;
+  std::string uuid;
+  int rssi;
+};
+
 void Noble::Init(v8::Handle<v8::Object> target) {
   v8::HandleScope scope;
 
@@ -48,6 +55,7 @@ void Noble::Init(v8::Handle<v8::Object> target) {
   NODE_SET_PROTOTYPE_METHOD(s_ct, "stopScanning", Noble::StopScanning);
   NODE_SET_PROTOTYPE_METHOD(s_ct, "connectPeripheral", Noble::ConnectPeripheral);
   NODE_SET_PROTOTYPE_METHOD(s_ct, "disconnectPeripheral", Noble::DisconnectPeripheral);
+  NODE_SET_PROTOTYPE_METHOD(s_ct, "updatePeripheralRssi", Noble::UpdatePeripheralRssi);
 
   target->Set(v8::String::NewSymbol("Noble"), s_ct->GetFunction());
 }
@@ -125,6 +133,20 @@ void Noble::peripheralDisconnected(std::string uuid) {
   uv_queue_work(uv_default_loop(), req, NULL, Noble::PeripheralDisonnected);
 }
 
+void Noble::peripheralRssiUpdated(std::string uuid, int rssi) {
+  uv_work_t *req = new uv_work_t();
+
+  PeripheralRssiUpdatedData* data = new PeripheralRssiUpdatedData;
+
+  data->noble = this;
+  data->uuid = uuid;
+  data->rssi = rssi;
+
+  req->data = data;
+
+  uv_queue_work(uv_default_loop(), req, NULL, Noble::PeripheralRssiUpdated);
+}
+
 void Noble::startScanning(std::vector<std::string> services, bool allowDuplicates) {
   [this->bleManager startScanningForServices:services allowDuplicates:allowDuplicates];
 }
@@ -139,6 +161,10 @@ void Noble::connectPeripheral(std::string uuid) {
 
 void Noble::disconnectPeripheral(std::string uuid) {
   [this->bleManager disconnectPeripheral:uuid];
+}
+
+void Noble::updatePeripheralRssi(std::string uuid) {
+  [this->bleManager updatePeripheralRssi:uuid];
 }
 
 v8::Handle<v8::Value> Noble::New(const v8::Arguments& args) {
@@ -237,6 +263,25 @@ v8::Handle<v8::Value> Noble::DisconnectPeripheral(const v8::Arguments& args) {
   }
 
   p->disconnectPeripheral(uuid);
+
+  return scope.Close(v8::Undefined());
+}
+
+v8::Handle<v8::Value> Noble::UpdatePeripheralRssi(const v8::Arguments& args) {
+  v8::HandleScope scope;
+  Noble* p = ObjectWrap::Unwrap<Noble>(args.This());
+
+  std::string uuid;
+
+  if (args.Length() > 0) {
+    v8::Handle<v8::Value> arg0 = args[0];
+    if (arg0->IsString()) {
+      v8::String::AsciiValue serviceString(arg0->ToString());
+      uuid = std::string(*serviceString);
+    }
+  }
+
+  p->updatePeripheralRssi(uuid);
 
   return scope.Close(v8::Undefined());
 }
@@ -344,10 +389,26 @@ void Noble::PeripheralDisonnected(uv_work_t* req) {
   Noble::Noble *noble = data->noble;
 
   v8::Handle<v8::Value> argv[2] = {
-    v8::String::New("peripheralDisonnect"),
+    v8::String::New("peripheralDisconnect"),
     v8::String::New(data->uuid.c_str()),
   };
   node::MakeCallback(noble->This, "emit", 2, argv);
+
+  delete data;
+  delete req;
+}
+
+void Noble::PeripheralRssiUpdated(uv_work_t* req) {
+  v8::HandleScope scope;
+  PeripheralRssiUpdatedData* data = static_cast<PeripheralRssiUpdatedData*>(req->data);
+  Noble::Noble *noble = data->noble;
+
+  v8::Handle<v8::Value> argv[3] = {
+    v8::String::New("peripheralRssiUpdate"),
+    v8::String::New(data->uuid.c_str()),
+    v8::Integer::New(data->rssi)
+  };
+  node::MakeCallback(noble->This, "emit", 3, argv);
 
   delete data;
   delete req;

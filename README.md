@@ -42,6 +42,10 @@ Peripheral disconnect or cancel pending connection:
 
     peripheral.disconnect();
 
+Peripheral update RSSI
+
+    peripheral.updateRssi();
+
 __Events__
 
 Adapter state change:
@@ -81,12 +85,17 @@ Peripheral connect failure:
 
     peripheral.on('connectFailure', callback(reason));
 
-
 Peripheral disconnected:
 
-    noble.on('peripheralDisonnect', callback(peripheral));
+    noble.on('peripheralDisconnect', callback(peripheral));
 
     peripheral.on('disconnect', callback);
+
+Peripheral RSSI update
+
+    noble.on('peripheralRssiUpdate', callback(peripheral, rssi));
+
+    peripheral.on('rssiUpdate', callback(rssi));
 
 Roadmap (TODO)
 --------------
@@ -102,6 +111,7 @@ Roadmap (TODO)
      * ~~discovered~~
      * ~~connect~~
      * ~~disconnect/cancel connect~~
+     * ~~update RSSI~~
      * services
          * discover
          * disover included

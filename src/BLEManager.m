@@ -60,7 +60,7 @@
   [self.centralManager stopScan];
 }
 
-- (void)connectPeripheral:(std::string) uuid
+- (void)connectPeripheral:(std::string)uuid
 {
   CBPeripheral *peripheral = [self.peripherals objectForKey:[NSString stringWithCString:uuid.c_str() encoding:NSASCIIStringEncoding]];
 
@@ -72,11 +72,18 @@
   [options release];
 }
 
-- (void)disconnectPeripheral:(std::string) uuid
+- (void)disconnectPeripheral:(std::string)uuid
 {
   CBPeripheral *peripheral = [self.peripherals objectForKey:[NSString stringWithCString:uuid.c_str() encoding:NSASCIIStringEncoding]];
 
   [self.centralManager cancelPeripheralConnection:peripheral];
+}
+
+- (void)updatePeripheralRssi:(std::string)uuid
+{
+    CBPeripheral *peripheral = [self.peripherals objectForKey:[NSString stringWithCString:uuid.c_str() encoding:NSASCIIStringEncoding]];
+
+    [peripheral readRSSI];
 }
 
 - (void)dealloc
@@ -125,6 +132,7 @@
     services.push_back(service);
   }
 
+  peripheral.delegate = self;
   [self.peripherals setObject:peripheral forKey:[peripheral uuid]];
 
   _noble->peripheralDiscovered(uuid, localName, services, rssi);
@@ -134,7 +142,6 @@
 {
   UNUSED(central);
 
-  UNUSED(central);
   std::string uuid = [[peripheral uuid] cStringUsingEncoding:NSASCIIStringEncoding];
   std::string reason = [[error localizedDescription] cStringUsingEncoding:NSASCIIStringEncoding];
 
@@ -187,6 +194,86 @@
   }
 
   _noble->updateState(state);
+}
+
+/*
+  CBPeripheral:
+
+- (void)readRSSI;
+- (void)discoverServices:(NSArray *)serviceUUIDs;
+- (void)discoverIncludedServices:(NSArray *)includedServiceUUIDs forService:(CBService *)service;
+- (void)discoverCharacteristics:(NSArray *)characteristicUUIDs forService:(CBService *)service;
+- (void)readValueForCharacteristic:(CBCharacteristic *)characteristic;
+- (void)writeValue:(NSData *)data forCharacteristic:(CBCharacteristic *)characteristic type:(CBCharacteristicWriteType)type;
+- (void)reliablyWriteValues:(NSArray *)values forCharacteristics:(NSArray *)array;
+- (void)setBroadcastValue:(BOOL)broadcastValue forCharacteristic:(CBCharacteristic *)characteristic;
+- (void)setNotifyValue:(BOOL)notifyValue forCharacteristic:(CBCharacteristic *)characteristic;
+- (void)discoverDescriptorsForCharacteristic:(CBCharacteristic *)characteristic;
+- (void)readValueForDescriptor:(CBDescriptor *)descriptor;
+- (void)writeValue:(NSData *)data forDescriptor:(CBDescriptor *)descriptor;
+*/
+
+- (void)peripheralDidUpdateRSSI:(CBPeripheral *)peripheral error:(NSError *)error
+{
+  std::string uuid = [[peripheral uuid] cStringUsingEncoding:NSASCIIStringEncoding];
+  int rssi = [[peripheral RSSI] intValue];
+
+  _noble->peripheralRssiUpdated(uuid, rssi);
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
+{
+  NSLog(@"peripheralDidDiscoverServices: %@ %@", peripheral, error);
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverIncludedServicesForService:(CBService *)service error:(NSError *)error
+{
+  NSLog(@"peripheralDidDiscoverIncludedServicesForService: %@ %@ %@", peripheral, service, error);
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
+{
+  NSLog(@"peripheralDidDiscoverCharacteristicsForService: %@ %@ %@", peripheral, service, error);
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+  NSLog(@"peripheralDidUpdateValueForCharacteristic: %@ %@ %@", peripheral, characteristic, error);
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+  NSLog(@"peripheralDidWriteValueForCharacteristic: %@ %@ %@", peripheral, characteristic, error);
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didReliablyWriteValuesForCharacteristics:(NSArray *)characteristics error:(NSError *)error
+{
+  NSLog(@"peripheralDidReliablyWriteValuesForCharacteristics: %@ %@ %@", peripheral, characteristics, error);
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateBroadcastStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+  NSLog(@"peripheralDidUpdateBroadcastStateForCharacteristic: %@ %@ %@", peripheral, characteristic, error);
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+  NSLog(@"peripheralDidUpdateNotificationStateForCharacteristic: %@ %@ %@", peripheral, characteristic, error);
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverDescriptorsForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+  NSLog(@"peripheralDidDiscoverDescriptorsForCharacteristic: %@ %@ %@", peripheral, characteristic, error);
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForDescriptor:(CBDescriptor *)descriptor error:(NSError *)error
+{
+  NSLog(@"peripheralDidUpdateValueForDescriptor: %@ %@ %@", peripheral, descriptor, error);
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didWriteValueForDescriptor:(CBDescriptor *)descriptor error:(NSError *)error
+{
+  NSLog(@"peripheralDidWriteValueForDescriptor: %@ %@ %@", peripheral, descriptor, error);
 }
 
 @end

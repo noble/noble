@@ -27,7 +27,7 @@ noble.on('peripheralDiscover', function(peripheral) {
 
   peripheral.on('connect', function() {
     console.log('on -> peripheral connect');
-    this.disconnect();
+    this.updateRssi();
   });
 
   peripheral.on('connectFailure', function(reason) {
@@ -36,7 +36,12 @@ noble.on('peripheralDiscover', function(peripheral) {
   });
 
   peripheral.on('disconnect', function() {
-    console.log('on -> peripheral diconnect');
+    console.log('on -> peripheral disconnect');
+  });
+
+  peripheral.on('rssiUpdate', function(rssi) {
+    console.log('on -> peripheral RSSI update ' + rssi);
+    this.disconnect();
   });
 
   peripheral.connect();
@@ -54,8 +59,14 @@ noble.on('peripheralConnectFailure', function(peripheral, reason) {
 });
 
 noble.on('peripheralDisconnect', function(peripheral) {
-  console.log('on -> peripheralDisonnect: ');
+  console.log('on -> peripheralDisconnect: ');
   console.log(peripheral);
+});
+
+noble.on('peripheralRssiUpdate', function(peripheral, rssi) {
+  console.log('on -> peripheralRssiUpdate: ');
+  console.log(peripheral);
+  console.log(rssi);
 });
 
 noble.startScanning();

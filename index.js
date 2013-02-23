@@ -51,11 +51,19 @@ function Noble() {
     peripheral.emit('connectFailure', reason);
   });
 
-  this._bindings.on('peripheralDisonnect', function(uuid) {
+  this._bindings.on('peripheralDisconnect', function(uuid) {
     var peripheral = self._peripherals[uuid];
 
     self.emit('peripheralDisconnect', peripheral);
     peripheral.emit('disconnect');
+  });
+
+  this._bindings.on('peripheralRssiUpdate', function(uuid, rssi) {
+    var peripheral = self._peripherals[uuid];
+    peripheral.rssi = rssi;
+
+    self.emit('peripheralRssiUpdate', peripheral, rssi);
+    peripheral.emit('rssiUpdate', rssi);
   });
 }
 
@@ -77,6 +85,10 @@ Noble.prototype.disconnectPeripheral = function(uuid) {
   this._bindings.disconnectPeripheral(uuid);
 };
 
+Noble.prototype.updatePeripheralRssi = function(uuid) {
+  this._bindings.updatePeripheralRssi(uuid);
+};
+
 var noble = new Noble();
 module.exports = noble;
 
@@ -95,5 +107,9 @@ NoblePeripheral.prototype.connect = function() {
 
 NoblePeripheral.prototype.disconnect = function() {
   noble.disconnectPeripheral(this.uuid);
+};
+
+NoblePeripheral.prototype.updateRssi = function() {
+  noble.updatePeripheralRssi(this.uuid);
 };
 

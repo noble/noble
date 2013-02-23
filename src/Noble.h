@@ -29,17 +29,21 @@ public:
   static v8::Handle<v8::Value> ConnectPeripheral(const v8::Arguments& args);
   static v8::Handle<v8::Value> DisconnectPeripheral(const v8::Arguments& args);
 
+  static v8::Handle<v8::Value> UpdatePeripheralRssi(const v8::Arguments& args);
+
   static void UpdateState(uv_work_t* req);
   static void PeripheralDiscovered(uv_work_t* req);
   static void PeripheralConnected(uv_work_t* req);
   static void PeripheralConnectFailure(uv_work_t* req);
   static void PeripheralDisonnected(uv_work_t* req);
+  static void PeripheralRssiUpdated(uv_work_t* req);
 
   void updateState(State state);
   void peripheralDiscovered(std::string uuid, std::string localName, std::vector<std::string> services, int rssi);
   void peripheralConnected(std::string uuid);
   void peripheralConnectFailure(std::string uuid, std::string reason);
   void peripheralDisconnected(std::string uuid);
+  void peripheralRssiUpdated(std::string uuid, int rssi);
 
 private:
   Noble();
@@ -50,6 +54,8 @@ private:
 
   void connectPeripheral(std::string uuid);
   void disconnectPeripheral(std::string uuid);
+
+  void updatePeripheralRssi(std::string uuid);
 
 private:
     BLEManager *bleManager;
