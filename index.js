@@ -77,7 +77,7 @@ Noble.prototype.disconnectPeripheral = function(uuid) {
   this._bindings.disconnectPeripheral(uuid);
 };
 
-var noble = new Noble()
+var noble = new Noble();
 module.exports = noble;
 
 function NoblePeripheral(uuid, localName, services, rssi) {
