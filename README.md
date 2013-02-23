@@ -112,9 +112,9 @@ Roadmap (TODO)
          * set broadcast value
          * set notify value
          * descriptors
-           * discover
-           * read
-           * write
+             * discover
+             * read
+             * write
  * Linux
    * TDB
  * Windows
