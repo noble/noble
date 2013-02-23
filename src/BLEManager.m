@@ -1,8 +1,6 @@
 #import "CBUUID+String.h"
 #import "CBCentralManager+Concrete.h"
 
-#include "Peripheral.h"
-
 #import "BLEManager.h"
 
 #define UNUSED(x) ( (void)(x) )
@@ -107,7 +105,7 @@
 
   [self.peripherals setObject:peripheral forKey:[NSString stringWithFormat:@"%s", uuid.c_str()]];
 
-  _noble->peripheralDiscovered(new Peripheral(uuid, localName, services, rssi));
+  _noble->peripheralDiscovered(uuid, localName, services, rssi);
 }
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error

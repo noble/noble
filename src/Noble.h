@@ -1,12 +1,10 @@
+#ifndef __NOBLE_H__
+#define __NOBLE_H__
+
 #include <node.h>
 
 #include <string>
 #include <vector>
-
-#include "Peripheral.h"
-
-#ifndef __NOBLE_H__
-#define __NOBLE_H__
 
 @class BLEManager;
 
@@ -32,7 +30,7 @@ public:
   static void PeripheralDiscovered(uv_work_t* req);
 
   void updateState(State state);
-  void peripheralDiscovered(Peripheral* peripheral);
+  void peripheralDiscovered(std::string uuid, std::string localName, std::vector<std::string> services, int rssi);
 
 private:
   Noble();

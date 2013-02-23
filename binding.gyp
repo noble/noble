@@ -6,7 +6,6 @@
         ['OS=="mac"', {
           'sources': [
             'src/Noble.cpp',
-            'src/Peripheral.cpp',
             'src/BLEManager.m',
             'src/CBUUID+String.m',
             'src/CBCentralManager+Concrete.m'

@@ -7,9 +7,13 @@
 
 static v8::Persistent<v8::FunctionTemplate> s_ct;
 
-struct PeripheralDiscoveredData {
+class PeripheralDiscoveredData {
+public:
   Noble::Noble *noble;
-  Peripheral *peripheral;
+  std::string uuid;
+  std::string localName;
+  std::vector<std::string> services;
+  int rssi;
 };
 
 void Noble::Init(v8::Handle<v8::Object> target) {
@@ -44,13 +48,16 @@ void Noble::updateState(State state) {
   uv_queue_work(uv_default_loop(), req, NULL, Noble::UpdateState);
 }
 
-void Noble::peripheralDiscovered(Peripheral* peripheral) {
+void Noble::peripheralDiscovered(std::string uuid, std::string localName, std::vector<std::string> services, int rssi) {
   uv_work_t *req = new uv_work_t();
 
   PeripheralDiscoveredData* data = new PeripheralDiscoveredData;
 
   data->noble = this;
-  data->peripheral = peripheral;
+  data->uuid = uuid;
+  data->localName = localName;
+  data->services = services;
+  data->rssi = rssi;
 
   req->data = data;
 
@@ -174,27 +181,22 @@ void Noble::PeripheralDiscovered(uv_work_t* req)
   v8::HandleScope scope;
   PeripheralDiscoveredData* data = static_cast<PeripheralDiscoveredData*>(req->data);
   Noble::Noble *noble = data->noble;
-  Peripheral *peripheral = data->peripheral;
 
-  v8::Handle<v8::Object> object = v8::Object::New();
   v8::Handle<v8::Array> services = v8::Array::New();
 
-  for (size_t i = 0; i < peripheral->services.size(); i++) {
-    services->Set(i, v8::String::New(peripheral->services[i].c_str()));
+  for (size_t i = 0; i < data->services.size(); i++) {
+    services->Set(i, v8::String::New(data->services[i].c_str()));
   }
 
-  object->Set(v8::String::New("uuid"), v8::String::New(peripheral->uuid.c_str()));
-  object->Set(v8::String::New("localName"), v8::String::New(peripheral->localName.c_str()));
-  object->Set(v8::String::New("rssi"), v8::Integer::New(peripheral->rssi));
-  object->Set(v8::String::New("services"), services);
-
-  v8::Handle<v8::Value> argv[2] = {
+  v8::Handle<v8::Value> argv[5] = {
     v8::String::New("peripheralDiscovered"),
-    object
+    v8::String::New(data->uuid.c_str()),
+    v8::String::New(data->localName.c_str()),
+    services,
+    v8::Integer::New(data->rssi)
   };
-  node::MakeCallback(noble->This, "emit", 2, argv);
+  node::MakeCallback(noble->This, "emit", 5, argv);
 
-  delete data->peripheral;
   delete data;
   delete req;
 }
