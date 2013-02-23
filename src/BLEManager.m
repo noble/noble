@@ -1,5 +1,6 @@
 #import "CBUUID+String.h"
 #import "CBCentralManager+Concrete.h"
+#import "CBPeripheral+String.h"
 
 #import "BLEManager.h"
 
@@ -59,6 +60,17 @@
   [self.centralManager stopScan];
 }
 
+- (void)connectPeripheral:(std::string) uuid
+{
+  CBPeripheral *peripheral = [self.peripherals objectForKey:[NSString stringWithCString:uuid.c_str() encoding:NSASCIIStringEncoding]];
+
+  NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
+  [options setObject:[NSNumber numberWithBool:YES] forKey:CBConnectPeripheralOptionNotifyOnDisconnectionKey];
+  
+  [self.centralManager connectPeripheral:peripheral options:options];
+
+  [options release];
+}
 - (void)dealloc
 {
   self.peripherals = nil;
@@ -72,13 +84,17 @@
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
   UNUSED(central);
-  NSLog(@"didConnectPeripheral: %@", peripheral);
+  std::string uuid = [[peripheral uuid] cStringUsingEncoding:NSASCIIStringEncoding];
+
+  _noble->peripheralConnected(uuid);
 }
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
   UNUSED(central);
-  NSLog(@"didDisconnectPeripheral: %@ %@", peripheral, error);
+  std::string uuid = [[peripheral uuid] cStringUsingEncoding:NSASCIIStringEncoding];
+
+  _noble->peripheralDisconnected(uuid);
 }
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral 
@@ -91,9 +107,7 @@
     localName =  [[advertisementData objectForKey:CBAdvertisementDataLocalNameKey] cStringUsingEncoding:NSASCIIStringEncoding];
   }
 
-  CFStringRef uuidStringRef = CFUUIDCreateString(NULL, [peripheral UUID]);
-  std::string uuid = [(NSString *)uuidStringRef cStringUsingEncoding:NSASCIIStringEncoding];
-  CFRelease(uuidStringRef);
+  std::string uuid = [[peripheral uuid] cStringUsingEncoding:NSASCIIStringEncoding];
 
   std::vector<std::string> services;
   int rssi = [RSSI intValue];
@@ -103,7 +117,7 @@
     services.push_back(service);
   }
 
-  [self.peripherals setObject:peripheral forKey:[NSString stringWithFormat:@"%s", uuid.c_str()]];
+  [self.peripherals setObject:peripheral forKey:[peripheral uuid]];
 
   _noble->peripheralDiscovered(uuid, localName, services, rssi);
 }
@@ -111,7 +125,12 @@
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
   UNUSED(central);
-  NSLog(@"didFailToConnectPeripheral: %@ %@", peripheral, error);
+
+  UNUSED(central);
+  std::string uuid = [[peripheral uuid] cStringUsingEncoding:NSASCIIStringEncoding];
+  std::string reason = [[error localizedDescription] cStringUsingEncoding:NSASCIIStringEncoding];
+
+  _noble->peripheralConnectFailure(uuid, reason);
 }
 
 - (void)centralManager:(CBCentralManager *)central didRetrieveConnectedPeripherals:(NSArray *)peripherals

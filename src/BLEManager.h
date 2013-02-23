@@ -14,10 +14,11 @@
 - (id)initWithNoble:(Noble *)noble;
 - (void)startScanningForServices:(std::vector<std::string>)services allowDuplicates:(bool)allowDuplicates;
 - (void)stopScanning;
+- (void)connectPeripheral:(std::string) uuid;
 
 @end
 
-@interface BLEManager () 
+@interface BLEManager ()
 
 @property (nonatomic, retain) CBCentralManager *centralManager;
 @property (nonatomic, retain) NSMutableDictionary *peripherals;

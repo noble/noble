@@ -8,7 +8,8 @@
             'src/Noble.cpp',
             'src/BLEManager.m',
             'src/CBUUID+String.m',
-            'src/CBCentralManager+Concrete.m'
+            'src/CBCentralManager+Concrete.m',
+            'src/CBPeripheral+String.m'
           ],
           # cflags on OS X are stupid and have to be defined like this
           'defines': [

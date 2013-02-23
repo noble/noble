@@ -13,6 +13,69 @@ function inherits(target, source) {
   }
 }
 
+function Noble() {
+  this._bindings = new NobleBindings();
+  this._peripherals = {};
+
+  var self = this;
+
+  this._bindings.on('stateChange', function(state) {
+    self.emit('stateChange', state);
+  });
+
+  this._bindings.on('scanStart', function(state) {
+    self.emit('scanStart');
+  });
+
+  this._bindings.on('scanStop', function(state) {
+    self.emit('scanStop');
+  });
+
+  this._bindings.on('peripheralDiscover', function(uuid, localName, services, rssi) {
+    var peripheral = self._peripherals[uuid] = new NoblePeripheral(uuid, localName, services, rssi);
+
+    self.emit('peripheralDiscover', peripheral);
+  });
+
+  this._bindings.on('peripheralConnect', function(uuid) {
+    var peripheral = self._peripherals[uuid];
+
+    self.emit('peripheralConnect', peripheral);
+    peripheral.emit('connect');
+  });
+
+  this._bindings.on('peripheralConnectFailure', function(uuid, reason) {
+    var peripheral = self._peripherals[uuid];
+
+    self.emit('peripheralConnectFailure', peripheral, reason);
+    peripheral.emit('connectFailure', reason);
+  });
+
+  this._bindings.on('peripheralDisonnect', function(uuid) {
+    var peripheral = self._peripherals[uuid];
+
+    self.emit('peripheralDisconnect', peripheral);
+    peripheral.emit('disconnect');
+  });
+}
+
+util.inherits(Noble, events.EventEmitter);
+
+Noble.prototype.startScanning = function(serviceUUIDs, allowDuplicates) {
+  this._bindings.startScanning(serviceUUIDs, allowDuplicates);
+};
+
+Noble.prototype.stopScanning = function(serviceUUIDs, allowDuplicates) {
+  this._bindings.stopScanning();
+};
+
+Noble.prototype.connectPeripheral = function(uuid) {
+  this._bindings.connectPeripheral(uuid);
+};
+
+var noble = new Noble()
+module.exports = noble;
+
 function NoblePeripheral(uuid, localName, services, rssi) {
   this.uuid = uuid;
   this.localName = localName;
@@ -20,35 +83,9 @@ function NoblePeripheral(uuid, localName, services, rssi) {
   this.rssi = rssi;
 }
 
-function Noble() {
-  this.bindings = new NobleBindings();
-  var _this = this;
+util.inherits(NoblePeripheral, events.EventEmitter);
 
-  this.bindings.on('stateChange', function(state) {
-    _this.emit('stateChange', state);
-  });
-
-  this.bindings.on('scanStart', function(state) {
-    _this.emit('scanStart');
-  });
-
-  this.bindings.on('scanStop', function(state) {
-    _this.emit('scanStop');
-  });
-
-  this.bindings.on('peripheralDiscovered', function(uuid, localName, services, rssi) {
-    _this.emit('peripheralDiscovered', new NoblePeripheral(uuid, localName, services, rssi));
-  });
-}
-
-util.inherits(Noble, events.EventEmitter);
-
-Noble.prototype.startScanning = function(serviceUUIDs, allowDuplicates) {
-  this.bindings.startScanning(serviceUUIDs, allowDuplicates);
+NoblePeripheral.prototype.connect = function() {
+  noble.connectPeripheral(this.uuid);
 };
 
-Noble.prototype.stopScanning = function(serviceUUIDs, allowDuplicates) {
-  this.bindings.stopScanning();
-};
-
-module.exports = new Noble();

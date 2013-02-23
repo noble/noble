@@ -34,6 +34,10 @@ Stop scanning:
 
     noble.stopScanning();
 
+Peripheral connect:
+
+    peripheral.connect();
+
 __Events__
 
 Adapter state change:
@@ -59,7 +63,26 @@ Peripheral discovered:
       rssi: <rssi>
     };
 
-    noble.on('peripheralDiscovered', callback(peripheral)); 
+    noble.on('peripheralDiscover', callback(peripheral));
+
+Peripheral connected:
+
+    noble.on('peripheralConnect', callback(peripheral));
+
+    peripheral.on('connect', callback);
+
+Peripheral connect failure:
+
+    noble.on('peripheralConnectFailure', callback(peripheral, reason));
+
+    peripheral.on('connectFailure', callback(reason));
+
+
+Peripheral disconnected:
+
+    noble.on('peripheralDisonnect', callback(peripheral));
+
+    peripheral.on('disconnect', callback);
 
 Roadmap (TODO)
 --------------
@@ -73,7 +96,7 @@ Roadmap (TODO)
       * ~~stopScanning~~
    * Peripheral (uuid, local name, service UUID's, RSSI)
      * ~~discovered~~
-     * connect
+     * ~~connect~~
      * cancel
      * disconnect
      * discover services
