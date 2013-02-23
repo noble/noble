@@ -73,6 +73,10 @@ Noble.prototype.connectPeripheral = function(uuid) {
   this._bindings.connectPeripheral(uuid);
 };
 
+Noble.prototype.disconnectPeripheral = function(uuid) {
+  this._bindings.disconnectPeripheral(uuid);
+};
+
 var noble = new Noble()
 module.exports = noble;
 
@@ -87,5 +91,9 @@ util.inherits(NoblePeripheral, events.EventEmitter);
 
 NoblePeripheral.prototype.connect = function() {
   noble.connectPeripheral(this.uuid);
+};
+
+NoblePeripheral.prototype.disconnect = function() {
+  noble.disconnectPeripheral(this.uuid);
 };
 

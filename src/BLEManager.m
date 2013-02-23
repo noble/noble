@@ -71,6 +71,14 @@
 
   [options release];
 }
+
+- (void)disconnectPeripheral:(std::string) uuid
+{
+  CBPeripheral *peripheral = [self.peripherals objectForKey:[NSString stringWithCString:uuid.c_str() encoding:NSASCIIStringEncoding]];
+
+  [self.centralManager cancelPeripheralConnection:peripheral];
+}
+
 - (void)dealloc
 {
   self.peripherals = nil;

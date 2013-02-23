@@ -15,6 +15,7 @@
 - (void)startScanningForServices:(std::vector<std::string>)services allowDuplicates:(bool)allowDuplicates;
 - (void)stopScanning;
 - (void)connectPeripheral:(std::string) uuid;
+- (void)disconnectPeripheral:(std::string) uuid;
 
 @end
 

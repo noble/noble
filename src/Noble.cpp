@@ -47,6 +47,7 @@ void Noble::Init(v8::Handle<v8::Object> target) {
   NODE_SET_PROTOTYPE_METHOD(s_ct, "startScanning", Noble::StartScanning);
   NODE_SET_PROTOTYPE_METHOD(s_ct, "stopScanning", Noble::StopScanning);
   NODE_SET_PROTOTYPE_METHOD(s_ct, "connectPeripheral", Noble::ConnectPeripheral);
+  NODE_SET_PROTOTYPE_METHOD(s_ct, "disconnectPeripheral", Noble::DisconnectPeripheral);
 
   target->Set(v8::String::NewSymbol("Noble"), s_ct->GetFunction());
 }
@@ -136,6 +137,10 @@ void Noble::connectPeripheral(std::string uuid) {
   [this->bleManager connectPeripheral:uuid];
 }
 
+void Noble::disconnectPeripheral(std::string uuid) {
+  [this->bleManager disconnectPeripheral:uuid];
+}
+
 v8::Handle<v8::Value> Noble::New(const v8::Arguments& args) {
   v8::HandleScope scope;
   Noble* p = new Noble();
@@ -213,6 +218,25 @@ v8::Handle<v8::Value> Noble::ConnectPeripheral(const v8::Arguments& args) {
   }
 
   p->connectPeripheral(uuid);
+
+  return scope.Close(v8::Undefined());
+}
+
+v8::Handle<v8::Value> Noble::DisconnectPeripheral(const v8::Arguments& args) {
+  v8::HandleScope scope;
+  Noble* p = ObjectWrap::Unwrap<Noble>(args.This());
+
+  std::string uuid;
+
+  if (args.Length() > 0) {
+    v8::Handle<v8::Value> arg0 = args[0];
+    if (arg0->IsString()) {
+      v8::String::AsciiValue serviceString(arg0->ToString());
+      uuid = std::string(*serviceString);
+    }
+  }
+
+  p->disconnectPeripheral(uuid);
 
   return scope.Close(v8::Undefined());
 }

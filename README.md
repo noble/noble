@@ -38,6 +38,10 @@ Peripheral connect:
 
     peripheral.connect();
 
+Peripheral disconnect or cancel pending connection:
+
+    peripheral.disconnect();
+
 __Events__
 
 Adapter state change:
@@ -97,8 +101,7 @@ Roadmap (TODO)
    * Peripheral (uuid, local name, service UUID's, RSSI)
      * ~~discovered~~
      * ~~connect~~
-     * cancel
-     * disconnect
+     * ~~disconnect/cancel connect~~
      * discover services
      * read
      * write

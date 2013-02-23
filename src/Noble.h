@@ -27,6 +27,7 @@ public:
   static v8::Handle<v8::Value> StopScanning(const v8::Arguments& args);
 
   static v8::Handle<v8::Value> ConnectPeripheral(const v8::Arguments& args);
+  static v8::Handle<v8::Value> DisconnectPeripheral(const v8::Arguments& args);
 
   static void UpdateState(uv_work_t* req);
   static void PeripheralDiscovered(uv_work_t* req);
@@ -48,6 +49,7 @@ private:
   void stopScanning();
 
   void connectPeripheral(std::string uuid);
+  void disconnectPeripheral(std::string uuid);
 
 private:
     BLEManager *bleManager;

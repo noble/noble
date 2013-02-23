@@ -27,6 +27,7 @@ noble.on('peripheralDiscover', function(peripheral) {
 
   peripheral.on('connect', function() {
     console.log('on -> peripheral connect');
+    this.disconnect();
   });
 
   peripheral.on('connectFailure', function(reason) {
@@ -52,7 +53,7 @@ noble.on('peripheralConnectFailure', function(peripheral, reason) {
   console.log(reason);
 });
 
-noble.on('peripheralDisonnect', function(peripheral) {
+noble.on('peripheralDisconnect', function(peripheral) {
   console.log('on -> peripheralDisonnect: ');
   console.log(peripheral);
 });
