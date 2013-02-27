@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <IOBluetooth/IOBluetooth.h>
+#include <xpc/xpc.h>
 
 @interface CBCentralManager (Concrete)
 
