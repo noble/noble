@@ -6,65 +6,41 @@
 #include <string>
 #include <vector>
 
-@class BLEManager;
+#include <dispatch/dispatch.h>
+#include <xpc/xpc.h>
 
 class Noble : node::ObjectWrap {
 
 public:
-  enum State {
-    StateUnknown,
-    StateResetting,
-    StateUnsupported,
-    StateUnauthorized,
-    StatePoweredOff,
-    StatePoweredOn
-  };
-
   static void Init(v8::Handle<v8::Object> target);
   static v8::Handle<v8::Value> New(const v8::Arguments& args);
 
-  static v8::Handle<v8::Value> StartScanning(const v8::Arguments& args);
-  static v8::Handle<v8::Value> StopScanning(const v8::Arguments& args);
-
-  static v8::Handle<v8::Value> ConnectPeripheral(const v8::Arguments& args);
-  static v8::Handle<v8::Value> DisconnectPeripheral(const v8::Arguments& args);
-
-  static v8::Handle<v8::Value> UpdatePeripheralRssi(const v8::Arguments& args);
-  static v8::Handle<v8::Value> DiscoverPeripheralServices(const v8::Arguments& args);
-
-  static void UpdateState(uv_work_t* req);
-  static void PeripheralDiscovered(uv_work_t* req);
-  static void PeripheralConnected(uv_work_t* req);
-  static void PeripheralConnectFailure(uv_work_t* req);
-  static void PeripheralDisonnected(uv_work_t* req);
-  static void PeripheralRssiUpdated(uv_work_t* req);
-  static void PeripheralServicesDiscovered(uv_work_t* req);
-
-  void updateState(State state);
-  void peripheralDiscovered(std::string uuid, std::string localName, std::vector<std::string> services, int rssi);
-  void peripheralConnected(std::string uuid);
-  void peripheralConnectFailure(std::string uuid, std::string reason);
-  void peripheralDisconnected(std::string uuid);
-  void peripheralRssiUpdated(std::string uuid, int rssi);
-  void peripheralServicesDiscovered(std::string uuid, std::vector<std::string> services);
+  static v8::Handle<v8::Value> SetupXpcConnection(const v8::Arguments& args);
+  static v8::Handle<v8::Value> SendXpcMessage(const v8::Arguments& args);
 
 private:
   Noble();
   ~Noble();
 
-  void startScanning(std::vector<std::string> services, bool allowDuplicates);
-  void stopScanning();
+  static xpc_object_t ValueToXpcObject(v8::Handle<v8::Value> object);
+  static xpc_object_t ObjectToXpcObject(v8::Handle<v8::Object> object);
+  static xpc_object_t ArrayToXpcObject(v8::Handle<v8::Array> array);
 
-  void connectPeripheral(std::string uuid);
-  void disconnectPeripheral(std::string uuid);
+  static v8::Handle<v8::Value> XpcObjectToValue(xpc_object_t xpcObject);
+  static v8::Handle<v8::Object> XpcDictionaryToObject(xpc_object_t xpcDictionary);
+  static v8::Handle<v8::Array> XpcArrayToArray(xpc_object_t xpcArray);
 
-  void updatePeripheralRssi(std::string uuid);
-  void discoverPeripheralServices(std::string uuid, std::vector<std::string> services);
+  static void HandleXpcEvent(uv_work_t* req);
+
+  void setupXpcConnection();
+  void sendXpcMessage(xpc_object_t message);
+  void handleXpcEvent(xpc_object_t event);
 
 private:
-    BLEManager *bleManager;
+    dispatch_queue_t dispatchQueue;
+    xpc_connection_t xpcConnnection;
+
     v8::Persistent<v8::Object> This;
-    State state;
 };
 
 #endif

@@ -5,11 +5,7 @@
       'conditions': [
         ['OS=="mac"', {
           'sources': [
-            'src/Noble.cpp',
-            'src/BLEManager.m',
-            'src/CBUUID+String.m',
-            'src/CBCentralManager+Concrete.m',
-            'src/CBPeripheral+String.m'
+            'src/Noble.cpp'
           ],
           # cflags on OS X are stupid and have to be defined like this
           'defines': [
@@ -20,11 +16,6 @@
             'OTHER_CFLAGS': [
               '-Wall',
               '-ObjC++'
-            ]
-          },
-          'link_settings': {
-            'libraries': [
-              '$(SDKROOT)/System/Library/Frameworks/IOBluetooth.framework',
             ]
           }
         }]
