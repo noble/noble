@@ -13,18 +13,20 @@
   "keywords": [
      "bluetooth",
      "BLE",
-     "bluetooth low energy" 
+     "bluetooth low energy",
+     "bluetooth smart"
   ],
   "main": "./index.js",
   "engines": {
     "node": "0.8.x"
   },
   "dependencies": {
+    "debug": "0.7.2"
   },
   "devDependencies": {
     "jshint": "latest"
   },
   "scripts": {
-    "pretest": "jshint *.js"
+    "pretest": "jshint lib/*.js"
   }
 }
