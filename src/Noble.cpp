@@ -40,6 +40,7 @@ void Noble::setupXpcConnection() {
 
   xpc_connection_set_event_handler(this->xpcConnnection, ^(xpc_object_t event) {
     xpc_retain(event);
+//    NSLog(@"event = %@", event);
     this->handleXpcEvent(event);
   });
 
@@ -47,7 +48,7 @@ void Noble::setupXpcConnection() {
 }
 
 void Noble::sendXpcMessage(xpc_object_t message) {
-  // NSLog(@"sendXpcMessage: message = %@", message);
+//  NSLog(@"sendXpcMessage: message = %@", message);
   xpc_connection_send_message(this->xpcConnnection, message);
 }
 
@@ -61,7 +62,7 @@ void Noble::handleXpcEvent(xpc_object_t event) {
 
   req->data = data;
 
-  uv_queue_work(uv_default_loop(), req, NULL, Noble::HandleXpcEvent);
+  uv_queue_work(uv_default_loop(), req, Noble::HandleXpcEvent, Noble::HandleXpcEventAfter);
 }
 
 v8::Handle<v8::Value> Noble::New(const v8::Arguments& args) {
@@ -211,6 +212,14 @@ v8::Handle<v8::Array> Noble::XpcArrayToArray(xpc_object_t xpcArray) {
 }
 
 void Noble::HandleXpcEvent(uv_work_t* req) {
+  // no-op
+}
+
+#if UV_VERSION_MINOR > 8
+void Noble::HandleXpcEventAfter(uv_work_t* req, int status) {
+#else
+void Noble::HandleXpcEventAfter(uv_work_t* req) {
+#endif
   v8::HandleScope scope;
   XpcEventData* data = static_cast<XpcEventData*>(req->data);
   Noble::Noble *noble = data->noble;

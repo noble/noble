@@ -31,6 +31,11 @@ private:
   static v8::Handle<v8::Array> XpcArrayToArray(xpc_object_t xpcArray);
 
   static void HandleXpcEvent(uv_work_t* req);
+#if UV_VERSION_MINOR > 8
+  static void HandleXpcEventAfter(uv_work_t* req, int status);
+#else
+  static void HandleXpcEventAfter(uv_work_t* req);
+#endif
 
   void setupXpcConnection();
   void sendXpcMessage(xpc_object_t message);
