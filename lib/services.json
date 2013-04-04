@@ -1,0 +1,62 @@
+{
+    "1800" : { "name" : "Generic Access"
+             , "type" : "org.bluetooth.service.generic_access"
+             }
+  , "1801" : { "name" : "Generic Attribute"
+             , "type" : "org.bluetooth.service.generic_attribute"
+             }
+  , "1802" : { "name" : "Immediate Alert"
+             , "type" : "org.bluetooth.service.immediate_alert"
+             }
+  , "1803" : { "name" : "Link Loss"
+             , "type" : "org.bluetooth.service.link_loss"
+             }
+  , "1804" : { "name" : "Tx Power"
+             , "type" : "org.bluetooth.service.tx_power"
+             }
+  , "1805" : { "name" : "Current Time Service"
+             , "type" : "org.bluetooth.service.current_time"
+             }
+  , "1806" : { "name" : "Reference Time Update Service"
+             , "type" : "org.bluetooth.service.reference_time_update"
+             }
+  , "1807" : { "name" : "Next DST Change Service"
+             , "type" : "org.bluetooth.service.next_dst_change"
+             }
+  , "1808" : { "name" : "Glucose"
+             , "type" : "org.bluetooth.service.glucose"
+             }
+  , "1809" : { "name" : "Health Thermometer"
+             , "type" : "org.bluetooth.service.health_thermometer"
+             }
+  , "180a" : { "name" : "Device Information"
+             , "type" : "org.bluetooth.service.device_information"
+             }
+  , "180d" : { "name" : "Heart Rate"
+             , "type" : "org.bluetooth.service.heart_rate"
+             }
+  , "180e" : { "name" : "Phone Alert Status Service"
+             , "type" : "org.bluetooth.service.phone_alert_service"
+             }
+  , "180f" : { "name" : "Battery Service"
+             , "type" : "org.bluetooth.service.battery_service"
+             }
+  , "1810" : { "name" : "Blood Pressure"
+             , "type" : "org.bluetooth.service.blood_pressuer"
+             }
+  , "1811" : { "name" : "Alert Notification Service"
+             , "type" : "org.bluetooth.service.alert_notification"
+             }
+  , "1812" : { "name" : "Human Interface Device"
+             , "type" : "org.bluetooth.service.human_interface_device"
+             }
+  , "1813" : { "name" : "Scan Parameters"
+             , "type" : "org.bluetooth.service.scan_parameters"
+             }
+  , "1814" : { "name" : "Running Speed and Cadence"
+             , "type" : "org.bluetooth.service.running_speed_and_cadence"
+             }
+  , "1815" : { "name" : "Cycling Speed and Cadence"
+             , "type" : "org.bluetooth.service.cycling_speed_and_cadence"
+             }
+}
