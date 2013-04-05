@@ -44,7 +44,7 @@ noble.on('discover', function(peripheral) {
   peripheral.on('servicesDiscover', function(services) {
     console.log('on -> peripheral services discovered ' + services);
 
-    var serviceIndex = 0;
+    var serviceIndex = 1;
 
     services[serviceIndex].on('includedServicesDiscover', function(includedServiceUuids) {
       console.log('on -> service included services discovered ' + includedServiceUuids);
@@ -104,8 +104,8 @@ noble.on('discover', function(peripheral) {
       //characteristics[characteristicIndex].read();
       //characteristics[characteristicIndex].write(new Buffer('hello'));
       //characteristics[characteristicIndex].broadcast(true);
-      characteristics[characteristicIndex].notify(true);
-      //characteristics[characteristicIndex].discoverDescriptors();
+      //characteristics[characteristicIndex].notify(true);
+      characteristics[characteristicIndex].discoverDescriptors();
     });
 
     
