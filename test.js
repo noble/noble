@@ -89,6 +89,7 @@ noble.on('discover', function(peripheral) {
         descriptors[descriptorIndex].on('valueRead', function(data) {
           console.log('on -> descriptor value read ' + data);
           console.log(data);
+          peripheral.disconnect();
         });
 
         descriptors[descriptorIndex].on('valueWrite', function() {
@@ -97,7 +98,7 @@ noble.on('discover', function(peripheral) {
         });
 
         descriptors[descriptorIndex].readValue();
-        //descriptors[descriptorIndex].writeValue(new Buffer(0));
+        //descriptors[descriptorIndex].writeValue(new Buffer([0]));
       });
 
 
