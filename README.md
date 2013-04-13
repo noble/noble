@@ -36,64 +36,64 @@ Stop scanning:
 
 Peripheral connect:
 
-    peripheral.connect();
+    peripheral.connect([callback(error)]);
 
 Peripheral disconnect or cancel pending connection:
 
-    peripheral.disconnect();
+    peripheral.disconnect([callback(error)]);
 
 Peripheral update RSSI
 
-    peripheral.updateRssi();
+    peripheral.updateRssi([callback(error, rssi)]);
 
 Peripheral discover services
 
     peripheral.discoverServices(); // any service UUID
 
     var serviceUUIDs = ["<service UUID 1>", ...];
-    peripheral.discoverServices(serviceUUIDs); // particular UUID's
+    peripheral.discoverServices(serviceUUIDs[, callback(error, services)]); // particular UUID's
 
 Service discover included services
 
     service.discoverIncludedServices(); // any service UUID
 
     var serviceUUIDs = ["<service UUID 1>", ...];
-    service.discoverIncludedServices(serviceUUIDs); // particular UUID's
+    service.discoverIncludedServices(serviceUUIDs[, callback(error, includedServiceUuids)]); // particular UUID's
 
 Service discover characteristics
 
     service.discoverCharacteristics() // any characteristic UUID
 
     var characteristicUUIDs = ["<characteristic UUID 1>", ...];
-    service.discoverCharacteristics(characteristicUUIDs); // particular UUID's
+    service.discoverCharacteristics(characteristicUUIDs[, callback(error, characteristics)]); // particular UUID's
 
 Characteristic read
 
-    characteristic.read();
+    characteristic.read([callback(error, data)]);
 
 Characteristic write
 
-    characteristic.write(data, notify); // data is a buffer, notify is true|false
+    characteristic.write(data, notify[, callback(error)]); // data is a buffer, notify is true|false
 
 Characteristic broadcast
 
-    characteristic.broadcast(broadcast); // broadcast is true|false
+    characteristic.broadcast(broadcast[, callback(error)]); // broadcast is true|false
 
 Characteristic notify
 
-    characteristic.notify(notify); // notify is true|false
+    characteristic.notify(notify[, callback(error)]); // notify is true|false
 
 Characteristic discover descriptors
 
-    characteristic.discoverDescriptors();
+    characteristic.discoverDescriptors([callback(error, descriptors)]);
 
 Descriptor read value
 
-    descriptor.readValue();
+    descriptor.readValue([callback(error, data)]);
 
 Descriptor write value
 
-    descriptor.writeValue(data); // data is a buffer
+    descriptor.writeValue(data[, callback(error)]); // data is a buffer
 
 __Events__
 
@@ -128,33 +128,21 @@ Peripheral discovered:
 
 Peripheral connected:
 
-    noble.on('peripheralConnect', callback(peripheral));
-
     peripheral.on('connect', callback);
 
 Peripheral disconnected:
-
-    noble.on('peripheralDisconnect', callback(peripheral));
 
     peripheral.on('disconnect', callback);
 
 Peripheral RSSI update
 
-    noble.on('peripheralRssiUpdate', callback(peripheral, rssi));
-
     peripheral.on('rssiUpdate', callback(rssi));
 
 Peripheral services discovered
 
-    noble.on('peripheralServicesDiscover', callback(peripheral, services));
-
     peripheral.on('servicesDiscovered', callback(services));
 
 Service included services discovered
-
-    noble.on('peripheralServiceIncludedServicesDiscover', callback(peripheral, service, includedServiceUuids));
-
-    peripheral.on('serviceIncludedServicesDiscover', callback(service, includedServiceUuids));
 
     service.on('includedServicesDiscover', callback(includedServiceUuids));
 
@@ -166,49 +154,21 @@ Service characteristics discovered
       properties: [...]
     };
 
-    noble.on('peripheralServiceCharacteristicsDiscover', callback(peripheral, service, characteristics));
-
-    peripheral.on('serviceCharacteristicsDiscover', callback(service, characteristics));
-
     service.on('characteristicsDiscover', callback(characteristics));
 
 Characteristic read
-
-    noble.on('peripheralServiceCharacteristicRead', callback(peripheral, service, characteristic, data, isNotification));
-
-    peripheral.on('serviceCharacteristicRead', callback(service, characteristic, data, isNotification));
-
-    service.on('characteristicRead', callback(characteristic, data, isNotification));
 
     characteristic.on('read', callback(data, isNotification));
 
 Characteristic write
 
-    noble.on('peripheralServiceCharacteristicWrite', callback(peripheral, service, characteristic));
-
-    peripheral.on('serviceCharacteristicWrite', callback(service, characteristic));
-
-    service.on('characteristicWrite', callback(characteristic));
-
     characteristic.on('write', callback());
 
 Characteristic broadcast
 
-    noble.on('peripheralServiceCharacteristicBroadcast', callback(peripheral, service, characteristic, state));
-
-    peripheral.on('serviceCharacteristicBroadcast', callback(service, characteristic, state));
-
-    service.on('characteristicBroadcast', callback(characteristic, state));
-
     characteristic.on('broadcast', callback(state));
 
 Characteristic notify
-
-    noble.on('peripheralServiceCharacteristicNotify', callback(peripheral, service, characteristic, state));
-
-    peripheral.on('serviceCharacteristicNotify', callback(service, characteristic, state));
-
-    service.on('characteristicNotify', callback(characteristic, state));
 
     characteristic.on('notify', callback(state));
 
@@ -218,35 +178,13 @@ Characteristic descriptors discovered
       uuid: '<uuid>'
     };
 
-    noble.on('peripheralServiceCharacteristicDescriptorsDiscover', callback(peripheral, service, characteristic, descriptors));
-
-    peripheral.on('serviceCharacteristicDescriptorsDiscover', callback(service, characteristic, descriptors));
-
-    service.on('characteristicDescriptorsDiscover', callback(characteristic, descriptors));
-
     characteristic.on('descriptorsDiscover', callback(descriptors));
 
 Descriptor value read
 
-    noble.on('peripheralServiceCharacteristicDescriptorValueRead', callback(peripheral, service, characteristic, descriptor, data));
-
-    peripheral.on('serviceCharacteristicDescriptorsValueRead', callback(service, characteristic, descriptor, data));
-
-    service.on('characteristicDescriptorValueRead', callback(characteristic, descriptor, data));
-
-    characteristic.on('descriptorValueRead', callback(descriptor, data));
-
     descriptor.on('valueRead', data);
 
 Descriptor value write
-
-    noble.on('peripheralServiceCharacteristicDescriptorValueWrite', callback(peripheral, service, characteristic, descriptor));
-
-    peripheral.on('serviceCharacteristicDescriptorsValueWrite', callback(service, characteristic, descriptor));
-
-    service.on('characteristicDescriptorValueWrite', callback(characteristic, descriptor));
-
-    characteristic.on('descriptorValueWrite', callback(descriptor));
 
     descriptor.on('valueWrite');
 
