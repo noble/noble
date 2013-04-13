@@ -2,7 +2,7 @@
   "author": "Sandeep Mistry <sandeep.mistry@gmail.com>",
   "name": "noble",
   "description": "A node.js BLE (Bluetooth low energy) library.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/sandeepmistry/noble.git"
@@ -11,10 +11,10 @@
     "url": "https://github.com/sandeepmistry/noble/issues"
   },
   "keywords": [
-     "bluetooth",
-     "BLE",
-     "bluetooth low energy",
-     "bluetooth smart"
+    "bluetooth",
+    "BLE",
+    "bluetooth low energy",
+    "bluetooth smart"
   ],
   "main": "./index.js",
   "engines": {
@@ -24,9 +24,14 @@
     "debug": "0.7.2"
   },
   "devDependencies": {
-    "jshint": "latest"
+    "jshint": "latest",
+    "mocha": "~1.8.2",
+    "should": "~1.2.2",
+    "coffee-script": "~1.6.2",
+    "sinon": "~1.6.0"
   },
   "scripts": {
-    "pretest": "jshint lib/*.js"
+    "pretest": "jshint lib/*.js test/*.js",
+    "test": "mocha -R spec test/*.js"
   }
 }
