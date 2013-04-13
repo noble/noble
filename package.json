@@ -20,6 +20,7 @@
   "engines": {
     "node": ">=0.8"
   },
+  "os": [ "darwin" ],
   "dependencies": {
     "debug": "0.7.2"
   },
@@ -31,7 +32,8 @@
     "sinon": "~1.6.0"
   },
   "scripts": {
-    "pretest": "jshint lib/*.js test/*.js",
+    "install": "node install.js",
+    "pretest": "jshint *.js lib/*.js test/*.js",
     "test": "mocha -R spec test/*.js"
   }
 }
