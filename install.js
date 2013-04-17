@@ -12,6 +12,13 @@ if (platform === 'darwin') {
     console.log('noble install: done');
     process.exit(error ? -1 : 0);
   });
+} else if (platform === 'linux') {
+  console.log('noble install: installing dbus-native ...');
+
+  exec('npm install git://github.com/sandeepmistry/node-dbus.git', function(error, stdout, stderr) {
+    console.log('noble install: done');
+    process.exit(error ? -1 : 0);
+  });
 } else {
   console.error('noble install: Your platform is not supported!');
   process.exit(-1);
