@@ -102,11 +102,11 @@ noble.on('discover', function(peripheral) {
       });
 
 
-      //characteristics[characteristicIndex].read();
+      characteristics[characteristicIndex].read();
       //characteristics[characteristicIndex].write(new Buffer('hello'));
       //characteristics[characteristicIndex].broadcast(true);
       //characteristics[characteristicIndex].notify(true);
-      characteristics[characteristicIndex].discoverDescriptors();
+      // characteristics[characteristicIndex].discoverDescriptors();
     });
 
     
