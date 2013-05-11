@@ -10,6 +10,12 @@ Install
 
     npm install noble
 
+__Ubuntu__
+
+ * Install BlueZ 5.x (optional, needed if there are issues with the stock BlueZ 4.x)
+     * sudo apt-get install libglib2.0-dev libdbus-1-dev libusb-dev libudev-dev libical-dev libreadline-dev
+ * sudo apt-get install g++ libdbus-glib-1-dev libexpat1-dev
+
 Usage
 -----
 
