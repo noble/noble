@@ -124,7 +124,7 @@ Peripheral discovered:
       rssi: <rssi>
     };
 
-    noble.on('peripheralDiscover', callback(peripheral));
+    noble.on('discover', callback(peripheral));
 
 Peripheral connected:
 
