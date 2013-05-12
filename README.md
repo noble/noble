@@ -5,16 +5,20 @@ A node.js BLE (Bluetooth low energy) module.
 
 __Note:__ Mac OS X is currently the only supported OS, and is still under development. Other platforms will be developed later on (see Roadmap below).
 
+Prerequisites
+------------
+
+__Ubuntu__
+
+ * BlueZ 4 or 5 (with ```gatttool``` on path)
+     * Install BlueZ 5.x (optional, needed if there are issues with the stock BlueZ 4.x)
+          * ```sudo apt-get install libglib2.0-dev libdbus-1-dev libusb-dev libudev-dev libical-dev libreadline-dev```
+ * ```sudo apt-get install g++ libdbus-glib-1-dev libexpat1-dev```
+
 Install
 -------
 
     npm install noble
-
-__Ubuntu__
-
- * Install BlueZ 5.x (optional, needed if there are issues with the stock BlueZ 4.x)
-     * sudo apt-get install libglib2.0-dev libdbus-1-dev libusb-dev libudev-dev libical-dev libreadline-dev
- * sudo apt-get install g++ libdbus-glib-1-dev libexpat1-dev
 
 Usage
 -----
@@ -225,7 +229,31 @@ Roadmap (TODO)
    * error handling
 
  * Linux
-   * TDB
+   * Adapter state (unknown | reseting | unsupported | unauthorized | ~~off | on~~)
+   * ~~Scan~~
+      * ~~startScanning~~
+         * ~~service UUID's~~
+         * allow duplicates
+      * ~~stopScanning~~
+   * ~~Peripheral~~
+     * ~~discovered~~
+     * connect (~~public~~ and random addresses)
+     * ~~disconnect/cancel connect~~
+     * update RSSI
+     * ~~services~~
+         * ~~discover~~
+         * disover included
+         * ~~discover characteristics for services~~
+     * ~~characteristics~~
+         * ~~read~~
+         * ~~write~~
+         * set broadcast value
+         * set notify value
+         * ~~descriptors~~
+             * ~~discover~~
+             * ~~read~~
+             * ~~write~~
+   * error handling
  * Windows
    * TDB
    
