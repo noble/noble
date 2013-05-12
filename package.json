@@ -33,7 +33,7 @@
   },
   "scripts": {
     "install": "node install.js",
-    "pretest": "jshint *.js lib/*.js test/*.js",
+    "pretest": "jshint *.js lib/**/*.js test/*.js",
     "test": "mocha -R spec test/*.js"
   }
 }
