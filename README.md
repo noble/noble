@@ -232,23 +232,23 @@ Roadmap (TODO)
    * Adapter state (unknown | reseting | unsupported | unauthorized | ~~off | on~~)
    * ~~Scan~~
       * ~~startScanning~~
-         * ~~service UUID's~~
+         * service UUID's
          * allow duplicates
       * ~~stopScanning~~
    * ~~Peripheral~~
      * ~~discovered~~
-     * connect (~~public~~ and random addresses)
+     * connect (~~public~~ and random address)
      * ~~disconnect/cancel connect~~
      * update RSSI
      * ~~services~~
-         * ~~discover~~
+         * ~~discover~~ (filter by uuid)
          * disover included
-         * ~~discover characteristics for services~~
+         * ~~discover characteristics for services~~ (filter by uuid)
      * ~~characteristics~~
          * ~~read~~
          * ~~write~~
-         * set broadcast value
-         * set notify value
+         * ~~set broadcast value~~
+         * ~~set notify value~~
          * ~~descriptors~~
              * ~~discover~~
              * ~~read~~
