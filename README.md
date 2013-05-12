@@ -239,7 +239,7 @@ Roadmap (TODO)
    * ~~Peripheral~~
      * ~~discovered~~
      * connect
-         * ~~public~~ address
+         * ~~public address~~
          * random address
      * ~~disconnect/cancel connect~~
      * update RSSI
