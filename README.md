@@ -230,7 +230,7 @@ Roadmap (TODO)
    * error handling
 
  * Linux
-   * Adapter state (unknown | reseting | unsupported | unauthorized | ~~off | on~~)
+   * Adapter state (~~off | on~~)
    * ~~Scan~~
       * ~~startScanning~~
          * service UUID's
@@ -238,13 +238,17 @@ Roadmap (TODO)
       * ~~stopScanning~~
    * ~~Peripheral~~
      * ~~discovered~~
-     * connect (~~public~~ and random address)
+     * connect
+         * ~~public~~ address
+         * random address
      * ~~disconnect/cancel connect~~
      * update RSSI
      * ~~services~~
-         * ~~discover~~ (filter by uuid)
+         * ~~discover~~
+             * filter by uuid
          * disover included
-         * ~~discover characteristics for services~~ (filter by uuid)
+         * ~~discover characteristics for services~~
+             * filter by uuid
      * ~~characteristics~~
          * ~~read~~
          * ~~write~~
