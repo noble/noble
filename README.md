@@ -260,7 +260,7 @@ Roadmap (TODO)
              * ~~write~~
    * error handling
  * Windows
-   * TDB
+   * TDB (most likely Windows 8 only)
    
 License
 ========
