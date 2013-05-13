@@ -238,7 +238,7 @@ Roadmap (TODO)
       * ~~stopScanning~~
    * ~~Peripheral~~
      * ~~discovered~~
-     * connect
+     * ~~connect~~
          * ~~public address~~
          * random address
      * ~~disconnect/cancel connect~~
