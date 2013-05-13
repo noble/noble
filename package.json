@@ -20,7 +20,7 @@
   "engines": {
     "node": ">=0.8"
   },
-  "os": [ "darwin" ],
+  "os": [ "darwin", "linux" ],
   "dependencies": {
     "debug": "~0.7.2"
   },
