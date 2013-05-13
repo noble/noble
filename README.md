@@ -13,7 +13,8 @@ __Linux (Ubuntu)__
  * node 0.8.x is required, until an [issue with signals with the npm dbus module](https://github.com/Shouqun/node-dbus/issues/45) is fixed.
  * [BlueZ](http://www.bluez.org) 4 or 5 (with ```gatttool``` on path)
      * Install BlueZ 5.x (optional, needed if there are issues with the stock BlueZ 4.x)
-          * ```sudo apt-get install libglib2.0-dev libdbus-1-dev libusb-dev libudev-dev libical-dev libreadline-dev```
+          * ```sudo apt-get install libglib2.0-dev libdbus-1-dev libusb-dev libudev-dev libical-dev libreadline-dev``` (build dependencies)
+          * extract archive, ```./configure --disable-systemd```, ```make```, ```sudo make install```
  * ```sudo apt-get install g++ libdbus-glib-1-dev libexpat1-dev``` (required for the dbus npm module)
 
 Install
