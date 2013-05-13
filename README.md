@@ -230,7 +230,7 @@ Roadmap (TODO)
    * error handling
 
  * Linux
-   * Adapter state (~~off | on~~)
+   * ~~Adapter state (off | on)~~
    * ~~Scan~~
       * ~~startScanning~~
          * service UUID's
