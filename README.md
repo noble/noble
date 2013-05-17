@@ -245,10 +245,10 @@ Roadmap (TODO)
      * update RSSI
      * ~~services~~
          * ~~discover~~
-             * filter by uuid
+             * ~~filter by uuid~~
          * disover included
          * ~~discover characteristics for services~~
-             * filter by uuid
+             * ~~filter by uuid~~
      * ~~characteristics~~
          * ~~read~~
          * ~~write~~
