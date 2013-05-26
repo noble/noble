@@ -234,8 +234,8 @@ Roadmap (TODO)
    * ~~Adapter state (off | on)~~
    * ~~Scan~~
       * ~~startScanning~~
-         * service UUID's
-         * allow duplicates
+         * ~~service UUID's~~
+         * ~~allow duplicates~~
       * ~~stopScanning~~
    * ~~Peripheral~~
      * ~~discovered~~
