@@ -3,7 +3,19 @@ noble
 
 A node.js BLE (Bluetooth low energy) module.
 
-__Note:__ Mac OS X is currently the only supported OS, and is still under development. Other platforms will be developed later on (see Roadmap below).
+__Note:__ Mac OS X and Linux are currently the only supported OSes, and are still under development. Other platforms will be developed later on (see Roadmap below).
+
+Prerequisites
+------------
+
+__Linux (Ubuntu)__
+
+ * node 0.8.x is required, until an [issue with signals with the npm dbus module](https://github.com/Shouqun/node-dbus/issues/45) is fixed.
+ * [BlueZ](http://www.bluez.org) 4 or 5 (with ```gatttool``` on path)
+     * Install BlueZ 5.x (optional, needed if there are issues with the stock BlueZ 4.x)
+          * ```sudo apt-get install libglib2.0-dev libdbus-1-dev libusb-dev libudev-dev libical-dev libreadline-dev``` (build dependencies)
+          * extract archive, ```./configure --disable-systemd```, ```make```, ```sudo make install```
+ * ```sudo apt-get install g++ libdbus-glib-1-dev libexpat1-dev``` (required for the dbus npm module)
 
 Install
 -------
@@ -219,9 +231,37 @@ Roadmap (TODO)
    * error handling
 
  * Linux
-   * TDB
+   * ~~Adapter state (off | on)~~
+   * ~~Scan~~
+      * ~~startScanning~~
+         * ~~service UUID's~~
+         * ~~allow duplicates~~
+      * ~~stopScanning~~
+   * ~~Peripheral~~
+     * ~~discovered~~
+     * ~~connect~~
+         * ~~public address~~
+         * random address
+     * ~~disconnect/cancel connect~~
+     * update RSSI
+     * ~~services~~
+         * ~~discover~~
+             * ~~filter by uuid~~
+         * disover included
+         * ~~discover characteristics for services~~
+             * ~~filter by uuid~~
+     * ~~characteristics~~
+         * ~~read~~
+         * ~~write~~
+         * ~~set broadcast value~~
+         * ~~set notify value~~
+         * ~~descriptors~~
+             * ~~discover~~
+             * ~~read~~
+             * ~~write~~
+   * error handling
  * Windows
-   * TDB
+   * TDB (most likely Windows 8 only)
    
 License
 ========
