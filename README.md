@@ -280,6 +280,13 @@ Roadmap (TODO)
    * error handling
  * Windows
    * TDB (most likely Windows 8 only)
+
+Useful Links
+------------
+
+ * [Bluetooth Development Portal](http://developer.bluetooth.org)
+   * [GATT Specifications](http://developer.bluetooth.org/gatt/Pages/default.aspx)
+ * [Bluetooth: ATT and GATT](http://epx.com.br/artigos/bluetooth_gatt.php)
    
 License
 ========
