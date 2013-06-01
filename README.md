@@ -260,7 +260,7 @@ Roadmap (TODO)
      * ~~services~~
          * ~~discover~~
              * ~~filter by uuid~~
-         * disover included
+         * ~~disover included~~
          * ~~discover characteristics for services~~
              * ~~filter by uuid~~
      * ~~characteristics~~
