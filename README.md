@@ -174,7 +174,7 @@ Characteristic read
 
 Characteristic write
 
-    characteristic.on('write', callback());
+    characteristic.on('write', withoutResponse, callback());
 
 Characteristic broadcast
 
@@ -199,6 +199,14 @@ Descriptor value read
 Descriptor value write
 
     descriptor.on('valueWrite');
+
+Read handle
+
+    peripheral.readHandle(handle, callback(error, data));
+
+Write handle
+
+    peripheral.writeHandle(handle, data, withoutResponse, callback(error));
 
 Roadmap (TODO)
 --------------
