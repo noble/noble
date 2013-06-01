@@ -228,6 +228,11 @@ Roadmap (TODO)
              * ~~discover~~
              * ~~read~~
              * ~~write~~
+     * ~~handle~~
+         * ~~read~~
+         * ~~write~~
+             * ~~with response~~
+             * without response
    * error handling
 
  * Linux
@@ -259,6 +264,11 @@ Roadmap (TODO)
              * ~~discover~~
              * ~~read~~
              * ~~write~~
+     * ~~handle~~
+         * ~~read~~
+         * ~~write~~
+             * ~~with response~~
+             * ~~without response~~
    * error handling
  * Windows
    * TDB (most likely Windows 8 only)
