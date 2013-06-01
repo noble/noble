@@ -8,6 +8,8 @@ describe('Peripheral', function() {
   var mockUuid = 'mock-uuid';
   var mockAdvertisement = 'mock-advertisement';
   var mockRssi = 'mock-rssi';
+  var mockHandle = 'mock-handle';
+  var mockData = 'mock-data';
 
   var peripheral = null;
 
@@ -16,7 +18,9 @@ describe('Peripheral', function() {
       connect: sinon.spy(),
       disconnect: sinon.spy(),
       updateRssi: sinon.spy(),
-      discoverServices: sinon.spy()
+      discoverServices: sinon.spy(),
+      readHandle: sinon.spy(),
+      writeHandle: sinon.spy()
     };
 
     peripheral = new Peripheral(mockNoble, mockUuid, mockAdvertisement, mockRssi);
@@ -148,6 +152,73 @@ describe('Peripheral', function() {
       peripheral.emit('servicesDiscover', mockServices);
 
       calledbackServices.should.equal(mockServices);
+    });
+  });
+
+  describe('readHandle', function() {
+    it('should delegate to noble', function() {
+      peripheral.readHandle(mockHandle);
+
+      mockNoble.readHandle.calledWithExactly(mockUuid, mockHandle).should.equal(true);
+    });
+
+    it('should callback', function() {
+      var calledback = false;
+
+      peripheral.readHandle(mockHandle, function() {
+        calledback = true;
+      });
+      peripheral.emit('handleRead' + mockHandle);
+
+      calledback.should.equal(true);
+    });
+
+    it('should callback with data', function() {
+      var calledbackData = null;
+
+      peripheral.readHandle(mockHandle, function(error, data) {
+        calledbackData = data;
+      });
+      peripheral.emit('handleRead' + mockHandle, mockData);
+
+      calledbackData.should.equal(mockData);
+    });
+  });
+
+  describe('writeHandle', function() {
+    beforeEach(function() {
+      mockData = new Buffer(0);
+    });
+
+    it('should only accept data as a buffer', function() {
+      mockData = {};
+
+      (function(){
+        peripheral.writeHandle(mockHandle, mockData);
+      }).should.throwError('data must be a Buffer');
+    });
+
+    it('should delegate to noble, withoutResponse false', function() {
+      peripheral.writeHandle(mockHandle, mockData, false);
+
+      mockNoble.writeHandle.calledWithExactly(mockUuid, mockHandle, mockData, false).should.equal(true);
+    });
+
+    it('should delegate to noble, withoutResponse true', function() {
+      peripheral.writeHandle(mockHandle, mockData, true);
+
+      mockNoble.writeHandle.calledWithExactly(mockUuid, mockHandle, mockData, true).should.equal(true);
+    });
+
+    it('should callback', function() {
+      var calledback = false;
+
+      peripheral.writeHandle(mockHandle, mockData, false, function() {
+        calledback = true;
+      });
+      peripheral.emit('handleWrite' + mockHandle);
+
+      calledback.should.equal(true);
     });
   });
 });
