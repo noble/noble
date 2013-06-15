@@ -174,7 +174,7 @@ Characteristic read
 
 Characteristic write
 
-    characteristic.on('write', callback());
+    characteristic.on('write', withoutResponse, callback());
 
 Characteristic broadcast
 
@@ -199,6 +199,14 @@ Descriptor value read
 Descriptor value write
 
     descriptor.on('valueWrite');
+
+Read handle
+
+    peripheral.readHandle(handle, callback(error, data));
+
+Write handle
+
+    peripheral.writeHandle(handle, data, withoutResponse, callback(error));
 
 Roadmap (TODO)
 --------------
@@ -228,6 +236,11 @@ Roadmap (TODO)
              * ~~discover~~
              * ~~read~~
              * ~~write~~
+     * ~~handle~~
+         * ~~read~~
+         * ~~write~~
+             * ~~with response~~
+             * without response
    * error handling
 
  * Linux
@@ -247,7 +260,7 @@ Roadmap (TODO)
      * ~~services~~
          * ~~discover~~
              * ~~filter by uuid~~
-         * disover included
+         * ~~disover included~~
          * ~~discover characteristics for services~~
              * ~~filter by uuid~~
      * ~~characteristics~~
@@ -259,9 +272,21 @@ Roadmap (TODO)
              * ~~discover~~
              * ~~read~~
              * ~~write~~
+     * ~~handle~~
+         * ~~read~~
+         * ~~write~~
+             * ~~with response~~
+             * ~~without response~~
    * error handling
  * Windows
    * TDB (most likely Windows 8 only)
+
+Useful Links
+------------
+
+ * [Bluetooth Development Portal](http://developer.bluetooth.org)
+   * [GATT Specifications](http://developer.bluetooth.org/gatt/Pages/default.aspx)
+ * [Bluetooth: ATT and GATT](http://epx.com.br/artigos/bluetooth_gatt.php)
    
 License
 ========

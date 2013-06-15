@@ -95,13 +95,13 @@ describe('Characteristic', function() {
       }).should.throwError('data must be a Buffer');
     });
 
-    it('should delegate to noble, notify false', function() {
+    it('should delegate to noble, withoutResponse false', function() {
       characteristic.write(mockData, false);
 
       mockNoble.write.calledWithExactly(mockPeripheralUuid, mockServiceUuid, mockUuid, mockData, false).should.equal(true);
     });
 
-    it('should delegate to noble, notify true', function() {
+    it('should delegate to noble, withoutResponse true', function() {
       characteristic.write(mockData, true);
 
       mockNoble.write.calledWithExactly(mockPeripheralUuid, mockServiceUuid, mockUuid, mockData, true).should.equal(true);
