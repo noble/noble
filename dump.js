@@ -1,6 +1,5 @@
-var noble = require('./index')
-  , util  = require('util')
-  ;
+var noble = require('./index');
+var util  = require('util');
 
 var pretty_value = function(v) {
   var i, u;
@@ -44,9 +43,11 @@ var peripheral_scan = function(peripheral, callback) {
           c.on('descriptorsDiscover', descriptorsDiscover(service.characteristics[c.uuid]));
           c.discoverDescriptors();
 
-          zero++;
-          c.on('read', characteristicRead(service.characteristics[c.uuid]));
-          c.read();
+          //if (c.properties.indexOf('read') !== -1) {
+            zero++;
+            c.on('read', characteristicRead(service.characteristics[c.uuid]));
+            c.read();
+          //}
         }
         if (--zero === 0) callback(ble);
       };
@@ -54,7 +55,7 @@ var peripheral_scan = function(peripheral, callback) {
 
     var characteristicRead = function(characteristic) {
       return function(data, isNotification) {/* jshint unused: false */
-        if (data !== undefined) characteristic.value = pretty_value(data);
+        if (data) characteristic.value = pretty_value(data);
         if (--zero === 0) callback(ble);
       };
     };
