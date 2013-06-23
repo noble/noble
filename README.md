@@ -10,12 +10,16 @@ Prerequisites
 
 __Linux (Ubuntu)__
 
- * node 0.8.x is required, until an [issue with signals with the npm dbus module](https://github.com/Shouqun/node-dbus/issues/45) is fixed.
- * [BlueZ](http://www.bluez.org) 4 or 5 (with ```gatttool``` on path)
-     * Install BlueZ 5.x (optional, needed if there are issues with the stock BlueZ 4.x)
-          * ```sudo apt-get install libglib2.0-dev libdbus-1-dev libusb-dev libudev-dev libical-dev libreadline-dev``` (build dependencies)
-          * extract archive, ```./configure --disable-systemd```, ```make```, ```sudo make install```
- * ```sudo apt-get install g++ libdbus-glib-1-dev libexpat1-dev``` (required for the dbus npm module)
+ * [BlueZ](http://www.bluez.org) __4.100 or 4.101__ is needed !
+     * 4.99 does not support connecting to LE devices
+     * Install BlueZ 4.101 (if you are running an older unsupported version)
+          * install build dependencies: ```sudo apt-get install libglib2.0-dev libdbus-1-dev libusb-dev libudev-dev libical-dev libreadline-dev```
+          * fetch archive: ```wget https://www.kernel.org/pub/linux/bluetooth/bluez-4.101.tar.bz2```
+          * extract archive: ```tar xvjf bluez-4.101.tar.bz2```
+          * change directory: ```cd bluez-4.101```
+          * configure: ```./configure --disable-systemd```
+          * build: ```make```
+          * install: ```sudo make install```
 
 Install
 -------
