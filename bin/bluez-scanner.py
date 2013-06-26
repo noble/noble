@@ -8,9 +8,12 @@ import dbus
 import dbus.mainloop.glib
 
 def device_found(address, properties):
-	name = properties["Name"]
-	rssi = properties["RSSI"]
+	name = ""
 	uuids = ""
+	rssi = properties["RSSI"]
+
+	if "Name" in properties:
+		name = properties["Name"]
 
 	if ("UUIDs" in properties.keys()):
 		for uuid in (properties["UUIDs"]):
