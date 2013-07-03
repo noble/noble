@@ -29,7 +29,7 @@ def on_stdin(source, condition):
 	command = sys.stdin.readline().strip()
 
 	try:
-		if (command == "exit"):
+		if (command == "exit" or command == ""):
 			mainloop.quit()
 		elif (command == "start"):
 			adapter.StartDiscovery()
