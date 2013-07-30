@@ -69,6 +69,16 @@ Peripheral discover services
     var serviceUUIDs = ["<service UUID 1>", ...];
     peripheral.discoverServices(serviceUUIDs[, callback(error, services)]); // particular UUID's
 
+Peripheral discover all services and characteristics
+
+    peripheral.discoverAllServicesAndCharacteristics([callback(error, services, characteristics));
+
+Peripheral discover some services and characteristics
+
+    var serviceUUIDs = ["<service UUID 1>", ...];
+    var characteristicUUIDs = ["<characteristic UUID 1>", ...];
+    peripheral.discoverSomeServicesAndCharacteristics(serviceUUIDs, characteristicUUIDs, [callback(error, services, characteristics));
+
 Service discover included services
 
     service.discoverIncludedServices(); // any service UUID
