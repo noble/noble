@@ -125,7 +125,7 @@ __Events__
 
 Adapter state change:
 
-    state = <"unknown" | "resetting" | "unsupported" | "unsupported" | "unauthorized" | "poweredOff" | "poweredOn">
+    state = <"unknown" | "resetting" | "unsupported" | "unauthorized" | "poweredOff" | "poweredOn">
 
     noble.on('stateChange', callback(state));
 
