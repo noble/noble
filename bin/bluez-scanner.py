@@ -8,7 +8,7 @@ import dbus
 import dbus.mainloop.glib
 
 def device_found(address, properties):
-	name = ""
+	name = "undefined"
 	uuids = ""
 	rssi = properties["RSSI"]
 
@@ -19,7 +19,8 @@ def device_found(address, properties):
 		for uuid in (properties["UUIDs"]):
 			uuids += ("%s " % uuid)
 
-	print("DeviceFound: Address = %s, Name = %s, RSSI = %d, UUIDs = %s" % (address, name, rssi, uuids.strip()))
+        if (name != "undefined" or uuids != ""):
+		print("DeviceFound: Address = %s, Name = %s, RSSI = %d, UUIDs = %s" % (address, name, rssi, uuids.strip()))
 
 def property_changed(name, value):
 	if (name == "Powered"):
