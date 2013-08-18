@@ -15,7 +15,7 @@ def device_found(address, properties):
 	if "Name" in properties:
 		name = properties["Name"]
 
-	if ("UUIDs" in properties.keys()):
+	if ("UUIDs" in properties):
 		for uuid in (properties["UUIDs"]):
 			uuids += ("%s " % uuid)
 
