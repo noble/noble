@@ -20,7 +20,7 @@ def device_found(address, properties):
 			uuids += ("%s " % uuid)
 
         if (name != "undefined" or uuids != ""):
-		print("DeviceFound: Address = %s, Name = %s, RSSI = %d, UUIDs = %s" % (address, name, rssi, uuids.strip()))
+		print("DeviceFound: Address = %s, Name = %s, RSSI = %d, UUIDs = %s" % (address, name.encode("utf-8"), rssi, uuids.strip()))
 
 def property_changed(name, value):
 	if (name == "Powered"):
