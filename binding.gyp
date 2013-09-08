@@ -1,16 +1,18 @@
 {
   'targets': [
     {
-      'target_name': 'ble-hci',
+      'target_name': 'hci-ble',
       'type': 'executable',
       'conditions': [
         ['OS=="linux"', {
           'sources': [
-            'src/ble-hci.c'
+            'src/hci-ble.c'
           ],
-          'ldflags': [
-            '-lbluetooth'
-          ],
+          'link_settings': {
+            'libraries': [
+              '-lbluetooth'
+            ]
+          },
         }]
       ]
     }
