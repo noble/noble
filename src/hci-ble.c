@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <sys/ioctl.h>
+#include <sys/prctl.h>
 #include <unistd.h>
 
 #include <bluetooth/bluetooth.h>
@@ -49,6 +50,8 @@ int main(int argc, const char* argv[])
   signal(SIGUSR1, signalHandler);
   signal(SIGUSR2, signalHandler);
   signal(SIGHUP, signalHandler);
+
+  prctl(PR_SET_PDEATHSIG, SIGINT);
 
   // setup HCI socket
   hciSocket = hci_open_dev(HCI_DEVICE_ID);
