@@ -1,8 +1,8 @@
+#include <errno.h>
 #include <signal.h>
 #include <stdio.h>
-#include <unistd.h>
-
 #include <sys/ioctl.h>
+#include <unistd.h>
 
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/hci.h>
@@ -27,6 +27,7 @@ int main(int argc, const char* argv[])
 
   int previousAdapterState = -1;
   int currentAdapterState;
+  const char* adapterState = NULL;
   
   fd_set rfds;
   struct timeval tv;
@@ -52,9 +53,6 @@ int main(int argc, const char* argv[])
   // setup HCI socket
   hciSocket = hci_open_dev(HCI_DEVICE_ID);
   hciDevInfo.dev_id = HCI_DEVICE_ID;
-  
-  // set LE scan parameters
-  hci_le_set_scan_parameters(hciSocket, 0x01, htobs(0x0010), htobs(0x0010), 0x00, 0, 1000);
 
   // get old HCI filter
   oldHciFilterLen = sizeof(oldHciFilter);
@@ -80,9 +78,21 @@ int main(int argc, const char* argv[])
     if (previousAdapterState != currentAdapterState) {
       previousAdapterState = currentAdapterState;
 
-      // TODO: check "unsupported", "unauthorized"
+      if (!currentAdapterState) {
+        adapterState = "poweredOff";
+      } else if (hci_le_set_scan_parameters(hciSocket, 0x01, htobs(0x0010), htobs(0x0010), 0x00, 0, 1000) < 0) {
+        if (EPERM == errno) {
+          adapterState = "unauthorized";
+        } else if (EIO == errno) {
+          adapterState = "unsupported";
+        } else {
+          adapterState = "unknown";
+        }        
+      } else {
+        adapterState = "poweredOn";
+      }
 
-      printf("adapterState=%s\n", currentAdapterState ? "poweredOn" : "poweredOff");
+      printf("adapterState=%s\n", adapterState);
     }
 
     selectRetval = select(hciSocket + 1, &rfds, NULL, NULL, &tv);
