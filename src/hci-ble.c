@@ -95,7 +95,7 @@ int main(int argc, const char* argv[])
         adapterState = "poweredOn";
       }
 
-      printf("adapterState=%s\n", adapterState);
+      printf("adapterState %s\n", adapterState);
     }
 
     selectRetval = select(hciSocket + 1, &rfds, NULL, NULL, &tv);
@@ -129,7 +129,7 @@ int main(int argc, const char* argv[])
       leAdvertisingInfo = (le_advertising_info *)(leMetaEvent->data + 1);
       ba2str(&leAdvertisingInfo->bdaddr, btAddress);
 
-      printf("%s,%s,", btAddress, (leAdvertisingInfo->bdaddr_type == LE_PUBLIC_ADDRESS) ? "public" : "random");
+      printf("event %s,%s,", btAddress, (leAdvertisingInfo->bdaddr_type == LE_PUBLIC_ADDRESS) ? "public" : "random");
 
       for (i = 0; i < leAdvertisingInfo->length; i++) {
           printf("%02x", leAdvertisingInfo->data[i]);
