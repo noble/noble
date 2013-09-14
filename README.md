@@ -250,7 +250,7 @@ Roadmap (TODO)
    * error handling
 
  * Linux
-   * ~~Adapter state (off | on)~~
+   * ~~Adapter state (unsupported | unauthorized | off | on)~~
    * ~~Scan~~
       * ~~startScanning~~
          * ~~service UUID's~~
@@ -274,15 +274,15 @@ Roadmap (TODO)
          * ~~write~~
          * set broadcast value
          * set notify value
-         * descriptors
-             * discover
-             * read
-             * write
-     * handle
-         * read
-         * write
-             * with response
-             * without response
+         * ~~descriptors~~
+             * ~~discover~~
+             * ~~read~~
+             * ~~write~~
+     * ~~handle~~
+         * ~~read~~
+         * ~~write~~
+             * ~~with response~~
+             * ~~without response~~
    * error handling
  * Windows
    * TDB (most likely Windows 8 only)
