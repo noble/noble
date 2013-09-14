@@ -260,29 +260,29 @@ Roadmap (TODO)
      * ~~discovered~~
      * ~~connect~~
          * ~~public address~~
-         * random address
+         * ~~random address~~
      * ~~disconnect/cancel connect~~
      * update RSSI
-     * ~~services~~
+     * services
          * ~~discover~~
-             * ~~filter by uuid~~
-         * ~~disover included~~
+             * filter by uuid
+         * disover included
          * ~~discover characteristics for services~~
-             * ~~filter by uuid~~
-     * ~~characteristics~~
+             * filter by uuid
+     * characteristics
          * ~~read~~
          * ~~write~~
-         * ~~set broadcast value~~
-         * ~~set notify value~~
-         * ~~descriptors~~
-             * ~~discover~~
-             * ~~read~~
-             * ~~write~~
-     * ~~handle~~
-         * ~~read~~
-         * ~~write~~
-             * ~~with response~~
-             * ~~without response~~
+         * set broadcast value
+         * set notify value
+         * descriptors
+             * discover
+             * read
+             * write
+     * handle
+         * read
+         * write
+             * with response
+             * without response
    * error handling
  * Windows
    * TDB (most likely Windows 8 only)
