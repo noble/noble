@@ -266,14 +266,14 @@ Roadmap (TODO)
      * services
          * ~~discover~~
              * filter by uuid
-         * disover included
+         * discover included
          * ~~discover characteristics for services~~
              * filter by uuid
-     * characteristics
+     * ~~characteristics~~
          * ~~read~~
          * ~~write~~
-         * set broadcast value
-         * set notify value
+         * ~~set broadcast value~~
+         * ~~set notify value~~
          * ~~descriptors~~
              * ~~discover~~
              * ~~read~~

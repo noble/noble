@@ -93,15 +93,10 @@ int main(int argc, const char* argv[]) {
           break;
         }
 
-        i = 0;
-        while (i < len) {
-          sprintf(&stdinBuf[i * 2], "%02x", l2capSockBuf[i]);
-
-          i++;
-        }
-
         printf("data ");
-        len = write(1, stdinBuf, i * 2);
+        for(i = 0; i < len; i++) {
+          printf("%02x", ((int)l2capSockBuf[i]) & 0xff);
+        }
         printf("\n");
       }
     }
