@@ -265,10 +265,10 @@ Roadmap (TODO)
      * update RSSI
      * services
          * ~~discover~~
-             * filter by uuid
+             * ~~filter by uuid~~
          * discover included
          * ~~discover characteristics for services~~
-             * filter by uuid
+             * ~~filter by uuid~~
      * ~~characteristics~~
          * ~~read~~
          * ~~write~~
