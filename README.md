@@ -266,7 +266,7 @@ Roadmap (TODO)
      * services
          * ~~discover~~
              * ~~filter by uuid~~
-         * discover included
+         * ~~discover included~~
          * ~~discover characteristics for services~~
              * ~~filter by uuid~~
      * ~~characteristics~~
