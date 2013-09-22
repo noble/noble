@@ -17,9 +17,11 @@ __Linux (Ubuntu)__
           * fetch archive: ```wget https://www.kernel.org/pub/linux/bluetooth/bluez-4.101.tar.bz2```
           * extract archive: ```tar xvjf bluez-4.101.tar.bz2```
           * change directory: ```cd bluez-4.101```
-          * configure: ```./configure --disable-systemd```
+          * configure: ```./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/lib  --enable-bccmd --enable-dfutool --enable-dund --enable-hid2hci --enable-hidd --enable-pand --enable-tools --enable-wiimote --disable-test --without-systemdunitdir```
           * build: ```make```
           * install: ```sudo make install```
+     * More details can be found [here](http://www.linuxfromscratch.org/blfs/view/svn/general/bluez.html)
+     * You maybe need to add you user to the ```bluetooth``` group: ```sudo usermod -a -G bluetooth <username>```
 
 Install
 -------
