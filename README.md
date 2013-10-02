@@ -262,8 +262,8 @@ Roadmap (TODO)
          * ~~public address~~
          * ~~random address~~
      * ~~disconnect/cancel connect~~
-     * update RSSI
-     * services
+     * ~~update RSSI~~
+     * ~~services~~
          * ~~discover~~
              * ~~filter by uuid~~
          * ~~discover included~~
