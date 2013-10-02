@@ -4,6 +4,10 @@
 #include <unistd.h>
 
 #include <bluetooth/bluetooth.h>
+#include <bluetooth/hci.h>
+#include <bluetooth/hci_lib.h>
+
+#define HCI_DEVICE_ID 0
 
 #define ATT_CID 4
 
@@ -18,6 +22,12 @@ struct sockaddr_l2 {
   uint8_t        l2_bdaddr_type;
 };
 
+#define L2CAP_CONNINFO  0x02
+struct l2cap_conninfo {
+  uint16_t       hci_handle;
+  uint8_t        dev_class[3];
+};
+
 int lastSignal = 0;
 
 static void signalHandler(int signal) {
@@ -25,8 +35,13 @@ static void signalHandler(int signal) {
 }
 
 int main(int argc, const char* argv[]) {
+  int hciSocket;
+
   int l2capSock;
   struct sockaddr_l2 sockAddr;
+  struct l2cap_conninfo l2capConnInfo;
+  socklen_t l2capConnInfoLen;
+  int hciHandle;
   int result;
 
   fd_set rfds;
@@ -41,8 +56,11 @@ int main(int argc, const char* argv[]) {
   signal(SIGINT, signalHandler);
   signal(SIGKILL, signalHandler);
   signal(SIGHUP, signalHandler);
+  signal(SIGUSR1, signalHandler);
 
   prctl(PR_SET_PDEATHSIG, SIGINT);
+
+  hciSocket = hci_open_dev(HCI_DEVICE_ID);
 
   // create socket
   l2capSock = socket(PF_BLUETOOTH, SOCK_SEQPACKET, BTPROTO_L2CAP);
@@ -66,6 +84,10 @@ int main(int argc, const char* argv[]) {
 
   result = connect(l2capSock, (struct sockaddr *)&sockAddr, sizeof(sockAddr));
 
+  l2capConnInfoLen = sizeof(l2capConnInfo);
+  getsockopt(l2capSock, SOL_L2CAP, L2CAP_CONNINFO, &l2capConnInfo, &l2capConnInfoLen);
+  hciHandle = l2capConnInfo.hci_handle;
+
   printf("connect %s\n", (result == -1) ? strerror(errno) : "success");
 
   while(1) {
@@ -81,6 +103,24 @@ int main(int argc, const char* argv[]) {
     if (-1 == result) {
       if (SIGINT == lastSignal || SIGKILL == lastSignal || SIGHUP == lastSignal) {
         break;
+      }
+
+      if (SIGUSR1 == lastSignal) {
+        int8_t rssi = 0;
+
+        for (i = 0; i < 100; i++) {
+          hci_read_rssi(hciSocket, hciHandle, &rssi, 1000);
+
+          if (rssi != 0) {
+            break;
+          }
+        }
+        
+        if (rssi == 0) {
+          rssi = 127;
+        }
+
+        printf("rssi = %d\n", rssi);
       }
     } else if (result) {
       if (FD_ISSET(0, &rfds)) {
@@ -113,6 +153,7 @@ int main(int argc, const char* argv[]) {
   }
 
   close(l2capSock);
+  close(hciSocket);
   printf("disconnect\n");
 
   return 0;
