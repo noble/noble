@@ -10,18 +10,8 @@ Prerequisites
 
 __Linux (Ubuntu)__
 
- * [BlueZ](http://www.bluez.org) __4.100 or 4.101__ is needed !
-     * 4.99 does not support connecting to LE devices
-     * Install BlueZ 4.101 (if you are running an older unsupported version)
-          * install build dependencies: ```sudo apt-get install libglib2.0-dev libdbus-1-dev libusb-dev libudev-dev libical-dev libreadline-dev```
-          * fetch archive: ```wget https://www.kernel.org/pub/linux/bluetooth/bluez-4.101.tar.bz2```
-          * extract archive: ```tar xvjf bluez-4.101.tar.bz2```
-          * change directory: ```cd bluez-4.101```
-          * configure: ```./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/lib  --enable-bccmd --enable-dfutool --enable-dund --enable-hid2hci --enable-hidd --enable-pand --enable-tools --enable-wiimote --disable-test --without-systemdunitdir```
-          * build: ```make```
-          * install: ```sudo make install```
-     * More details can be found [here](http://www.linuxfromscratch.org/blfs/view/svn/general/bluez.html)
-     * You maybe need to add you user to the ```bluetooth``` group: ```sudo usermod -a -G bluetooth <username>```
+ * ```sudo apt-get install libbluetooth-dev```
+ * Run as ```sudo``` or ```root```
 
 Install
 -------
@@ -260,7 +250,7 @@ Roadmap (TODO)
    * error handling
 
  * Linux
-   * ~~Adapter state (off | on)~~
+   * ~~Adapter state (unsupported | unauthorized | off | on)~~
    * ~~Scan~~
       * ~~startScanning~~
          * ~~service UUID's~~
@@ -270,13 +260,13 @@ Roadmap (TODO)
      * ~~discovered~~
      * ~~connect~~
          * ~~public address~~
-         * random address
+         * ~~random address~~
      * ~~disconnect/cancel connect~~
-     * update RSSI
+     * ~~update RSSI~~
      * ~~services~~
          * ~~discover~~
              * ~~filter by uuid~~
-         * ~~disover included~~
+         * ~~discover included~~
          * ~~discover characteristics for services~~
              * ~~filter by uuid~~
      * ~~characteristics~~
