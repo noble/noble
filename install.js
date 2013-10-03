@@ -13,7 +13,12 @@ if (platform === 'darwin') {
     process.exit(error ? -1 : 0);
   });
 } else if (platform === 'linux') {
-  process.exit(0);
+  console.log('noble install: running node-gyp ...');
+
+  exec('node-gyp configure build', function(error, stdout, stderr) {
+    console.log('noble install: done');
+    process.exit(error ? -1 : 0);
+  });
 } else {
   console.error('noble install: Your platform is not supported!');
   process.exit(-1);
