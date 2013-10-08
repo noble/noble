@@ -123,7 +123,7 @@ int main(int argc, const char* argv[])
       hciEventLen -= (1 + HCI_EVENT_HDR_SIZE);
 
       if (leMetaEvent->subevent != 0x02) {
-        break;
+        continue;
       }
 
       leAdvertisingInfo = (le_advertising_info *)(leMetaEvent->data + 1);
