@@ -121,23 +121,25 @@ int main(int argc, const char* argv[])
       hciEventLen = read(hciSocket, hciEventBuf, sizeof(hciEventBuf));
       leMetaEvent = (evt_le_meta_event *)(hciEventBuf + (1 + HCI_EVENT_HDR_SIZE));
       hciEventLen -= (1 + HCI_EVENT_HDR_SIZE);
+      
+      if (leMetaEvent->subevent == 0x02) {
 
-      if (leMetaEvent->subevent != 0x02) {
-        break;
+        leAdvertisingInfo = (le_advertising_info *)(leMetaEvent->data + 1);
+        ba2str(&leAdvertisingInfo->bdaddr, btAddress);
+
+        printf("event %s,%s,", btAddress, (leAdvertisingInfo->bdaddr_type == LE_PUBLIC_ADDRESS) ? "public" : "random");
+
+        for (i = 0; i < leAdvertisingInfo->length; i++) {
+            printf("%02x", leAdvertisingInfo->data[i]);
+        }
+
+        rssi = *(leAdvertisingInfo->data + leAdvertisingInfo->length);
+
+        printf(",%d\n", rssi);
+  
+      } else {
+        printf("got non-advertising event: %x\n",leMetaEvent->subevent);
       }
-
-      leAdvertisingInfo = (le_advertising_info *)(leMetaEvent->data + 1);
-      ba2str(&leAdvertisingInfo->bdaddr, btAddress);
-
-      printf("event %s,%s,", btAddress, (leAdvertisingInfo->bdaddr_type == LE_PUBLIC_ADDRESS) ? "public" : "random");
-
-      for (i = 0; i < leAdvertisingInfo->length; i++) {
-          printf("%02x", leAdvertisingInfo->data[i]);
-      }
-
-      rssi = *(leAdvertisingInfo->data + leAdvertisingInfo->length);
-
-      printf(",%d\n", rssi);
     }
   }
 
