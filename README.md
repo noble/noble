@@ -158,7 +158,7 @@ Peripheral RSSI update
 
 Peripheral services discovered
 
-    peripheral.on('servicesDiscovered', callback(services));
+    peripheral.on('servicesDiscover', callback(services));
 
 Service included services discovered
 
