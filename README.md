@@ -1,7 +1,9 @@
 noble
 =====
 
-A node.js BLE (Bluetooth low energy) module.
+A node.js BLE (Bluetooth low energy) central module.
+
+Want to implement a peripheral? Checkout [bleno](https://github.com/sandeepmistry/bleno)
 
 __Note:__ Mac OS X and Linux are currently the only supported OSes, and are still under development. Other platforms will be developed later on (see Roadmap below).
 
