@@ -126,6 +126,10 @@ int main(int argc, const char* argv[]) {
       if (FD_ISSET(0, &rfds)) {
         len = read(0, stdinBuf, sizeof(stdinBuf));
 
+        if (len <= 0) {
+          break;
+        }
+
         i = 0;
         while(stdinBuf[i] != '\n') {
           sscanf(&stdinBuf[i], "%02x", (unsigned int*)&l2capSockBuf[i / 2]);
