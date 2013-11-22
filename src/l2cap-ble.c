@@ -90,6 +90,10 @@ int main(int argc, const char* argv[]) {
 
   printf("connect %s\n", (result == -1) ? strerror(errno) : "success");
 
+  if (result == -1) {
+    goto done;
+  }
+
   while(1) {
     FD_ZERO(&rfds);
     FD_SET(0, &rfds);
@@ -156,6 +160,7 @@ int main(int argc, const char* argv[]) {
     }
   }
 
+done:
   close(l2capSock);
   close(hciSocket);
   printf("disconnect\n");
