@@ -22,7 +22,7 @@ noble.on('discover', function(peripheral) {
     console.log('\there is my manufacturer data:');
     console.log('\t\t' + JSON.stringify(peripheral.advertisement.manufacturerData.toString('hex')));
   }
-  if (peripheral.advertisement.txPowerLevel) {
+  if (peripheral.advertisement.txPowerLevel !== undefined) {
     console.log('\tmy TX power level is:');
     console.log('\t\t' + peripheral.advertisement.txPowerLevel);
   }
