@@ -1,6 +1,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/ioctl.h>
 #include <sys/prctl.h>
 #include <unistd.h>
@@ -8,8 +9,6 @@
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/hci.h>
 #include <bluetooth/hci_lib.h>
-
-#define HCI_DEVICE_ID 0
 
 int lastSignal = 0;
 
@@ -19,6 +18,8 @@ static void signalHandler(int signal) {
 
 int main(int argc, const char* argv[])
 {
+  char *hciDeviceIdOverride = NULL;
+  int hciDeviceId = 0;
   int hciSocket;
   struct hci_dev_info hciDevInfo;
 
@@ -53,9 +54,19 @@ int main(int argc, const char* argv[])
 
   prctl(PR_SET_PDEATHSIG, SIGINT);
 
+  hciDeviceIdOverride = getenv("NOBLE_HCI_DEVICE_ID");
+  if (hciDeviceIdOverride != NULL) {
+    hciDeviceId = atoi(hciDeviceIdOverride);
+  }
+
   // setup HCI socket
-  hciSocket = hci_open_dev(HCI_DEVICE_ID);
-  hciDevInfo.dev_id = HCI_DEVICE_ID;
+  hciSocket = hci_open_dev(hciDeviceId);
+
+  if (hciSocket == -1) {
+    printf("adapterState unsupported\n");
+    return -1;
+  }
+  hciDevInfo.dev_id = hciDeviceId;
 
   // get old HCI filter
   oldHciFilterLen = sizeof(oldHciFilter);
