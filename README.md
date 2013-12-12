@@ -216,6 +216,16 @@ Write handle
 
     peripheral.writeHandle(handle, data, withoutResponse, callback(error));
 
+Running on Linux
+-----------------
+Must be run with ```sudo``` or as root user.
+
+```hci0``` is used by default to override set the ```NOBLE_HCI_DEVICE_ID``` environment variable to the interface number.
+
+Example, specify ```hci1```:
+
+    sudo NOBLE_HCI_DEVICE_ID=1 node <your file>.js
+
 Roadmap (TODO)
 --------------
 
