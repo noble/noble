@@ -1,13 +1,12 @@
 #include <errno.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <sys/prctl.h>
 #include <unistd.h>
 
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/hci.h>
 #include <bluetooth/hci_lib.h>
-
-#define HCI_DEVICE_ID 0
 
 #define ATT_CID 4
 
@@ -35,6 +34,8 @@ static void signalHandler(int signal) {
 }
 
 int main(int argc, const char* argv[]) {
+  char *hciDeviceIdOverride = NULL;
+  int hciDeviceId = 0;
   int hciSocket;
 
   int l2capSock;
@@ -60,7 +61,12 @@ int main(int argc, const char* argv[]) {
 
   prctl(PR_SET_PDEATHSIG, SIGINT);
 
-  hciSocket = hci_open_dev(HCI_DEVICE_ID);
+  hciDeviceIdOverride = getenv("NOBLE_HCI_DEVICE_ID");
+  if (hciDeviceIdOverride != NULL) {
+    hciDeviceId = atoi(hciDeviceIdOverride);
+  }
+
+  hciSocket = hci_open_dev(hciDeviceId);
 
   // create socket
   l2capSock = socket(PF_BLUETOOTH, SOCK_SEQPACKET, BTPROTO_L2CAP);
