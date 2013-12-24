@@ -58,6 +58,7 @@ int main(int argc, const char* argv[]) {
   signal(SIGKILL, signalHandler);
   signal(SIGHUP, signalHandler);
   signal(SIGUSR1, signalHandler);
+  signal(SIGUSR2, signalHandler);
 
   prctl(PR_SET_PDEATHSIG, SIGINT);
 
@@ -131,6 +132,18 @@ int main(int argc, const char* argv[]) {
         }
 
         printf("rssi = %d\n", rssi);
+      } else if (SIGUSR2 == lastSignal) {
+        struct bt_security btSecurity;
+        socklen_t btSecurityLen;
+
+        memset(&btSecurity, 0, sizeof(btSecurity));
+        btSecurity.level = BT_SECURITY_MEDIUM;
+
+        setsockopt(l2capSock, SOL_BLUETOOTH, BT_SECURITY, &btSecurity, sizeof(btSecurity));
+      
+        getsockopt(l2capSock, SOL_BLUETOOTH, BT_SECURITY, &btSecurity, &btSecurityLen);
+
+        printf("security = %s\n", (BT_SECURITY_MEDIUM == btSecurity.level) ? "medium" : "low");
       }
     } else if (result) {
       if (FD_ISSET(0, &rfds)) {
