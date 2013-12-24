@@ -41,6 +41,7 @@ int main(int argc, const char* argv[])
   le_advertising_info *leAdvertisingInfo;
   char btAddress[18];
   int i;
+  int scanning = 0;
   int8_t rssi;
 
   memset(&hciDevInfo, 0x00, sizeof(hciDevInfo));
@@ -117,14 +118,20 @@ int main(int argc, const char* argv[])
         break;
       } else if (SIGUSR1 == lastSignal) {
         // start scan, filter
+        scanning = 1;
+
         hci_le_set_scan_enable(hciSocket, 0x00, 1, 1000);
         hci_le_set_scan_enable(hciSocket, 0x01, 1, 1000);
       } else if (SIGUSR2 == lastSignal) {
         // start scan, no filter
+        scanning = 1;
+
         hci_le_set_scan_enable(hciSocket, 0x00, 0, 1000);
         hci_le_set_scan_enable(hciSocket, 0x01, 0, 1000);
       } else if (SIGHUP == lastSignal) {
         // stop scan
+        scanning = 0;
+
         hci_le_set_scan_enable(hciSocket, 0x00, 0, 1000);
       } 
     } else if (selectRetval) {
@@ -132,6 +139,11 @@ int main(int argc, const char* argv[])
       hciEventLen = read(hciSocket, hciEventBuf, sizeof(hciEventBuf));
       leMetaEvent = (evt_le_meta_event *)(hciEventBuf + (1 + HCI_EVENT_HDR_SIZE));
       hciEventLen -= (1 + HCI_EVENT_HDR_SIZE);
+
+      if (!scanning) {
+        // ignore, not scanning
+        continue;
+      }
 
       if (leMetaEvent->subevent != 0x02) {
         continue;
