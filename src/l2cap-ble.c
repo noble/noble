@@ -65,6 +65,13 @@ int main(int argc, const char* argv[]) {
   hciDeviceIdOverride = getenv("NOBLE_HCI_DEVICE_ID");
   if (hciDeviceIdOverride != NULL) {
     hciDeviceId = atoi(hciDeviceIdOverride);
+  } else {
+    // if no env variable given, use the first available device
+    hciDeviceId = hci_get_route(NULL);
+  }
+
+  if (hciDeviceId < 0) {
+    hciDeviceId = 0; // use device 0, if device id is invalid
   }
 
   hciSocket = hci_open_dev(hciDeviceId);
