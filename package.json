@@ -21,7 +21,10 @@
   "engines": {
     "node": ">=0.8"
   },
-  "os": [ "darwin", "linux" ],
+  "os": [
+    "darwin",
+    "linux"
+  ],
   "dependencies": {
     "debug": "~0.7.2"
   },
@@ -29,7 +32,8 @@
     "jshint": "latest",
     "mocha": "~1.8.2",
     "should": "~1.2.2",
-    "sinon": "~1.6.0"
+    "sinon": "~1.6.0",
+    "async": "~0.2.9"
   },
   "scripts": {
     "install": "node install.js",
