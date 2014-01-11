@@ -115,9 +115,11 @@ function explore(peripheral) {
 
                     if (characteristic.properties.indexOf('read') !== -1) {
                       characteristic.read(function(error, data) {
-                        var string = data.toString('ascii');
+                        if (data) {
+                          var string = data.toString('ascii');
 
-                        characteristicInfo += '\n    value      ' + data.toString('hex') + ' | \'' + string + '\'';
+                          characteristicInfo += '\n    value       ' + data.toString('hex') + ' | \'' + string + '\'';
+                        }
                         callback();
                       });
                     } else {
