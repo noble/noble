@@ -113,7 +113,7 @@ noble.on('discover', function(peripheral) {
 
         c = s.characteristics[characteristic];
         delete(c.endpoint);
-        s.characteristics[characteristic] = JSON.stringify(c);
+        s.characteristics[characteristic] = c;
       }
     }
 
