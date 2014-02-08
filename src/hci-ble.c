@@ -55,6 +55,11 @@ int main(int argc, const char* argv[])
 
   prctl(PR_SET_PDEATHSIG, SIGINT);
 
+  // remove buffering 
+  setbuf(stdin, NULL);
+  setbuf(stdout, NULL);
+  setbuf(stderr, NULL);
+
   hciDeviceIdOverride = getenv("NOBLE_HCI_DEVICE_ID");
   if (hciDeviceIdOverride != NULL) {
     hciDeviceId = atoi(hciDeviceIdOverride);
