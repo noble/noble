@@ -52,6 +52,7 @@ int main(int argc, const char* argv[]) {
   char l2capSockBuf[256];
   int len;
   int i;
+  unsigned int data;
 
   // setup signal handlers
   signal(SIGINT, signalHandler);
@@ -167,7 +168,9 @@ int main(int argc, const char* argv[]) {
 
         i = 0;
         while(stdinBuf[i] != '\n') {
-          sscanf(&stdinBuf[i], "%02x", (unsigned int*)&l2capSockBuf[i / 2]);
+          sscanf(&stdinBuf[i], "%02x", &data);
+
+          l2capSockBuf[i / 2] = data;
 
           i += 2;
         }
