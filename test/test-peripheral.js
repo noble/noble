@@ -43,8 +43,8 @@ describe('Peripheral', function() {
   });
 
   describe('toString', function() {
-    it('should be uuid, name, type', function() {
-      peripheral.toString().should.equal('{"uuid":"mock-uuid","advertisement":"mock-advertisement","rssi":"mock-rssi"}');
+    it('should be uuid, name, type, state', function() {
+      peripheral.toString().should.equal('{"uuid":"mock-uuid","advertisement":"mock-advertisement","rssi":"mock-rssi","state":"disconnected"}');
     });
   });
 
