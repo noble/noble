@@ -26,7 +26,8 @@
     "linux"
   ],
   "dependencies": {
-    "debug": "~0.7.2"
+    "debug": "~0.7.2",
+    "ws": "~0.4.31"
   },
   "devDependencies": {
     "jshint": "latest",
