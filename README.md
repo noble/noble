@@ -137,9 +137,16 @@ Peripheral discovered:
       uuid: "<uuid>",
       advertisement: {
         localName: "<name>",
-        serviceData: <Buffer>,
         txPowerLevel: <int>,
         serviceUuids: ["<service UUID>", ...],
+        manufacturerData: <Buffer>,
+        serviceData: [
+            {
+                uuid: "<service UUID>"
+                data: <Buffer>
+            },
+            ...
+        ]
       },
       rssi: <rssi>
     };
