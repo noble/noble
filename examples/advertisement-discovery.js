@@ -14,9 +14,13 @@ noble.on('discover', function(peripheral) {
   console.log('\t\t' + peripheral.advertisement.localName);
   console.log('\tcan I interest you in any of the following advertised services:');
   console.log('\t\t' + JSON.stringify(peripheral.advertisement.serviceUuids));
-  if (peripheral.advertisement.serviceData) {
+
+  var serviceData = peripheral.advertisement.serviceData;
+  if (serviceData && serviceData.length) {
     console.log('\there is my service data:');
-    console.log('\t\t' + JSON.stringify(peripheral.advertisement.serviceData.toString('hex')));
+    for (var i in serviceData) {
+      console.log('\t\t' + JSON.stringify(serviceData[i].uuid) + ': ' + JSON.stringify(serviceData[i].data.toString('hex')));
+    }
   }
   if (peripheral.advertisement.manufacturerData) {
     console.log('\there is my manufacturer data:');
