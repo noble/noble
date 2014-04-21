@@ -40,5 +40,10 @@
     "install": "node install.js",
     "pretest": "jshint *.js lib/. test/.",
     "test": "mocha -R spec test/*.js"
+  },
+  "browser": {
+    "./distributed/bindings": false,
+    "./mac/bindings": false,
+    "./linux/bindings": false
   }
 }
