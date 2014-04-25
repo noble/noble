@@ -6,28 +6,74 @@ var WebSocket = require('ws');
 
 var noble = require('./index');
 
+var serverMode = !process.argv[2];
 var port = 0xB1e;
-var host = process.argv[2] || '127.0.0.1';
+var host = process.argv[2];
 
-var ws = new WebSocket('ws://' + host + ':' + port);
+
+var ws;
+var wss;
+
+if (serverMode) {
+  console.log('noble - ws slave - server mode');
+  wss = new WebSocket.Server({
+    port: 0xB1e
+  });
+
+  wss.on('connection', function(ws_) {
+    console.log('ws -> connection');
+
+    ws = ws_;
+
+    sendEvent({
+      type: 'stateChange',
+      state: noble.state
+    });
+
+    ws.on('message', onMessage);
+
+    ws.on('close', function() {
+      console.log('ws -> close');
+
+      noble.stopScanning();
+    });
+  });
+} else {
+  ws = new WebSocket('ws://' + host + ':' + port);
+
+  ws.on('open', function() {
+    console.log('ws -> open');
+  });
+
+  ws.on('message', function(message) {
+    onMessage(message);
+  });
+
+  ws.on('close', function() {
+    console.log('ws -> close');
+
+    noble.stopScanning();
+  });
+}
 
 var peripherals = {};
 
 // TODO: open/close ws on state change
 
 function sendEvent(event) {
-  var eventString = JSON.stringify(event);
+  var message = JSON.stringify(event);
 
-  console.log('ws -> send: ' + eventString);
-  ws.send(eventString);
+  console.log('ws -> send: ' + message);
+
+  var clients = serverMode ? wss.clients : [ws];
+
+  for (var i = 0; i < clients.length; i++) {
+    clients[i].send(message);
+  }
 }
 
-ws.on('open', function() {
-  console.log('ws - > open');
-});
-
-ws.on('message', function(message, flags) {
-  console.log('ws - > message: ' + message);
+var onMessage = function(message) {
+  console.log('ws -> message: ' + message);
 
   var command = JSON.parse(message);
   
@@ -83,7 +129,6 @@ ws.on('message', function(message, flags) {
     }
   }
 
-
   if (action === 'startScanning') {
     noble.startScanning(serviceUuids, command.allowDuplicates);
   } else if (action === 'stopScanning') {
@@ -132,13 +177,7 @@ ws.on('message', function(message, flags) {
       });
     });
   }
-});
-
-ws.on('close', function() {
-  console.log('ws - > close');
-
-  noble.stopScanning();
-});
+};
 
 noble.on('discover', function(peripheral) {
   peripherals[peripheral.uuid] = peripheral;
