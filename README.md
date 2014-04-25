@@ -52,6 +52,10 @@ Peripheral disconnect or cancel pending connection:
 
     peripheral.disconnect([callback(error)]);
 
+Peripheral reconnect connection:
+
+    peripheral.reconnect([callback(error)]);
+
 Peripheral update RSSI
 
     peripheral.updateRssi([callback(error, rssi)]);
@@ -160,6 +164,14 @@ Peripheral connected:
 Peripheral disconnected:
 
     peripheral.on('disconnect', callback);
+    
+Peripheral reconnected:
+
+    peripheral.on('reconnect', callback);
+    
+Peripheral connection drop:
+
+    peripheral.on('connectionDrop', callback);    
 
 Peripheral RSSI update
 
