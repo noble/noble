@@ -26,15 +26,15 @@
     "linux"
   ],
   "dependencies": {
-    "debug": "~0.7.2",
-    "ws": "~0.4.31"
+    "debug": "~0.7.2"
   },
   "devDependencies": {
     "jshint": "latest",
     "mocha": "~1.8.2",
     "should": "~1.2.2",
     "sinon": "~1.6.0",
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "ws": "~0.4.31"
   },
   "scripts": {
     "install": "node install.js",
