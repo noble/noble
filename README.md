@@ -28,7 +28,7 @@ Usage
 __Actions__
 
 Start scanning:
-    
+
     noble.startScanning(); // any service UUID, no duplicates
 
 
@@ -102,6 +102,8 @@ Characteristic broadcast
 Characteristic notify
 
     characteristic.notify(notify[, callback(error)]); // notify is true|false
+
+  * use for characteristics with notifiy or indicate properties
 
 Characteristic discover descriptors
 
@@ -256,7 +258,7 @@ Roadmap (TODO)
          * ~~read~~
          * ~~write~~
          * ~~set broadcast value~~
-         * ~~set notify value~~
+         * ~~set notify/indicate value~~
          * ~~descriptors~~
              * ~~discover~~
              * ~~read~~
@@ -292,7 +294,7 @@ Roadmap (TODO)
          * ~~read~~
          * ~~write~~
          * ~~set broadcast value~~
-         * ~~set notify value~~
+         * ~~set notify/indicate value~~
          * ~~descriptors~~
              * ~~discover~~
              * ~~read~~
@@ -312,7 +314,7 @@ Useful Links
  * [Bluetooth Development Portal](http://developer.bluetooth.org)
    * [GATT Specifications](http://developer.bluetooth.org/gatt/Pages/default.aspx)
  * [Bluetooth: ATT and GATT](http://epx.com.br/artigos/bluetooth_gatt.php)
-   
+
 License
 ========
 
