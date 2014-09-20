@@ -100,7 +100,9 @@ function explore(peripheral) {
                         function(userDescriptionDescriptor){
                           if (userDescriptionDescriptor) {
                             userDescriptionDescriptor.readValue(function(error, data) {
-                              characteristicInfo += ' (' + data.toString() + ')';
+                              if (data) {
+                                characteristicInfo += ' (' + data.toString() + ')';
+                              }
                               callback();
                             });
                           } else {
