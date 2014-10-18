@@ -10,6 +10,10 @@ __Note:__ Mac OS X and Linux are currently the only supported OSes, and are stil
 Prerequisites
 ------------
 
+__OS X__
+
+ * install [Xcode](https://itunes.apple.com/ca/app/xcode/id497799835?mt=12)
+
 __Linux (Ubuntu)__
 
  * ```sudo apt-get install libbluetooth-dev```
