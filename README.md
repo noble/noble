@@ -16,7 +16,7 @@ __OS X__
 
 __Linux (Ubuntu)__
 
- * ```sudo apt-get install libbluetooth-dev```
+ * ```sudo apt-get install bluetooth bluez-utils libbluetooth-dev```
  * Run as ```sudo``` or ```root```
 
 Install
