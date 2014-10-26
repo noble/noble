@@ -1,6 +1,8 @@
 noble
 =====
 
+[![Analytics](https://ga-beacon.appspot.com/UA-56089547-1/sandeepmistry/noble?pixel)](https://github.com/igrigorik/ga-beacon)
+
 A node.js BLE (Bluetooth low energy) central module.
 
 Want to implement a peripheral? Checkout [bleno](https://github.com/sandeepmistry/bleno)
