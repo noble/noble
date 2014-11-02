@@ -53,7 +53,7 @@ int main(int argc, const char* argv[])
   signal(SIGUSR2, signalHandler);
   signal(SIGHUP, signalHandler);
 
-  prctl(PR_SET_PDEATHSIG, SIGINT);
+  prctl(PR_SET_PDEATHSIG, SIGKILL);
 
   // remove buffering
   setbuf(stdin, NULL);
