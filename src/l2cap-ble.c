@@ -63,7 +63,7 @@ int main(int argc, const char* argv[]) {
 
   prctl(PR_SET_PDEATHSIG, SIGINT);
 
-  // remove buffering 
+  // remove buffering
   setbuf(stdin, NULL);
   setbuf(stdout, NULL);
   setbuf(stderr, NULL);
@@ -139,7 +139,7 @@ int main(int argc, const char* argv[]) {
             break;
           }
         }
-        
+
         if (rssi == 0) {
           rssi = 127;
         }
@@ -153,7 +153,7 @@ int main(int argc, const char* argv[]) {
         btSecurity.level = BT_SECURITY_MEDIUM;
 
         setsockopt(l2capSock, SOL_BLUETOOTH, BT_SECURITY, &btSecurity, sizeof(btSecurity));
-      
+
         getsockopt(l2capSock, SOL_BLUETOOTH, BT_SECURITY, &btSecurity, &btSecurityLen);
 
         printf("security = %s\n", (BT_SECURITY_MEDIUM == btSecurity.level) ? "medium" : "low");

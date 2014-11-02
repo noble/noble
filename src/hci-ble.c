@@ -30,7 +30,7 @@ int main(int argc, const char* argv[])
   int previousAdapterState = -1;
   int currentAdapterState;
   const char* adapterState = NULL;
-  
+
   fd_set rfds;
   struct timeval tv;
   int selectRetval;
@@ -55,7 +55,7 @@ int main(int argc, const char* argv[])
 
   prctl(PR_SET_PDEATHSIG, SIGINT);
 
-  // remove buffering 
+  // remove buffering
   setbuf(stdin, NULL);
   setbuf(stdout, NULL);
   setbuf(stderr, NULL);
@@ -114,7 +114,7 @@ int main(int argc, const char* argv[])
           adapterState = "unsupported";
         } else {
           adapterState = "unknown";
-        }        
+        }
       } else {
         adapterState = "poweredOn";
       }
@@ -145,7 +145,7 @@ int main(int argc, const char* argv[])
         scanning = 0;
 
         hci_le_set_scan_enable(hciSocket, 0x00, 0, 1000);
-      } 
+      }
     } else if (selectRetval) {
       // read event
       hciEventLen = read(hciSocket, hciEventBuf, sizeof(hciEventBuf));
