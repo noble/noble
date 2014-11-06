@@ -26,9 +26,11 @@
     "linux"
   ],
   "dependencies": {
+    "node-pre-gyp": ">=0.5.31",
     "debug": "~0.7.2"
   },
   "devDependencies": {
+    "aws-sdk": "~2.0.21",
     "jshint": "latest",
     "mocha": "~1.8.2",
     "should": "~1.2.2",
@@ -36,8 +38,10 @@
     "async": "~0.2.9",
     "ws": "~0.4.31"
   },
+  "bundledDependencies":["node-pre-gyp"],
   "scripts": {
-    "install": "node install.js",
+    "install": "node-pre-gyp install --fallback-to-build",
+    "build": "node-gyp build",
     "pretest": "jshint *.js lib/. test/.",
     "test": "mocha -R spec test/*.js"
   },
@@ -45,5 +49,12 @@
     "./distributed/bindings": false,
     "./mac/bindings": false,
     "./linux/bindings": false
+  },
+  "binary": {
+    "module_name" : "noble",
+    "module_path" : "./build/{module_name}/v{version}/{configuration}/{node_abi}-{platform}-{arch}/",
+    "remote_path" : "./{module_name}/v{version}/{configuration}/",
+    "package_name": "{node_abi}-{platform}-{arch}.tar.gz",
+    "host"        : "https://node-noble.s3.amazonaws.com"
   }
 }

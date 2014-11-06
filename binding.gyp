@@ -31,6 +31,23 @@
           }
         }]
       ]
+    },
+    {
+      "target_name": "action_after_build",
+      "type": "none",
+      "dependencies": [
+        "hci-ble",
+        "l2cap-ble"
+      ],
+      "copies": [
+        {
+          "files": [
+            "<(PRODUCT_DIR)/hci-ble",
+            "<(PRODUCT_DIR)/l2cap-ble"
+          ],
+          "destination": "<(module_path)"
+        }
+      ]
     }
   ]
 }
