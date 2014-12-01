@@ -8,7 +8,7 @@ This central connects to a robotic pizza oven service, with the following charac
 * toppings - read / write. A value representing which toppings to include (pepperoni, mushrooms, extra cheese, etc.)
 * bake - write / notify. The value written is the temperature at which to bake the pizza. When baking is finished, the central is notified with a bake result (half baked, crispy, burnt, etc.)
 
-To run the peripheral example:
+To run the central example:
 
     node central
 
