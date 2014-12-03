@@ -26,7 +26,7 @@
     "linux"
   ],
   "dependencies": {
-    "node-pre-gyp": ">=0.5.31",
+    "node-pre-gyp": "git://github.com/hybridgroup/node-pre-gyp.git#noble-custom-hack",
     "debug": "~0.7.2"
   },
   "devDependencies": {
