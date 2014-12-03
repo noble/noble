@@ -51,9 +51,12 @@
     "./linux/bindings": false
   },
   "binary": {
+    "name": "noble",
     "module_name" : "noble",
-    "module_path" : "./build/{module_name}/v{version}/{configuration}/{node_abi}-{platform}-{arch}/",
-    "remote_path" : "./{module_name}/v{version}/{configuration}/",
+    "targets": ["l2cap-ble", "hci-ble"],
+    "executable": true,
+    "module_path" : "./build/{name}/v{version}/{configuration}/{node_abi}-{platform}-{arch}/",
+    "remote_path" : "./{name}/v{version}/{configuration}/",
     "package_name": "{node_abi}-{platform}-{arch}.tar.gz",
     "host"        : "https://node-noble.s3.amazonaws.com"
   }
