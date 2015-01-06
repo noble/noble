@@ -8,7 +8,7 @@ console.log('noble install: platform is "' + platform + "'");
 if (platform === 'darwin') {
   console.log('noble install: installing xpc-connection ...');
 
-  var npmInstall = spawn('npm', ['install', 'xpc-connection@~0.0.3'], {
+  var npmInstall = spawn('npm', ['install', 'xpc-connection@~0.1.0'], {
     stdio: 'inherit'
   });
 
