@@ -17,7 +17,17 @@ __Note:__ Mac OS X and Linux are currently the only supported OSes. Other platfo
 ### Linux (Ubuntu)
 
  * Kernel version 3.6 or above
- * ```sudo apt-get install bluetooth bluez-utils libbluetooth-dev```
+ * ```libbluetooth-dev```
+
+#### Ubuntu/Debian/Raspbian
+
+```sh
+sudo apt-get install bluetooth bluez-utils libbluetooth-dev
+```
+
+#### Intel Edison
+
+See [Configure Intel Edison for Bluetooth LE (Smart) Development](http://rexstjohn.com/configure-intel-edison-for-bluetooth-le-smart-development/)
 
 ## Install
 
