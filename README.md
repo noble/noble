@@ -1,5 +1,4 @@
-noble
-=====
+# noble
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sandeepmistry/noble?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -7,233 +6,321 @@ A node.js BLE (Bluetooth low energy) central module.
 
 Want to implement a peripheral? Checkout [bleno](https://github.com/sandeepmistry/bleno)
 
-__Note:__ Mac OS X and Linux are currently the only supported OSes, and are still under development. Other platforms will be developed later on (see Roadmap below).
+__Note:__ Mac OS X and Linux are currently the only supported OSes. Other platforms may be developed later on (see Roadmap below).
 
-Prerequisites
-------------
+## Prerequisites
 
-__OS X__
+### OS X
 
  * install [Xcode](https://itunes.apple.com/ca/app/xcode/id497799835?mt=12)
 
-__Linux (Ubuntu)__
+### Linux (Ubuntu)
+
  * Kernel version 3.6 or above
  * ```sudo apt-get install bluetooth bluez-utils libbluetooth-dev```
 
-Install
--------
+## Install
 
-    npm install noble
+```sh
+npm install noble
+```
 
-Usage
------
+## Usage
 
-    var noble = require('noble');
+```javascript
+var noble = require('noble');
+```
 
-__Actions__
+### Actions
 
-Start scanning:
+#### Start scanning
 
-    noble.startScanning(); // any service UUID, no duplicates
-
-
-    noble.startScanning([], true); // any service UUID, allow duplicates
+```javascript
+noble.startScanning(); // any service UUID, no duplicates
 
 
-    var serviceUUIDs = ["<service UUID 1>", ...]; // default: [] => all
-    var allowDuplicates = <false|true>; // default: false
+noble.startScanning([], true); // any service UUID, allow duplicates
 
-    noble.startScanning(serviceUUIDs, allowDuplicates); // particular UUID's
 
-Stop scanning:
+var serviceUUIDs = ["<service UUID 1>", ...]; // default: [] => all
+var allowDuplicates = <false|true>; // default: false
 
-    noble.stopScanning();
+noble.startScanning(serviceUUIDs, allowDuplicates); // particular UUID's
+```
 
-Peripheral connect:
+#### Stop scanning
 
-    peripheral.connect([callback(error)]);
+```javascript
+noble.stopScanning();
+```
 
-Peripheral disconnect or cancel pending connection:
+#### Peripheral
 
-    peripheral.disconnect([callback(error)]);
+##### Connect
 
-Peripheral update RSSI
+```javascript
+peripheral.connect([callback(error)]);
+```
 
-    peripheral.updateRssi([callback(error, rssi)]);
+##### Disconnect or cancel pending connection
 
-Peripheral discover services
+```javascript
+peripheral.disconnect([callback(error)]);
+```
 
-    peripheral.discoverServices(); // any service UUID
+##### Update RSSI
 
-    var serviceUUIDs = ["<service UUID 1>", ...];
-    peripheral.discoverServices(serviceUUIDs[, callback(error, services)]); // particular UUID's
+```javascript
+peripheral.updateRssi([callback(error, rssi)]);
+```
 
-Peripheral discover all services and characteristics
+##### Discover services
 
-    peripheral.discoverAllServicesAndCharacteristics([callback(error, services, characteristics));
+```javascript
+peripheral.discoverServices(); // any service UUID
 
-Peripheral discover some services and characteristics
+var serviceUUIDs = ["<service UUID 1>", ...];
+peripheral.discoverServices(serviceUUIDs[, callback(error, services)]); // particular UUID's
+```
 
-    var serviceUUIDs = ["<service UUID 1>", ...];
-    var characteristicUUIDs = ["<characteristic UUID 1>", ...];
-    peripheral.discoverSomeServicesAndCharacteristics(serviceUUIDs, characteristicUUIDs, [callback(error, services, characteristics));
+##### Discover all services and characteristics
 
-Service discover included services
+```javascript
+peripheral.discoverAllServicesAndCharacteristics([callback(error, services, characteristics));
+```
 
-    service.discoverIncludedServices(); // any service UUID
+##### Discover some services and characteristics
 
-    var serviceUUIDs = ["<service UUID 1>", ...];
-    service.discoverIncludedServices(serviceUUIDs[, callback(error, includedServiceUuids)]); // particular UUID's
+```javascript
+var serviceUUIDs = ["<service UUID 1>", ...];
+var characteristicUUIDs = ["<characteristic UUID 1>", ...];
+peripheral.discoverSomeServicesAndCharacteristics(serviceUUIDs, characteristicUUIDs, [callback(error, services, characteristics));
+```
+#### Service
 
-Service discover characteristics
+##### Discover included services
 
-    service.discoverCharacteristics() // any characteristic UUID
+```javascript
+service.discoverIncludedServices(); // any service UUID
 
-    var characteristicUUIDs = ["<characteristic UUID 1>", ...];
-    service.discoverCharacteristics(characteristicUUIDs[, callback(error, characteristics)]); // particular UUID's
+var serviceUUIDs = ["<service UUID 1>", ...];
+service.discoverIncludedServices(serviceUUIDs[, callback(error, includedServiceUuids)]); // particular UUID's
+```
 
-Characteristic read
+##### Discover characteristics
 
-    characteristic.read([callback(error, data)]);
+```javascript
+service.discoverCharacteristics() // any characteristic UUID
 
-Characteristic write
+var characteristicUUIDs = ["<characteristic UUID 1>", ...];
+service.discoverCharacteristics(characteristicUUIDs[, callback(error, characteristics)]); // particular UUID's
+```
 
-    characteristic.write(data, notify[, callback(error)]); // data is a buffer, notify is true|false
+#### Characteristic
 
-Characteristic broadcast
+##### Read
 
-    characteristic.broadcast(broadcast[, callback(error)]); // broadcast is true|false
+```javascript
+characteristic.read([callback(error, data)]);
+```
 
-Characteristic notify
+##### Write
 
-    characteristic.notify(notify[, callback(error)]); // notify is true|false
+```javascript
+characteristic.write(data, notify[, callback(error)]); // data is a buffer, notify is true|false
+```
+
+##### Broadcast
+
+```javascript
+characteristic.broadcast(broadcast[, callback(error)]); // broadcast is true|false
+```
+
+##### Notify
+
+```javascript
+characteristic.notify(notify[, callback(error)]); // notify is true|false
+```
 
   * use for characteristics with notifiy or indicate properties
 
-Characteristic discover descriptors
+##### Discover descriptors
 
-    characteristic.discoverDescriptors([callback(error, descriptors)]);
+```javascript
+characteristic.discoverDescriptors([callback(error, descriptors)]);
+```
 
-Descriptor read value
+##### Read value
 
-    descriptor.readValue([callback(error, data)]);
+```javascript
+descriptor.readValue([callback(error, data)]);
+```
 
-Descriptor write value
+##### Write value
 
-    descriptor.writeValue(data[, callback(error)]); // data is a buffer
+```javascript
+descriptor.writeValue(data[, callback(error)]); // data is a buffer
+```
 
-__Events__
+#### Handle
 
-Adapter state change:
+##### Read
 
-    state = <"unknown" | "resetting" | "unsupported" | "unauthorized" | "poweredOff" | "poweredOn">
+```javascript
+peripheral.readHandle(handle, callback(error, data));
+```
 
-    noble.on('stateChange', callback(state));
+##### Write
 
-Scan started:
+```javascript
+peripheral.writeHandle(handle, data, withoutResponse, callback(error));
+```
 
-    noble.on('scanStart', callback);
+### Events
 
-Scan stopped:
+#### Adapter state change
 
-    noble.on('scanStop', callback);
+```javascript
+state = <"unknown" | "resetting" | "unsupported" | "unauthorized" | "poweredOff" | "poweredOn">
 
-Peripheral discovered:
+noble.on('stateChange', callback(state));
+```
 
-    peripheral = {
-      uuid: "<uuid>",
-      advertisement: {
-        localName: "<name>",
-        txPowerLevel: <int>,
-        serviceUuids: ["<service UUID>", ...],
-        manufacturerData: <Buffer>,
-        serviceData: [
-            {
-                uuid: "<service UUID>"
-                data: <Buffer>
-            },
-            ...
-        ]
-      },
-      rssi: <rssi>
-    };
+#### Scan started:
 
-    noble.on('discover', callback(peripheral));
+```javascript
+noble.on('scanStart', callback);
+```
 
-Peripheral connected:
+#### Scan stopped
 
-    peripheral.on('connect', callback);
+```javascript
+noble.on('scanStop', callback);
+```
 
-Peripheral disconnected:
+#### Peripheral discovered:
 
-    peripheral.on('disconnect', callback);
+```javascript
+peripheral = {
+  uuid: "<uuid>",
+  advertisement: {
+    localName: "<name>",
+    txPowerLevel: <int>,
+    serviceUuids: ["<service UUID>", ...],
+    manufacturerData: <Buffer>,
+    serviceData: [
+        {
+            uuid: "<service UUID>"
+            data: <Buffer>
+        },
+        ...
+    ]
+  },
+  rssi: <rssi>
+};
 
-Peripheral RSSI update
+noble.on('discover', callback(peripheral));
+```
 
-    peripheral.on('rssiUpdate', callback(rssi));
+#### Peripheral
 
-Peripheral services discovered
+##### Connected
 
-    peripheral.on('servicesDiscover', callback(services));
+```javascript
+peripheral.on('connect', callback);
+```
 
-Service included services discovered
+##### Disconnected:
 
-    service.on('includedServicesDiscover', callback(includedServiceUuids));
+```javascript
+peripheral.on('disconnect', callback);
+```
 
-Service characteristics discovered
+##### RSSI update
 
-    characteristic = {
-      uuid: "<uuid>",
-       // properties: 'broadcast', 'read', 'writeWithoutResponse', 'write', 'notify', 'indicate', 'authenticatedSignedWrites', 'extendedProperties'
-      properties: [...]
-    };
+```javascript
+peripheral.on('rssiUpdate', callback(rssi));
+```
 
-    service.on('characteristicsDiscover', callback(characteristics));
+##### Services discovered
 
-Characteristic read
+```javascript
+peripheral.on('servicesDiscover', callback(services));
+```
 
-    characteristic.on('read', callback(data, isNotification));
+#### Service
 
-Characteristic write
+##### Included services discovered
 
-    characteristic.on('write', withoutResponse, callback());
+```javascript
+service.on('includedServicesDiscover', callback(includedServiceUuids));
+```
 
-Characteristic broadcast
+##### Characteristics discovered
 
-    characteristic.on('broadcast', callback(state));
+```javascript
+characteristic = {
+  uuid: "<uuid>",
+   // properties: 'broadcast', 'read', 'writeWithoutResponse', 'write', 'notify', 'indicate', 'authenticatedSignedWrites', 'extendedProperties'
+  properties: [...]
+};
 
-Characteristic notify
+service.on('characteristicsDiscover', callback(characteristics));
+```
 
-    characteristic.on('notify', callback(state));
+#### Characteristic
 
-Characteristic descriptors discovered
+##### Read
 
-    descriptor = {
-      uuid: '<uuid>'
-    };
+```javascript
+characteristic.on('read', callback(data, isNotification));
+```
 
-    characteristic.on('descriptorsDiscover', callback(descriptors));
+##### Write
 
-Descriptor value read
+```javascript
+characteristic.on('write', withoutResponse, callback());
+```
 
-    descriptor.on('valueRead', data);
+##### Broadcast
 
-Descriptor value write
+```javascript
+characteristic.on('broadcast', callback(state));
+```
 
-    descriptor.on('valueWrite');
+##### Notify
 
-Read handle
+```javascript
+characteristic.on('notify', callback(state));
+```
 
-    peripheral.readHandle(handle, callback(error, data));
+##### Descriptors discovered
 
-Write handle
+```javascript
+descriptor = {
+  uuid: '<uuid>'
+};
 
-    peripheral.writeHandle(handle, data, withoutResponse, callback(error));
+characteristic.on('descriptorsDiscover', callback(descriptors));
+```
 
-Running on Linux
------------------
+#### Descriptor
 
-__Running without root/sudo__
+##### Value read
+
+```javascript
+descriptor.on('valueRead', data);
+```
+
+##### Value write
+
+```javascript
+descriptor.on('valueWrite');
+```
+
+## Running on Linux
+
+### Running without root/sudo
 
 Run the following command in the directory you ran ```npm install``` from:
 
@@ -243,16 +330,17 @@ find -path '*noble*Release/hci-ble' -exec sudo setcap cap_net_raw+eip '{}' \;
 
 This grants noble's ```hci-ble``` binary ```cap_net_raw``` privileges, so it can start/stop scanning.
 
-__Multiple Adapters__
+### Multiple Adapters
 
 ```hci0``` is used by default to override set the ```NOBLE_HCI_DEVICE_ID``` environment variable to the interface number.
 
 Example, specify ```hci1```:
 
-    sudo NOBLE_HCI_DEVICE_ID=1 node <your file>.js
+```sh
+sudo NOBLE_HCI_DEVICE_ID=1 node <your file>.js
+```
 
-Roadmap (TODO)
---------------
+## Roadmap (TODO)
 
  * Mac OS X:
    * ~~Adapter state (unknown | reseting | unsupported | unauthorized | off | on)~~
@@ -324,17 +412,15 @@ Roadmap (TODO)
  * Windows
    * TDB (most likely Windows 8 only)
 
-Useful Links
-------------
+## Useful Links
 
  * [Bluetooth Development Portal](http://developer.bluetooth.org)
    * [GATT Specifications](http://developer.bluetooth.org/gatt/Pages/default.aspx)
  * [Bluetooth: ATT and GATT](http://epx.com.br/artigos/bluetooth_gatt.php)
 
-License
-========
+## License
 
-Copyright (C) 2013 Sandeep Mistry <sandeep.mistry@gmail.com>
+Copyright (C) 2015 Sandeep Mistry <sandeep.mistry@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
