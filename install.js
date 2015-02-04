@@ -28,9 +28,9 @@ if (platform === 'darwin') {
     console.log('noble install: ' + ((code === 0) ? 'done' : 'error'));
 
     if (code !== 0) {
-      console.error('Have you installed "libbluetooth-dev"? Try again, after running:');
+      console.error('Have you installed "libbluetooth-dev"?');
       console.error();
-      console.error('\t sudo apt-get install bluetooth bluez-utils libbluetooth-dev');
+      console.error('Please see README https://github.com/sandeepmistry/noble#prerequisites');
     }
 
     process.exit(code);
