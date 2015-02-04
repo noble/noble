@@ -233,7 +233,18 @@ Write handle
 
 Running on Linux
 -----------------
-Must be run with ```sudo``` or as root user.
+
+__Running without root/sudo__
+
+Run the following command in the directory you ran ```npm install``` from:
+
+```sh
+find -path '*noble*Release/hci-ble' -exec sudo setcap cap_net_raw+eip '{}' \;
+```
+
+This grants noble's ```hci-ble``` binary ```cap_net_raw``` privileges, so it can start/stop scanning.
+
+__Multiple Adapters__
 
 ```hci0``` is used by default to override set the ```NOBLE_HCI_DEVICE_ID``` environment variable to the interface number.
 
