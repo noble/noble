@@ -338,7 +338,12 @@ Run the following command in the directory you ran ```npm install``` from:
 find -path '*noble*Release/hci-ble' -exec sudo setcap cap_net_raw+eip '{}' \;
 ```
 
-This grants noble's ```hci-ble``` binary ```cap_net_raw``` privileges, so it can start/stop scanning.
+This grants noble's ```hci-ble``` binary ```cap_net_raw``` privileges, so it can start/stop scanning for BLE devices.
+
+__Note:__ The above command requires ```setcap``` to be installed, it can be installed using the following:
+
+ * apt: ```sudo apt-get install libcap2-bin```
+ * yum: ```su -c \'yum install libcap2-bin\'```
 
 ### Multiple Adapters
 
