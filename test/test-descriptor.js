@@ -60,6 +60,18 @@ describe('Descriptor', function() {
       calledback.should.equal(true);
     });
 
+    it('should not call callback twice', function() {
+      var calledback = 0;
+
+      descriptor.readValue(function() {
+        calledback += 1;
+      });
+      descriptor.emit('valueRead');
+      descriptor.emit('valueRead');
+
+      calledback.should.equal(1);
+    });
+
     it('should callback with error, data', function() {
       var mockData = new Buffer(0);
       var callbackData = null;
@@ -104,5 +116,18 @@ describe('Descriptor', function() {
 
       calledback.should.equal(true);
     });
+
+    it('should not call callback twice', function() {
+      var calledback = 0;
+
+      descriptor.writeValue(mockData, function() {
+        calledback += 1;
+      });
+      descriptor.emit('valueWrite');
+      descriptor.emit('valueWrite');
+
+      calledback.should.equal(1);
+    });
+
   });
 });
