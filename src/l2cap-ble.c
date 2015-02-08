@@ -176,6 +176,8 @@ int main(int argc, const char* argv[]) {
         }
 
         len = write(l2capSock, l2capSockBuf, (len - 1) / 2);
+
+        printf("write = %s\n", (len == -1) ? strerror(errno) : "success");
       }
 
       if (FD_ISSET(l2capSock, &rfds)) {
