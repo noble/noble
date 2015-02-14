@@ -101,14 +101,14 @@ int main(int argc, const char* argv[]) {
   // open controller
   hciSocket = hci_open_dev(hciDeviceId);
   if (hciSocket == -1) {
-    printf("connect hci_open_dev(hci%i):%s\n", hciDeviceId, strerror(errno));
+    printf("connect hci_open_dev(hci%i): %s\n", hciDeviceId, strerror(errno));
     goto done;
   }
 
   // get local controller address
   result = hci_devinfo(hciDeviceId, &device_info);
    if (result == -1) {
-    printf("connect hci_deviceinfo (hci%i):%s\n", hciDeviceId, strerror(errno));
+    printf("connect hci_deviceinfo(hci%i): %s\n", hciDeviceId, strerror(errno));
     goto done;
   }
   ba2str(&device_info.bdaddr, controller_address);
@@ -117,7 +117,7 @@ int main(int argc, const char* argv[]) {
   // create socket
   l2capSock = socket(PF_BLUETOOTH, SOCK_SEQPACKET, BTPROTO_L2CAP);
   if (l2capSock  == -1) {
-    printf("connect socket(hci%i):%s\n", hciDeviceId, strerror(errno));
+    printf("connect socket(hci%i): %s\n", hciDeviceId, strerror(errno));
     goto done;
   }
 
@@ -130,7 +130,7 @@ int main(int argc, const char* argv[]) {
   sockAddr.l2_cid = htobs(ATT_CID);
   result = bind(l2capSock, (struct sockaddr*)&sockAddr, sizeof(sockAddr));
   if (result == -1) {
-    printf("connect bind(hci%i):%s\n", hciDeviceId, strerror(errno));
+    printf("connect bind(hci%i): %s\n", hciDeviceId, strerror(errno));
     goto done;
   }
 
@@ -145,7 +145,7 @@ int main(int argc, const char* argv[]) {
   if (result == -1) {
     char buf[1024] = { 0 };
     ba2str( &sockAddr.l2_bdaddr, buf );
-    printf("connect (hci%i): %s\n", hciDeviceId, strerror(errno));
+    printf("connect connect(hci%i): %s\n", hciDeviceId, strerror(errno));
     goto done;
   }
 
@@ -153,7 +153,7 @@ int main(int argc, const char* argv[]) {
   l2capConnInfoLen = sizeof(l2capConnInfo);
   result = getsockopt(l2capSock, SOL_L2CAP, L2CAP_CONNINFO, &l2capConnInfo, &l2capConnInfoLen);
   if (result == -1) {
-    printf("connect getsockopt (hci%i): :%s\n", hciDeviceId, strerror(errno));
+    printf("connect getsockopt(hci%i): %s\n", hciDeviceId, strerror(errno));
     goto done;
   }
   hciHandle = l2capConnInfo.hci_handle;
