@@ -8,6 +8,22 @@
 #include <bluetooth/hci.h>
 #include <bluetooth/hci_lib.h>
 
+/*/
+for trouble shooting:
+
+    enable kernel dynamic debug logging via dmsg for ble:
+echo "file net/bluetooth/hci_conn.c =flmtp" > /sys/kernel/debug/dynamic_debug/control
+    and repeat with hci_core.c, lcap_sock.c, lcap.core.c or others
+
+    disable with
+echo "file net/bluetooth/hci_conn.c =_" > /sys/kernel/debug/dynamic_debug/control
+
+    check with
+grep "\[bluetooth\][a-z_]* =[^_ ]\+" /sys/kernel/debug/dynamic_debug/control
+
+wildcards did not work for me, ymmv.
+/*/
+
 #define ATT_CID 4
 
 #define BDADDR_LE_PUBLIC       0x01
@@ -36,9 +52,11 @@ static void signalHandler(int signal) {
 int main(int argc, const char* argv[]) {
   char *hciDeviceIdOverride = NULL;
   int hciDeviceId = 0;
-  int hciSocket;
+  char controller_address[18];
+  struct hci_dev_info device_info;
+  int hciSocket = -1;
 
-  int l2capSock;
+  int l2capSock = -1;
   struct sockaddr_l2 sockAddr;
   struct l2cap_conninfo l2capConnInfo;
   socklen_t l2capConnInfoLen;
@@ -80,20 +98,41 @@ int main(int argc, const char* argv[]) {
     hciDeviceId = 0; // use device 0, if device id is invalid
   }
 
+  // open controller
   hciSocket = hci_open_dev(hciDeviceId);
+  if (hciSocket == -1) {
+    printf("connect hci_open_dev(hci%i): %s\n", hciDeviceId, strerror(errno));
+    goto done;
+  }
+
+  // get local controller address
+  result = hci_devinfo(hciDeviceId, &device_info);
+   if (result == -1) {
+    printf("connect hci_deviceinfo(hci%i): %s\n", hciDeviceId, strerror(errno));
+    goto done;
+  }
+  ba2str(&device_info.bdaddr, controller_address);
+  printf("info using %s@hci%i\n", controller_address, hciDeviceId);
 
   // create socket
   l2capSock = socket(PF_BLUETOOTH, SOCK_SEQPACKET, BTPROTO_L2CAP);
+  if (l2capSock  == -1) {
+    printf("connect socket(hci%i): %s\n", hciDeviceId, strerror(errno));
+    goto done;
+  }
 
   // bind
   memset(&sockAddr, 0, sizeof(sockAddr));
   sockAddr.l2_family = AF_BLUETOOTH;
-  bacpy(&sockAddr.l2_bdaddr, BDADDR_ANY);
+   // Bind socket to the choosen adapter by using the controllers BT-address as source
+   // see l2cap_chan_connect source and hci_get_route in linux/net/bluetooth
+  bacpy(&sockAddr.l2_bdaddr, &device_info.bdaddr);
   sockAddr.l2_cid = htobs(ATT_CID);
-
   result = bind(l2capSock, (struct sockaddr*)&sockAddr, sizeof(sockAddr));
-
-  printf("bind %s\n", (result == -1) ? strerror(errno) : "success");
+  if (result == -1) {
+    printf("connect bind(hci%i): %s\n", hciDeviceId, strerror(errno));
+    goto done;
+  }
 
   // connect
   memset(&sockAddr, 0, sizeof(sockAddr));
@@ -103,16 +142,23 @@ int main(int argc, const char* argv[]) {
   sockAddr.l2_cid = htobs(ATT_CID);
 
   result = connect(l2capSock, (struct sockaddr *)&sockAddr, sizeof(sockAddr));
-
-  l2capConnInfoLen = sizeof(l2capConnInfo);
-  getsockopt(l2capSock, SOL_L2CAP, L2CAP_CONNINFO, &l2capConnInfo, &l2capConnInfoLen);
-  hciHandle = l2capConnInfo.hci_handle;
-
-  printf("connect %s\n", (result == -1) ? strerror(errno) : "success");
-
   if (result == -1) {
+    char buf[1024] = { 0 };
+    ba2str( &sockAddr.l2_bdaddr, buf );
+    printf("connect connect(hci%i): %s\n", hciDeviceId, strerror(errno));
     goto done;
   }
+
+  // get hci_handle
+  l2capConnInfoLen = sizeof(l2capConnInfo);
+  result = getsockopt(l2capSock, SOL_L2CAP, L2CAP_CONNINFO, &l2capConnInfo, &l2capConnInfoLen);
+  if (result == -1) {
+    printf("connect getsockopt(hci%i): %s\n", hciDeviceId, strerror(errno));
+    goto done;
+  }
+  hciHandle = l2capConnInfo.hci_handle;
+
+  printf("connect success\n");
 
   while(1) {
     FD_ZERO(&rfds);
@@ -197,8 +243,10 @@ int main(int argc, const char* argv[]) {
   }
 
 done:
-  close(l2capSock);
-  close(hciSocket);
+  if (l2capSock != -1)
+    close(l2capSock);
+  if (hciSocket != -1)
+    close(hciSocket);
   printf("disconnect\n");
 
   return 0;
