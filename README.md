@@ -355,6 +355,15 @@ Example, specify ```hci1```:
 sudo NOBLE_HCI_DEVICE_ID=1 node <your file>.js
 ```
 
+### Reporting all HCI events
+
+By default noble waits for both the advertisement data and scan response data for each Bluetooth address. If your device does not use scan response the following enviroment variable can be used to bypass it.
+
+
+```sh
+sudo NOBLE_REPORT_ALL_HCI_EVENTS=1 node <your file>.js
+```
+
 ## Roadmap (TODO)
 
  * Mac OS X:
