@@ -243,10 +243,14 @@ int main(int argc, const char* argv[]) {
   }
 
 done:
-  if (l2capSock != -1)
+  if (l2capSock != -1) {
     close(l2capSock);
-  if (hciSocket != -1)
+  }
+
+  if (hciSocket != -1) {
     close(hciSocket);
+  }
+
   printf("disconnect\n");
 
   return 0;
