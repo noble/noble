@@ -4,7 +4,7 @@
     In range criteria:      RSSI < threshold
     Out of range criteria:  lastSeen > grace period
 
-  based on code provided by: Mattias Ask
+  based on code provided by: Mattias Ask (http://www.dittlof.com)
 */
 var noble = require('../index');
 
