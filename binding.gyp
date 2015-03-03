@@ -22,7 +22,8 @@
       'conditions': [
         ['OS=="linux"', {
           'sources': [
-            'src/l2cap-ble.c'
+            'src/l2cap-ble.c',
+            'src/utility.c'
           ],
           'link_settings': {
             'libraries': [

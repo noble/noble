@@ -8,6 +8,8 @@
 #include <bluetooth/hci.h>
 #include <bluetooth/hci_lib.h>
 
+#include "utility.h"
+
 /*/
 for trouble shooting:
 
@@ -206,22 +208,19 @@ int main(int argc, const char* argv[]) {
       }
     } else if (result) {
       if (FD_ISSET(0, &rfds)) {
-        len = read(0, stdinBuf, sizeof(stdinBuf));
+        len = readLine(0, stdinBuf, sizeof(stdinBuf));
 
         if (len <= 0) {
           break;
         }
 
-        i = 0;
-        while(stdinBuf[i] != '\n') {
+        for (i = 0; i < len; i += 2) {
           sscanf(&stdinBuf[i], "%02x", &data);
 
           l2capSockBuf[i / 2] = data;
-
-          i += 2;
         }
 
-        len = write(l2capSock, l2capSockBuf, (len - 1) / 2);
+        len = write(l2capSock, l2capSockBuf, len / 2);
 
         printf("write = %s\n", (len == -1) ? strerror(errno) : "success");
       }

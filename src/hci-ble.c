@@ -10,6 +10,8 @@
 #include <bluetooth/hci.h>
 #include <bluetooth/hci_lib.h>
 
+#include "utility.h"
+
 int lastSignal = 0;
 
 static void signalHandler(int signal) {
