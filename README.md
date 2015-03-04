@@ -280,13 +280,19 @@ service.on('characteristicsDiscover', callback(characteristics));
 
 #### Characteristic
 
-##### Read
+##### Data
+
+Emitted when characteristic read has completed, result of ```characteristic.read(...)``` or characteristic value has been updated by peripheral via notification or indication.
 
 ```javascript
-characteristic.on('read', callback(data, isNotification));
+characteristic.on('data', callback(data, isNotification));
+
+characteristic.on('read', callback(data, isNotification)); // legacy
 ```
 
 ##### Write
+
+Emitted when characteristic write has completed, result of ```characteristic.write(...)```.
 
 ```javascript
 characteristic.on('write', withoutResponse, callback());
@@ -294,11 +300,15 @@ characteristic.on('write', withoutResponse, callback());
 
 ##### Broadcast
 
+Emitted when characteristic broadcast state changes, result of ```characteristic.broadcast(...)```.
+
 ```javascript
 characteristic.on('broadcast', callback(state));
 ```
 
 ##### Notify
+
+Emitted when characteristic notification state changes, result of ```characteristic.notify(...)```.
 
 ```javascript
 characteristic.on('notify', callback(state));
