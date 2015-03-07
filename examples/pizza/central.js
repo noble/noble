@@ -48,7 +48,7 @@ noble.on('discover', function(peripheral) {
         //
         // This must be the service we were looking for.
         //
-        console.log('found service:', service);
+        console.log('found service:', service.uuid);
 
         //
         // So, discover its characteristics.
@@ -60,7 +60,7 @@ noble.on('discover', function(peripheral) {
             // Loop through each characteristic and match them to the
             // UUIDs that we know about.
             //
-            console.log('found characteristic:', characteristic);
+            console.log('found characteristic:', characteristic.uuid);
 
             if (pizzaCrustCharacteristicUuid == characteristic.uuid) {
               pizzaCrustCharacteristic = characteristic;
@@ -139,7 +139,7 @@ function bakePizza() {
             //
             var temperature = new Buffer(2);
             temperature.writeUInt16BE(450, 0);
-            pizzaBakeCharacteristic.write(temperature, function(err) {
+            pizzaBakeCharacteristic.write(temperature, false, function(err) {
               if (err) {
                 console.log('bake error');
               }
