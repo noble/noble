@@ -28,6 +28,9 @@
   "dependencies": {
     "debug": "~0.7.2"
   },
+  "optionalDependencies": {
+    "xpc-connection": "~0.1.0"
+  },
   "devDependencies": {
     "jshint": "latest",
     "mocha": "~1.8.2",
@@ -37,7 +40,6 @@
     "ws": "~0.4.31"
   },
   "scripts": {
-    "install": "node install.js",
     "pretest": "jshint *.js lib/. test/.",
     "test": "mocha -R spec test/*.js"
   },
