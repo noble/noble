@@ -110,6 +110,9 @@
   , "2a2b" : { "name" : "Current Time"
              , "type" : "org.bluetooth.characteristic.current_time"
              }
+  , "2a2c" : { "name" : "Magnetic Declination"
+             , "type" : "org.bluetooth.characteristic.magnetic_declination"
+             }
   , "2a31" : { "name" : "Scan Refresh"
              , "type" : "org.bluetooth.characteristic.scan_refresh"
              }
@@ -206,6 +209,15 @@
   , "2a55" : { "name" : "SC Control Point"
              , "type" : "org.bluetooth.characteristic.sc_control_point"
              }
+  , "2a56" : { "name" : "Digital"
+             , "type" : "org.bluetooth.characteristic.digital"
+             }
+  , "2a58" : { "name" : "Analog"
+             , "type" : "org.bluetooth.characteristic.analog"
+             }
+  , "2a5a" : { "name" : "Aggregate"
+             , "type" : "org.bluetooth.characteristic.aggregate"
+             }
   , "2a5b" : { "name" : "CSC Measurement"
              , "type" : "org.bluetooth.characteristic.csc_measurement"
              }
@@ -214,5 +226,224 @@
              }
   , "2a5d" : { "name" : "Sensor Location"
              , "type" : "org.bluetooth.characteristic.sensor_location"
+             }
+  , "2a63" : { "name" : "Cycling Power Measurement"
+             , "type" : "org.bluetooth.characteristic.cycling_power_measurement"
+             }
+  , "2a64" : { "name" : "Cycling Power Vector"
+             , "type" : "org.bluetooth.characteristic.cycling_power_vector"
+             }
+  , "2a65" : { "name" : "Cycling Power Feature"
+             , "type" : "org.bluetooth.characteristic.cycling_power_feature"
+             }
+  , "2a66" : { "name" : "Cycling Power Control Point"
+             , "type" : "org.bluetooth.characteristic.cycling_power_control_point"
+             }
+  , "2a67" : { "name" : "Location and Speed"
+             , "type" : "org.bluetooth.characteristic.location_and_speed"
+             }
+  , "2a68" : { "name" : "Navigation"
+             , "type" : "org.bluetooth.characteristic.navigation"
+             }
+  , "2a69" : { "name" : "Position Quality"
+             , "type" : "org.bluetooth.characteristic.position_quality"
+             }
+  , "2a6a" : { "name" : "LN Feature"
+             , "type" : "org.bluetooth.characteristic.ln_feature"
+             }
+  , "2a6b" : { "name" : "LN Control Point"
+             , "type" : "org.bluetooth.characteristic.ln_control_point"
+             }
+  , "2a6c" : { "name" : "Elevation"
+             , "type" : "org.bluetooth.characteristic.elevation"
+             }
+  , "2a6d" : { "name" : "Pressure"
+             , "type" : "org.bluetooth.characteristic.pressure"
+             }
+  , "2a6e" : { "name" : "Temperature"
+             , "type" : "org.bluetooth.characteristic.temperature"
+             }
+  , "2a6f" : { "name" : "Humidity"
+             , "type" : "org.bluetooth.characteristic.humidity"
+             }
+  , "2a70" : { "name" : "True Wind Speed"
+             , "type" : "org.bluetooth.characteristic.true_wind_speed"
+             }
+  , "2a71" : { "name" : "True Wind Direction"
+             , "type" : "org.bluetooth.characteristic.true_wind_direction"
+             }
+  , "2a72" : { "name" : "Apparent Wind Speed"
+             , "type" : "org.bluetooth.characteristic.apparent_wind_speed"
+             }
+  , "2a73" : { "name" : "Apparent Wind Direction"
+             , "type" : "org.bluetooth.characteristic.apparent_wind_direction"
+             }
+  , "2a74" : { "name" : "Gust Factor"
+             , "type" : "org.bluetooth.characteristic.gust_factor"
+             }
+  , "2a75" : { "name" : "Pollen Concentration"
+             , "type" : "org.bluetooth.characteristic.pollen_concentration"
+             }
+  , "2a76" : { "name" : "UV Index"
+             , "type" : "org.bluetooth.characteristic.uv_index"
+             }
+  , "2a77" : { "name" : "Irradiance"
+             , "type" : "org.bluetooth.characteristic.irradiance"
+             }
+  , "2a78" : { "name" : "Rainfall"
+             , "type" : "org.bluetooth.characteristic.rainfall"
+             }
+  , "2a79" : { "name" : "Wind Chill"
+             , "type" : "org.bluetooth.characteristic.wind_chill"
+             }
+  , "2a7a" : { "name" : "Heat Index"
+             , "type" : "org.bluetooth.characteristic.heat_index"
+             }
+  , "2a7b" : { "name" : "Dew Point"
+             , "type" : "org.bluetooth.characteristic.dew_point"
+             }
+  , "2a7d" : { "name" : "Descriptor Value Changed"
+             , "type" : "org.bluetooth.characteristic.descriptor_value_change"
+             }
+  , "2a7e" : { "name" : "Aerobic Heart Rate Lower Limit"
+             , "type" : "org.bluetooth.characteristic.aerobic_heart_rate_lower_limit"
+             }
+  , "2a7f" : { "name" : "Aerobic Threshold"
+             , "type" : "org.bluetooth.characteristic.aerobic_threshold"
+             }
+  , "2a80" : { "name" : "Age"
+             , "type" : "org.bluetooth.characteristic.age"
+             }
+  , "2a81" : { "name" : "Anaerobic Heart Rate Lower Limit"
+             , "type" : "org.bluetooth.characteristic.anaerobic_heart_rate_lower_limit"
+             }
+  , "2a82" : { "name" : "Anaerobic Heart Rate Upper Limit"
+             , "type" : "org.bluetooth.characteristic.anaerobic_heart_rate_upper_limit"
+             }
+  , "2a83" : { "name" : "Anaerobic Threshold"
+             , "type" : "org.bluetooth.characteristic.anaerobic_threshold"
+             }
+  , "2a84" : { "name" : "Aerobic Heart Rate Upper Limit"
+             , "type" : "org.bluetooth.characteristic.aerobic_heart_rate_upper_limit"
+             }
+  , "2a85" : { "name" : "Date of Birth"
+             , "type" : "org.bluetooth.characteristic.date_of_birth"
+             }
+  , "2a86" : { "name" : "Date of Threshold Assessment"
+             , "type" : "org.bluetooth.characteristic.date_of_threshold_assessment"
+             }
+  , "2a87" : { "name" : "Email Address"
+             , "type" : "org.bluetooth.characteristic.email_address"
+             }
+  , "2a88" : { "name" : "Fat Burn Heart Rate Lower Limit"
+             , "type" : "org.bluetooth.characteristic.fat_burn_heart_lower_limit"
+             }
+  , "2a89" : { "name" : "Fat Burn Heart Rate Upper Limit"
+             , "type" : "org.bluetooth.characteristic.fat_burn_heart_upper_limit"
+             }
+  , "2a8a" : { "name" : "First Name"
+             , "type" : "org.bluetooth.characteristic.first_name"
+             }
+  , "2a8b" : { "name" : "Five Zone Heart Rate Limits"
+             , "type" : "org.bluetooth.characteristic.five_zone_heart_rate_limits"
+             }
+  , "2a8c" : { "name" : "Gender"
+             , "type" : "org.bluetooth.characteristic.gender"
+             }
+  , "2a8d" : { "name" : "Heart Rate Max"
+             , "type" : "org.bluetooth.characteristic.heart_rate_max"
+             }
+  , "2a8e" : { "name" : "Height"
+             , "type" : "org.bluetooth.characteristic.height"
+             }
+  , "2a8f" : { "name" : "Hip Circumference"
+             , "type" : "org.bluetooth.characteristic.hip_circumference"
+             }
+  , "2a90" : { "name" : "Last Name"
+             , "type" : "org.bluetooth.characteristic.last_name"
+             }
+  , "2a91" : { "name" : "Maximum Recommended Heart Rate"
+             , "type" : "org.bluetooth.characteristic.maximum_recommended_heart_rate"
+             }
+  , "2a92" : { "name" : "Resting Heart Rate"
+             , "type" : "org.bluetooth.characteristic.resting_heart_rate"
+             }
+  , "2a93" : { "name" : "Sport Type for Aerobic and Anaerobic Threshold"
+             , "type" : "org.bluetooth.characteristic.sport_type_for_aerobic_and_anaerobic_threshold"
+             }
+  , "2a94" : { "name" : "Three Zone Heart Rate Limits"
+             , "type" : "org.bluetooth.characteristic.three_zone_heart_rate_limits"
+             }
+  , "2a95" : { "name" : "Two Zone Heart Rate Limit"
+             , "type" : "org.bluetooth.characteristic.two_zone_heart_rate_limit"
+             }
+  , "2a96" : { "name" : "VO2 Max"
+             , "type" : "org.bluetooth.characteristic.vo2_max"
+             }
+  , "2a97" : { "name" : "Waist Circumference"
+             , "type" : "org.bluetooth.characteristic.waist_circumference"
+             }
+  , "2a98" : { "name" : "Weight"
+             , "type" : "org.bluetooth.characteristic.weight"
+             }
+  , "2a99" : { "name" : "Database Change Increment"
+             , "type" : "org.bluetooth.characteristic.database_change_increment"
+             }
+  , "2a9a" : { "name" : "User Index"
+             , "type" : "org.bluetooth.characteristic.user_index"
+             }
+  , "2a9b" : { "name" : "Body Composition Feature"
+             , "type" : "org.bluetooth.characteristic.body_composition_feature"
+             }
+  , "2a9c" : { "name" : "Body Composition Measurement"
+             , "type" : "org.bluetooth.characteristic.body_composition_measurement"
+             }
+  , "2a9d" : { "name" : "Weight Measurement"
+             , "type" : "org.bluetooth.characteristic.weight_measurement"
+             }
+  , "2a9e" : { "name" : "Weight Scale Feature"
+             , "type" : "org.bluetooth.characteristic.weight_scale_feature"
+             }
+  , "2a9f" : { "name" : "User Control Point"
+             , "type" : "org.bluetooth.characteristic.user_control_point"
+             }
+  , "2aa0" : { "name" : "Magnetic Flux Density - 2D"
+             , "type" : "org.bluetooth.characteristic.magnetic_flux_density_2d"
+             }
+  , "2aa1" : { "name" : "Magnetic Flux Density - 3D"
+             , "type" : "org.bluetooth.characteristic.magnetic_flux_density_3d"
+             }
+  , "2aa2" : { "name" : "Language"
+             , "type" : "org.bluetooth.characteristic.language"
+             }
+  , "2aa3" : { "name" : "Barometric Pressure Trend"
+             , "type" : "org.bluetooth.characteristic.barometric_pressure_trend"
+             }
+  , "2aa4" : { "name" : "Bond Management Control Point"
+             , "type" : "org.bluetooth.characteristic.bond_management_control_point"
+             }
+  , "2aa5" : { "name" : "Bond Management Feature"
+             , "type" : "org.bluetooth.characteristic.bond_management_feature"
+             }
+  , "2aa6" : { "name" : "Central Address Resolution"
+             , "type" : "org.bluetooth.characteristic.central_address_resolution"
+             }
+  , "2aa7" : { "name" : "CGM Measurement"
+             , "type" : "org.bluetooth.characteristic.cgm_measurement"
+             }
+  , "2aa8" : { "name" : "CGM Feature"
+             , "type" : "org.bluetooth.characteristic.cgm_feature"
+             }
+  , "2aa9" : { "name" : "CGM Status"
+             , "type" : "org.bluetooth.characteristic.cgm_status"
+             }
+  , "2aaa" : { "name" : "CGM Session Start Time"
+             , "type" : "org.bluetooth.characteristic.cgm_session_start_time"
+             }
+  , "2aab" : { "name" : "CGM Session Run Time"
+             , "type" : "org.bluetooth.characteristic.cgm_session_run_time"
+             }
+  , "2aac" : { "name" : "CGM Specific Ops Control Point"
+             , "type" : "org.bluetooth.characteristic.cgm_specific_ops_control_point"
              }
 }
