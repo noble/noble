@@ -56,7 +56,37 @@
   , "1814" : { "name" : "Running Speed and Cadence"
              , "type" : "org.bluetooth.service.running_speed_and_cadence"
              }
-  , "1815" : { "name" : "Cycling Speed and Cadence"
+  , "1815" : { "name" : "Automation IO"
+             , "type" : "org.bluetooth.service.automation_io"
+             }
+  , "1816" : { "name" : "Cycling Speed and Cadence"
              , "type" : "org.bluetooth.service.cycling_speed_and_cadence"
+             }
+  , "1818" : { "name" : "Cycling Power"
+             , "type" : "org.bluetooth.service.cycling_power"
+             }
+  , "1819" : { "name" : "Location and Navigation"
+             , "type" : "org.bluetooth.service.location_and_navigation"
+             }
+  , "181a" : { "name" : "Environmental Sensing"
+             , "type" : "org.bluetooth.service.environmental_sensing"
+             }
+  , "181b" : { "name" : "Body Composition"
+             , "type" : "org.bluetooth.service.body_composition"
+             }
+  , "181c" : { "name" : "User Data"
+             , "type" : "org.bluetooth.service.user_data"
+             }
+  , "181d" : { "name" : "Weight Scale"
+             , "type" : "org.bluetooth.service.weight_scale"
+             }
+  , "181e" : { "name" : "Bond Management"
+             , "type" : "org.bluetooth.service.bond_management"
+             }
+  , "181f" : { "name" : "Continuous Glucose Monitoring"
+             , "type" : "org.bluetooth.service.continuous_glucose_monitoring"
+             }
+  , "1820" : { "name" : "Internet Protocol Support"
+             , "type" : "org.bluetooth.service.internet_protocol_support"
              }
 }

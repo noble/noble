@@ -26,4 +26,22 @@
   , "2908" : { "name" : "Report Reference"
              , "type" : "org.bluetooth.descriptor.report_reference"
        }
+  , "2909" : { "name" : "Number of Digitals"
+             , "type" : "org.bluetooth.descriptor.number_of_digitals"
+       }
+  , "290a" : { "name" : "Value Trigger Setting"
+             , "type" : "org.bluetooth.descriptor.value_trigger_setting"
+       }
+  , "290b" : { "name" : "Environmental Sensing Configuration"
+             , "type" : "org.bluetooth.descriptor.environmental_sensing_configuration"
+       }
+  , "290c" : { "name" : "Environmental Sensing Measurement"
+             , "type" : "org.bluetooth.descriptor.environmental_sensing_measurement"
+       }
+  , "290d" : { "name" : "Environmental Sensing Trigger Setting"
+             , "type" : "org.bluetooth.descriptor.environmental_sensing_trigger_setting"
+       }
+  , "290e" : { "name" : "Time Trigger Setting"
+             , "type" : "org.bluetooth.descriptor.time_trigger_setting"
+       }
 }
