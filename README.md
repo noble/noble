@@ -213,6 +213,7 @@ noble.on('scanStop', callback);
 ```javascript
 peripheral = {
   uuid: "<uuid>",
+  address: "<BT address">, // Bluetooth Address of device, or 'unknown' if not known
   advertisement: {
     localName: "<name>",
     txPowerLevel: <int>,
