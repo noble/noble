@@ -6,6 +6,7 @@ var Peripheral = require('../lib/peripheral');
 describe('Peripheral', function() {
   var mockNoble = null;
   var mockUuid = 'mock-uuid';
+  var mockAddress = 'mock-address';
   var mockAdvertisement = 'mock-advertisement';
   var mockRssi = 'mock-rssi';
   var mockHandle = 'mock-handle';
@@ -23,7 +24,7 @@ describe('Peripheral', function() {
       writeHandle: sinon.spy()
     };
 
-    peripheral = new Peripheral(mockNoble, mockUuid, mockAdvertisement, mockRssi);
+    peripheral = new Peripheral(mockNoble, mockUuid, mockAddress, mockAdvertisement, mockRssi);
   });
 
   afterEach(function() {
@@ -32,6 +33,10 @@ describe('Peripheral', function() {
 
   it('should have a uuid', function() {
     peripheral.uuid.should.equal(mockUuid);
+  });
+
+  it('should have an address', function() {
+    peripheral.address.should.equal(mockAddress);
   });
 
   it('should have advertisement', function() {
@@ -43,8 +48,8 @@ describe('Peripheral', function() {
   });
 
   describe('toString', function() {
-    it('should be uuid, name, type, state', function() {
-      peripheral.toString().should.equal('{"uuid":"mock-uuid","advertisement":"mock-advertisement","rssi":"mock-rssi","state":"disconnected"}');
+    it('should be uuid, address, name, type, state', function() {
+      peripheral.toString().should.equal('{"uuid":"mock-uuid","address":"mock-address","advertisement":"mock-advertisement","rssi":"mock-rssi","state":"disconnected"}');
     });
   });
 
