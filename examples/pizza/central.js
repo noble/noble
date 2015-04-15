@@ -28,6 +28,9 @@ var pizzaToppingsCharacteristic = null;
 var pizzaBakeCharacteristic = null;
 
 noble.on('discover', function(peripheral) {
+  // we found a peripheral, stop scanning
+  noble.stopScanning();
+
   //
   // The advertisment data contains a name, power level (if available),
   // certain advertised service uuids, as well as manufacturer data,
