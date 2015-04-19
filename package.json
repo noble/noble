@@ -30,7 +30,7 @@
   },
   "optionalDependencies": {
     "bplist-parser": "0.0.6",
-    "xpc-connection": "~0.1.0"
+    "xpc-connection": "~0.1.3"
   },
   "devDependencies": {
     "jshint": "latest",
