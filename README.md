@@ -27,7 +27,7 @@ sudo apt-get install bluetooth bluez-utils libbluetooth-dev
 
 #### Intel Edison
 
-See [Configure Intel Edison for Bluetooth LE (Smart) Development](http://rexstjohn.com/configure-intel-edison-for-bluetooth-le-smart-development/)
+See [Configure Intel Edison for BLE Bluetooth Smart Development](https://github.com/intel-iot-devkit/edison-guides/wiki/Configure-Intel-Edison-for-BLE---Bluetooth-Smart-Development)
 
 ## Install
 
