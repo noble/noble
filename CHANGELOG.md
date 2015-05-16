@@ -1,3 +1,7 @@
+## Version 1.0.1
+
+ * correct peripherals not being created correctly
+
 ## Version 1.0
 
  * remove unneeded setTimeout's in OS X bindings
