@@ -210,7 +210,7 @@ noble.on('scanStart', callback);
 noble.on('scanStop', callback);
 ```
 
-#### Peripheral discovered:
+#### Peripheral discovered
 
 ```javascript
 peripheral = {
@@ -233,6 +233,12 @@ peripheral = {
 };
 
 noble.on('discover', callback(peripheral));
+```
+
+#### Warnings
+
+```javascript
+noble.on('warning', callback(message));
 ```
 
 #### Peripheral
