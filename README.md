@@ -216,6 +216,7 @@ noble.on('scanStop', callback);
 peripheral = {
   uuid: "<uuid>",
   address: "<BT address">, // Bluetooth Address of device, or 'unknown' if not known
+  addressType: "<BT address type>", // Bluetooth Address type (public, random), or 'unknown' if not known
   advertisement: {
     localName: "<name>",
     txPowerLevel: <int>,
