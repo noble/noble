@@ -6,6 +6,7 @@
  * emit events for warnings ([@voodootikigod ](https://github.com/voodootikigod))
  * disable scanning flag on start on Linux to prevent unsupport adapter state in some cases
  * update debug dependency version
+ * add address type to peripheral if known
 
 ## Older
 
