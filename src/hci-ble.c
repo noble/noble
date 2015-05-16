@@ -93,6 +93,9 @@ int main(int argc, const char* argv[])
   hci_filter_set_event(EVT_LE_META_EVENT, &newHciFilter);
   setsockopt(hciSocket, SOL_HCI, HCI_FILTER, &newHciFilter, sizeof(newHciFilter));
 
+  // disable scanning, it may have been left on, if so hci_le_set_scan_parameters will fail without this
+  hci_le_set_scan_enable(hciSocket, 0x00, 0, 1000);
+
   while(1) {
     FD_ZERO(&rfds);
     FD_SET(hciSocket, &rfds);
