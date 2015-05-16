@@ -6,7 +6,7 @@ A node.js BLE (Bluetooth low energy) central module.
 
 Want to implement a peripheral? Checkout [bleno](https://github.com/sandeepmistry/bleno)
 
-__Note:__ Mac OS X and Linux are currently the only supported OSes. Other platforms may be developed later on (see Roadmap below).
+__Note:__ Mac OS X and Linux are currently the only supported OSes. Other platforms may be developed later on.
 
 ## Prerequisites
 
@@ -383,78 +383,6 @@ By default noble waits for both the advertisement data and scan response data fo
 ```sh
 sudo NOBLE_REPORT_ALL_HCI_EVENTS=1 node <your file>.js
 ```
-
-## Roadmap (TODO)
-
- * Mac OS X:
-   * ~~Adapter state (unknown | reseting | unsupported | unauthorized | off | on)~~
-   * ~~Scan~~
-      * ~~startScanning~~
-         * ~~service UUID's~~
-         * ~~allow duplicates~~
-      * ~~stopScanning~~
-   * ~~Peripheral~~
-     * ~~discovered~~
-     * ~~connect~~
-     * ~~disconnect/cancel connect~~
-     * ~~update RSSI~~
-     * ~~services~~
-         * ~~discover~~
-         * ~~disover included~~
-         * ~~discover characteristics for services~~
-     * ~~characteristics~~
-         * ~~read~~
-         * ~~write~~
-         * ~~set broadcast value~~
-         * ~~set notify/indicate value~~
-         * ~~descriptors~~
-             * ~~discover~~
-             * ~~read~~
-             * ~~write~~
-     * ~~handle~~
-         * ~~read~~
-         * ~~write~~
-             * ~~with response~~
-             * without response
-   * error handling
-
- * Linux
-   * ~~Adapter state (unsupported | unauthorized | off | on)~~
-   * ~~Scan~~
-      * ~~startScanning~~
-         * ~~service UUID's~~
-         * ~~allow duplicates~~
-      * ~~stopScanning~~
-   * ~~Peripheral~~
-     * ~~discovered~~
-     * ~~connect~~
-         * ~~public address~~
-         * ~~random address~~
-     * ~~disconnect/cancel connect~~
-     * ~~update RSSI~~
-     * ~~services~~
-         * ~~discover~~
-             * ~~filter by uuid~~
-         * ~~discover included~~
-         * ~~discover characteristics for services~~
-             * ~~filter by uuid~~
-     * ~~characteristics~~
-         * ~~read~~
-         * ~~write~~
-         * ~~set broadcast value~~
-         * ~~set notify/indicate value~~
-         * ~~descriptors~~
-             * ~~discover~~
-             * ~~read~~
-             * ~~write~~
-     * ~~handle~~
-         * ~~read~~
-         * ~~write~~
-             * ~~with response~~
-             * ~~without response~~
-   * error handling
- * Windows
-   * TDB (most likely Windows 8 only)
 
 ## Useful Links
 
