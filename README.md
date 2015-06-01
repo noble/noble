@@ -25,6 +25,12 @@ __Note:__ Mac OS X and Linux are currently the only supported OSes. Other platfo
 sudo apt-get install bluetooth bluez-utils libbluetooth-dev
 ```
 
+#### Fedora / Other-RPM based
+
+```sh
+sudo yum install bluez bluez-libs bluez-libs-devel
+```
+
 #### Intel Edison
 
 See [Configure Intel Edison for Bluetooth LE (Smart) Development](http://rexstjohn.com/configure-intel-edison-for-bluetooth-le-smart-development/)
