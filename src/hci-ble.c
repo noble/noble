@@ -15,6 +15,9 @@
 int lastSignal = 0;
 
 static void signalHandler(int signal) {
+  if (lastSignal != 0) {
+    printf("error unhandledSignal\n");
+  }
   lastSignal = signal;
 }
 
@@ -135,19 +138,35 @@ int main(int argc, const char* argv[])
         scanning = 1;
 
         hci_le_set_scan_enable(hciSocket, 0x00, 1, 1000);
-        hci_le_set_scan_enable(hciSocket, 0x01, 1, 1000);
+        if (hci_le_set_scan_enable(hciSocket, 0x01, 1, 1000) == 0) {
+          printf("scan start,success,withFilter\n");
+        } else {
+          printf("scan start,failure,withfilter,%s\n", strerror(errno));
+        }
       } else if (SIGUSR2 == lastSignal) {
         // start scan, no filter
         scanning = 1;
 
         hci_le_set_scan_enable(hciSocket, 0x00, 0, 1000);
-        hci_le_set_scan_enable(hciSocket, 0x01, 0, 1000);
+        if (hci_le_set_scan_enable(hciSocket, 0x01, 0, 1000) == 0) {
+          printf("scan start,success,withNoFilter\n");
+        } else {
+          printf("scan start,failure,withNoFilter,%s\n", strerror(errno));
+        }
       } else if (SIGHUP == lastSignal) {
         // stop scan
         scanning = 0;
 
-        hci_le_set_scan_enable(hciSocket, 0x00, 0, 1000);
+        if (hci_le_set_scan_enable(hciSocket, 0x00, 0, 1000) == 0) {
+          printf("scan stop,success\n");
+        } else {
+          printf("scan stop,failure,%s\n", strerror(errno));
+        }
+      } else if (lastSignal != 0) {
+        printf("error unknownSignal\n");
       }
+
+      lastSignal = 0;
     } else if (selectRetval) {
       // read event
       hciEventLen = read(hciSocket, hciEventBuf, sizeof(hciEventBuf));
