@@ -2,7 +2,7 @@
   "author": "Sandeep Mistry <sandeep.mistry@gmail.com>",
   "name": "noble",
   "description": "A node.js BLE (Bluetooth low energy) central library.",
-  "version": "0.3.14",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/sandeepmistry/noble.git"
@@ -26,7 +26,7 @@
     "linux"
   ],
   "dependencies": {
-    "debug": "~0.7.2"
+    "debug": "~2.2.0"
   },
   "optionalDependencies": {
     "bplist-parser": "0.0.6",

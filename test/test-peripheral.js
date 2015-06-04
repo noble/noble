@@ -7,6 +7,7 @@ describe('Peripheral', function() {
   var mockNoble = null;
   var mockUuid = 'mock-uuid';
   var mockAddress = 'mock-address';
+  var mockAddressType = 'mock-address-type';
   var mockAdvertisement = 'mock-advertisement';
   var mockRssi = 'mock-rssi';
   var mockHandle = 'mock-handle';
@@ -24,7 +25,7 @@ describe('Peripheral', function() {
       writeHandle: sinon.spy()
     };
 
-    peripheral = new Peripheral(mockNoble, mockUuid, mockAddress, mockAdvertisement, mockRssi);
+    peripheral = new Peripheral(mockNoble, mockUuid, mockAddress, mockAddressType, mockAdvertisement, mockRssi);
   });
 
   afterEach(function() {
@@ -37,6 +38,10 @@ describe('Peripheral', function() {
 
   it('should have an address', function() {
     peripheral.address.should.equal(mockAddress);
+  });
+
+  it('should have an address type', function() {
+    peripheral.addressType.should.equal(mockAddressType);
   });
 
   it('should have advertisement', function() {
