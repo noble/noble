@@ -64,6 +64,9 @@ __NOTE:__ ```noble.state``` must be ```poweredOn``` before scanning is started. 
 
 ```javascript
 noble.stopScanning();
+
+
+noble.stopScanning([callback(error)]);
 ```
 
 #### Peripheral
