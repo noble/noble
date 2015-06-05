@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <sys/prctl.h>
 #include <unistd.h>
+#include <getopt.h>
 
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/hci.h>
@@ -45,13 +46,79 @@ struct l2cap_conninfo {
   uint8_t        dev_class[3];
 };
 
-int lastSignal = 0;
+struct conn_params {
+  bdaddr_t  bdaddr;
+  uint8_t   bdaddr_type;
+  uint16_t  min_interval;
+  uint16_t  max_interval;
+  uint16_t  latency;
+  uint16_t  supervision_timeout;
+};
+
+enum parser_type {
+  PARSER_TYPE_BDADDR,
+  PARSER_TYPE_BDADDR_TYPE,
+  PARSER_TYPE_UINT16
+};
+
+struct conn_param_parser_definition {
+  int type;
+  void* address;
+};
+
+static int lastSignal = 0;
 
 static void signalHandler(int signal) {
   lastSignal = signal;
 }
 
-int main(int argc, const char* argv[]) {
+static struct conn_params* parseCommandArgs(int argc, char* const argv[]) {
+  static struct conn_params params;
+
+  int opt,
+      optIndex = 0;
+
+  struct option longOptions[] =
+  {
+    { "bdaddr",              required_argument, 0, 0 },
+    { "bdaddr_type",         required_argument, 0, 0 },
+    { "min_interval",        required_argument, 0, 0 },
+    { "max_interval",        required_argument, 0, 0 },
+    { "latency",             required_argument, 0, 0 },
+    { "supervision_timeout", required_argument, 0, 0 },
+    { 0, 0, 0, 0 }
+  };
+  struct conn_param_parser_definition parserDef[] =
+  {
+    { PARSER_TYPE_BDADDR,       (void *)&params.bdaddr              },
+    { PARSER_TYPE_BDADDR_TYPE,  (void *)&params.bdaddr_type         },
+    { PARSER_TYPE_UINT16,       (void *)&params.min_interval        },
+    { PARSER_TYPE_UINT16,       (void *)&params.max_interval        },
+    { PARSER_TYPE_UINT16,       (void *)&params.latency             },
+    { PARSER_TYPE_UINT16,       (void *)&params.supervision_timeout }
+  };
+
+  while ((opt = getopt_long(argc, argv, "", longOptions, &optIndex)) != -1) {
+    int type = parserDef[optIndex].type;
+    void *const address     = parserDef[optIndex].address;
+
+    if (opt != 0) {
+      continue;
+    }
+
+    if (type == PARSER_TYPE_BDADDR) {
+      str2ba(optarg, address);
+    } else if (type == PARSER_TYPE_BDADDR_TYPE) {
+      *((uint8_t *)address) = strcmp(optarg, "random") == 0 ? BDADDR_LE_RANDOM : BDADDR_LE_PUBLIC;
+    } else if (type == PARSER_TYPE_UINT16) {
+      *((uint16_t *)address) = atoi(optarg);
+    }
+  }
+
+  return &params;
+}
+
+int main(int argc, char* const argv[]) {
   char *hciDeviceIdOverride = NULL;
   int hciDeviceId = 0;
   char controller_address[18];
@@ -64,6 +131,14 @@ int main(int argc, const char* argv[]) {
   socklen_t l2capConnInfoLen;
   int hciHandle;
   int result;
+
+  bdaddr_t bdaddr;
+  uint8_t initiator_filter, own_bdaddr_type, peer_bdaddr_type;
+  uint16_t interval, window;
+  uint16_t min_interval, max_interval;
+  uint16_t latency, supervision_timeout;
+  uint16_t max_ce_length, min_ce_length;
+  uint16_t handle;
 
   fd_set rfds;
   struct timeval tv;
@@ -88,6 +163,8 @@ int main(int argc, const char* argv[]) {
   setbuf(stdout, NULL);
   setbuf(stderr, NULL);
 
+  struct conn_params* params = parseCommandArgs(argc, argv);
+
   hciDeviceIdOverride = getenv("NOBLE_HCI_DEVICE_ID");
   if (hciDeviceIdOverride != NULL) {
     hciDeviceId = atoi(hciDeviceIdOverride);
@@ -104,6 +181,29 @@ int main(int argc, const char* argv[]) {
   hciSocket = hci_open_dev(hciDeviceId);
   if (hciSocket == -1) {
     printf("connect hci_open_dev(hci%i): %s\n", hciDeviceId, strerror(errno));
+    goto done;
+  }
+
+  bacpy(&bdaddr, &params->bdaddr);
+
+  interval = htobs(0x0004);
+  window = htobs(0x0004);
+  initiator_filter = 0;
+  min_interval = htobs(params->min_interval);
+  max_interval = htobs(params->max_interval);
+  latency = htobs(params->latency);
+  supervision_timeout = htobs(params->supervision_timeout);
+  min_ce_length = htobs(0x0000);
+  max_ce_length = htobs(0x0000);
+  own_bdaddr_type = LE_PUBLIC_ADDRESS;
+  peer_bdaddr_type = LE_PUBLIC_ADDRESS;
+
+  result = hci_le_create_conn(hciSocket, interval, window, initiator_filter,
+      peer_bdaddr_type, bdaddr, own_bdaddr_type,
+      min_interval, max_interval, latency, supervision_timeout,
+      min_ce_length, max_ce_length, &handle, 25000);
+  if (result == -1) {
+    printf("connect hci_le_create_conn(hci%i): %s\n", hciDeviceId, strerror(errno));
     goto done;
   }
 
@@ -139,14 +239,12 @@ int main(int argc, const char* argv[]) {
   // connect
   memset(&sockAddr, 0, sizeof(sockAddr));
   sockAddr.l2_family = AF_BLUETOOTH;
-  str2ba(argv[1], &sockAddr.l2_bdaddr);
-  sockAddr.l2_bdaddr_type = strcmp(argv[2], "random") == 0 ? BDADDR_LE_RANDOM : BDADDR_LE_PUBLIC;
+  bacpy(&sockAddr.l2_bdaddr, &params->bdaddr);
+  sockAddr.l2_bdaddr_type = params->bdaddr_type;
   sockAddr.l2_cid = htobs(ATT_CID);
 
   result = connect(l2capSock, (struct sockaddr *)&sockAddr, sizeof(sockAddr));
   if (result == -1) {
-    char buf[1024] = { 0 };
-    ba2str( &sockAddr.l2_bdaddr, buf );
     printf("connect connect(hci%i): %s\n", hciDeviceId, strerror(errno));
     goto done;
   }
