@@ -18,6 +18,11 @@
           'sources': [
             'src/dummy.c'
           ]
+        }],
+        ['OS=="win"', {
+          'sources': [
+            'src/dummy.c'
+          ]
         }]
       ]
     },
@@ -35,6 +40,11 @@
               '-lbluetooth'
             ]
           }
+        }],
+        ['OS=="mac"', {
+          'sources': [
+            'src/dummy.c'
+          ]
         }],
         ['OS=="mac"', {
           'sources': [
