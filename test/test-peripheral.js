@@ -71,7 +71,7 @@ describe('Peripheral', function() {
       peripheral.connect(function() {
         calledback = true;
       });
-      peripheral.emit('connect');
+      peripheral.emit('_connect');
 
       calledback.should.equal(true);
     });
@@ -90,7 +90,7 @@ describe('Peripheral', function() {
       peripheral.disconnect(function() {
         calledback = true;
       });
-      peripheral.emit('disconnect');
+      peripheral.emit('_disconnect');
 
       calledback.should.equal(true);
     });
@@ -109,7 +109,7 @@ describe('Peripheral', function() {
       peripheral.updateRssi(function() {
         calledback = true;
       });
-      peripheral.emit('rssiUpdate');
+      peripheral.emit('_rssiUpdate');
 
       calledback.should.equal(true);
     });
@@ -120,7 +120,7 @@ describe('Peripheral', function() {
       peripheral.updateRssi(function(error, rssi) {
         calledbackRssi = rssi;
       });
-      peripheral.emit('rssiUpdate', mockRssi);
+      peripheral.emit('_rssiUpdate', null, mockRssi);
 
       calledbackRssi.should.equal(mockRssi);
     });
@@ -147,7 +147,7 @@ describe('Peripheral', function() {
       peripheral.discoverServices(null, function() {
         calledback = true;
       });
-      peripheral.emit('servicesDiscover');
+      peripheral.emit('_servicesDiscover');
 
       calledback.should.equal(true);
     });
@@ -159,7 +159,7 @@ describe('Peripheral', function() {
       peripheral.discoverServices(null, function(error, services) {
         calledbackServices = services;
       });
-      peripheral.emit('servicesDiscover', mockServices);
+      peripheral.emit('_servicesDiscover', null, mockServices);
 
       calledbackServices.should.equal(mockServices);
     });

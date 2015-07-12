@@ -55,7 +55,7 @@ describe('Descriptor', function() {
       descriptor.readValue(function() {
         calledback = true;
       });
-      descriptor.emit('valueRead');
+      descriptor.emit('_valueRead');
 
       calledback.should.equal(true);
     });
@@ -66,8 +66,8 @@ describe('Descriptor', function() {
       descriptor.readValue(function() {
         calledback += 1;
       });
-      descriptor.emit('valueRead');
-      descriptor.emit('valueRead');
+      descriptor.emit('_valueRead');
+      descriptor.emit('_valueRead');
 
       calledback.should.equal(1);
     });
@@ -79,7 +79,7 @@ describe('Descriptor', function() {
       descriptor.readValue(function(error, data) {
         callbackData = data;
       });
-      descriptor.emit('valueRead', mockData);
+      descriptor.emit('_valueRead', null, mockData);
 
       callbackData.should.equal(mockData);
     });
@@ -112,7 +112,7 @@ describe('Descriptor', function() {
       descriptor.writeValue(mockData, function() {
         calledback = true;
       });
-      descriptor.emit('valueWrite');
+      descriptor.emit('_valueWrite');
 
       calledback.should.equal(true);
     });
@@ -123,8 +123,8 @@ describe('Descriptor', function() {
       descriptor.writeValue(mockData, function() {
         calledback += 1;
       });
-      descriptor.emit('valueWrite');
-      descriptor.emit('valueWrite');
+      descriptor.emit('_valueWrite');
+      descriptor.emit('_valueWrite');
 
       calledback.should.equal(1);
     });

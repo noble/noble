@@ -62,7 +62,7 @@ describe('Characteristic', function() {
       characteristic.read(function() {
         calledback = true;
       });
-      characteristic.emit('read');
+      characteristic.emit('_read');
 
       calledback.should.equal(true);
     });
@@ -74,7 +74,7 @@ describe('Characteristic', function() {
       characteristic.read(function(error, data) {
         callbackData = data;
       });
-      characteristic.emit('read', mockData);
+      characteristic.emit('_read', null, mockData);
 
       callbackData.should.equal(mockData);
     });
@@ -113,7 +113,7 @@ describe('Characteristic', function() {
       characteristic.write(mockData, true, function() {
         calledback = true;
       });
-      characteristic.emit('write');
+      characteristic.emit('_write');
 
       calledback.should.equal(true);
     });
@@ -138,7 +138,7 @@ describe('Characteristic', function() {
       characteristic.broadcast(true, function() {
         calledback = true;
       });
-      characteristic.emit('broadcast');
+      characteristic.emit('_broadcast');
 
       calledback.should.equal(true);
     });
@@ -163,7 +163,7 @@ describe('Characteristic', function() {
       characteristic.notify(true, function() {
         calledback = true;
       });
-      characteristic.emit('notify');
+      characteristic.emit('_notify');
 
       calledback.should.equal(true);
     });
@@ -182,7 +182,7 @@ describe('Characteristic', function() {
       characteristic.discoverDescriptors(function() {
         calledback = true;
       });
-      characteristic.emit('descriptorsDiscover');
+      characteristic.emit('_descriptorsDiscover');
 
       calledback.should.equal(true);
     });
@@ -194,7 +194,7 @@ describe('Characteristic', function() {
       characteristic.discoverDescriptors(function(error, descriptors) {
         callbackDescriptors = descriptors;
       });
-      characteristic.emit('descriptorsDiscover', mockDescriptors);
+      characteristic.emit('_descriptorsDiscover', null, mockDescriptors);
 
       callbackDescriptors.should.equal(mockDescriptors);
     });
