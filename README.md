@@ -160,7 +160,8 @@ characteristic.broadcast(broadcast[, callback(error)]); // broadcast is true|fal
 characteristic.notify(notify[, callback(error)]); // notify is true|false
 ```
 
-  * use for characteristics with notifiy or indicate properties
+  * allows notification to trigger `'data'` event
+  * use for characteristics with notify or indicate properties
 
 ##### Discover descriptors
 
@@ -298,7 +299,7 @@ service.on('characteristicsDiscover', callback(characteristics));
 
 ##### Data
 
-Emitted when characteristic read has completed, result of ```characteristic.read(...)``` or characteristic value has been updated by peripheral via notification or indication.
+Emitted when characteristic read has completed, result of ```characteristic.read(...)``` or characteristic value has been updated by peripheral via notification or indication - after having been enabled with ```notify(true[, callback(error)])```.
 
 ```javascript
 characteristic.on('data', callback(data, isNotification));
