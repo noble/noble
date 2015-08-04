@@ -23,7 +23,8 @@
   },
   "os": [
     "darwin",
-    "linux"
+    "linux",
+    "win32"
   ],
   "dependencies": {
     "debug": "~2.2.0"
@@ -48,6 +49,6 @@
   "browser": {
     "./distributed/bindings": false,
     "./mac/bindings": false,
-    "./linux/bindings": false
+    "./hci-socket/bindings": false
   }
 }
