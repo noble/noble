@@ -35,6 +35,15 @@ sudo yum install bluez bluez-libs bluez-libs-devel
 
 See [Configure Intel Edison for Bluetooth LE (Smart) Development](http://rexstjohn.com/configure-intel-edison-for-bluetooth-le-smart-development/)
 
+### Windows
+
+ * [node-gyp requirements for Windows](https://github.com/TooTallNate/node-gyp#installation)
+   * Python 2.7
+   * Visual Studio ([Express](https://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx))
+ * [node-bluetooth-hci-socket prerequisites](https://github.com/sandeepmistry/node-bluetooth-hci-socket#windows)
+   * Compatible Bluetooth 4.0 USB adapter
+   * [WinUSB](https://msdn.microsoft.com/en-ca/library/windows/hardware/ff540196(v=vs.85).aspx) driver setup for Bluetooth 4.0 USB adapter, using [Zadig tool](http://zadig.akeo.ie/)
+
 ## Install
 
 ```sh
