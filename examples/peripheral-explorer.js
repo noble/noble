@@ -1,7 +1,7 @@
 var async = require('async');
 var noble = require('../index');
 
-var peripheralUuid = process.argv[2];
+var peripheralId = process.argv[2];
 
 noble.on('stateChange', function(state) {
   if (state === 'poweredOn') {
@@ -12,10 +12,10 @@ noble.on('stateChange', function(state) {
 });
 
 noble.on('discover', function(peripheral) {
-  if (peripheral.uuid === peripheralUuid) {
+  if (peripheral.id === peripheralId) {
     noble.stopScanning();
 
-    console.log('peripheral with UUID ' + peripheralUuid + ' found');
+    console.log('peripheral with ID ' + peripheralId + ' found');
     var advertisement = peripheral.advertisement;
 
     var localName = advertisement.localName;

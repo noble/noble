@@ -5,7 +5,7 @@ var Peripheral = require('../lib/peripheral');
 
 describe('Peripheral', function() {
   var mockNoble = null;
-  var mockUuid = 'mock-uuid';
+  var mockId = 'mock-id';
   var mockAddress = 'mock-address';
   var mockAddressType = 'mock-address-type';
   var mockAdvertisement = 'mock-advertisement';
@@ -25,15 +25,15 @@ describe('Peripheral', function() {
       writeHandle: sinon.spy()
     };
 
-    peripheral = new Peripheral(mockNoble, mockUuid, mockAddress, mockAddressType, mockAdvertisement, mockRssi);
+    peripheral = new Peripheral(mockNoble, mockId, mockAddress, mockAddressType, mockAdvertisement, mockRssi);
   });
 
   afterEach(function() {
     peripheral = null;
   });
 
-  it('should have a uuid', function() {
-    peripheral.uuid.should.equal(mockUuid);
+  it('should have a id', function() {
+    peripheral.id.should.equal(mockId);
   });
 
   it('should have an address', function() {
@@ -53,8 +53,8 @@ describe('Peripheral', function() {
   });
 
   describe('toString', function() {
-    it('should be uuid, address, name, type, state', function() {
-      peripheral.toString().should.equal('{"uuid":"mock-uuid","address":"mock-address","advertisement":"mock-advertisement","rssi":"mock-rssi","state":"disconnected"}');
+    it('should be id, address, name, type, state', function() {
+      peripheral.toString().should.equal('{"id":"mock-id","address":"mock-address","advertisement":"mock-advertisement","rssi":"mock-rssi","state":"disconnected"}');
     });
   });
 
@@ -62,7 +62,7 @@ describe('Peripheral', function() {
     it('should delegate to noble', function() {
       peripheral.connect();
 
-      mockNoble.connect.calledWithExactly(mockUuid).should.equal(true);
+      mockNoble.connect.calledWithExactly(mockId).should.equal(true);
     });
 
     it('should callback', function() {
@@ -81,7 +81,7 @@ describe('Peripheral', function() {
     it('should delegate to noble', function() {
       peripheral.disconnect();
 
-      mockNoble.disconnect.calledWithExactly(mockUuid).should.equal(true);
+      mockNoble.disconnect.calledWithExactly(mockId).should.equal(true);
     });
 
     it('should callback', function() {
@@ -100,7 +100,7 @@ describe('Peripheral', function() {
     it('should delegate to noble', function() {
       peripheral.updateRssi();
 
-      mockNoble.updateRssi.calledWithExactly(mockUuid).should.equal(true);
+      mockNoble.updateRssi.calledWithExactly(mockId).should.equal(true);
     });
 
     it('should callback', function() {
@@ -130,7 +130,7 @@ describe('Peripheral', function() {
     it('should delegate to noble', function() {
       peripheral.discoverServices();
 
-      mockNoble.discoverServices.calledWithExactly(mockUuid, undefined).should.equal(true);
+      mockNoble.discoverServices.calledWithExactly(mockId, undefined).should.equal(true);
     });
 
     it('should delegate to noble, service uuids', function() {
@@ -138,7 +138,7 @@ describe('Peripheral', function() {
 
       peripheral.discoverServices(mockServiceUuids);
 
-      mockNoble.discoverServices.calledWithExactly(mockUuid, mockServiceUuids).should.equal(true);
+      mockNoble.discoverServices.calledWithExactly(mockId, mockServiceUuids).should.equal(true);
     });
 
     it('should callback', function() {
@@ -261,7 +261,7 @@ describe('Peripheral', function() {
     it('should delegate to noble', function() {
       peripheral.readHandle(mockHandle);
 
-      mockNoble.readHandle.calledWithExactly(mockUuid, mockHandle).should.equal(true);
+      mockNoble.readHandle.calledWithExactly(mockId, mockHandle).should.equal(true);
     });
 
     it('should callback', function() {
@@ -303,13 +303,13 @@ describe('Peripheral', function() {
     it('should delegate to noble, withoutResponse false', function() {
       peripheral.writeHandle(mockHandle, mockData, false);
 
-      mockNoble.writeHandle.calledWithExactly(mockUuid, mockHandle, mockData, false).should.equal(true);
+      mockNoble.writeHandle.calledWithExactly(mockId, mockHandle, mockData, false).should.equal(true);
     });
 
     it('should delegate to noble, withoutResponse true', function() {
       peripheral.writeHandle(mockHandle, mockData, true);
 
-      mockNoble.writeHandle.calledWithExactly(mockUuid, mockHandle, mockData, true).should.equal(true);
+      mockNoble.writeHandle.calledWithExactly(mockId, mockHandle, mockData, true).should.equal(true);
     });
 
     it('should callback', function() {

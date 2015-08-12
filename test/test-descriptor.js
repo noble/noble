@@ -5,7 +5,7 @@ var Descriptor = require('../lib/descriptor');
 
 describe('Descriptor', function() {
   var mockNoble = null;
-  var mockPeripheralUuid = 'mock-peripheral-uuid';
+  var mockPeripheralId = 'mock-peripheral-id';
   var mockServiceUuid = 'mock-service-uuid';
   var mockCharacteristicUuid = 'mock-characteristic-uuid';
   var mockUuid = 'mock-uuid';
@@ -18,7 +18,7 @@ describe('Descriptor', function() {
       writeValue: sinon.spy()
     };
 
-    descriptor = new Descriptor(mockNoble, mockPeripheralUuid, mockServiceUuid, mockCharacteristicUuid, mockUuid);
+    descriptor = new Descriptor(mockNoble, mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid);
   });
 
   afterEach(function() {
@@ -30,7 +30,7 @@ describe('Descriptor', function() {
   });
 
   it('should lookup name and type by uuid', function() {
-    descriptor = new Descriptor(mockNoble, mockPeripheralUuid, mockServiceUuid, mockCharacteristicUuid, '2900');
+    descriptor = new Descriptor(mockNoble, mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, '2900');
 
     descriptor.name.should.equal('Characteristic Extended Properties');
     descriptor.type.should.equal('org.bluetooth.descriptor.gatt.characteristic_extended_properties');
@@ -46,7 +46,7 @@ describe('Descriptor', function() {
     it('should delegate to noble', function() {
       descriptor.readValue();
 
-      mockNoble.readValue.calledWithExactly(mockPeripheralUuid, mockServiceUuid, mockCharacteristicUuid, mockUuid).should.equal(true);
+      mockNoble.readValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid).should.equal(true);
     });
 
     it('should callback', function() {
@@ -103,7 +103,7 @@ describe('Descriptor', function() {
     it('should delegate to noble', function() {
       descriptor.writeValue(mockData);
 
-      mockNoble.writeValue.calledWithExactly(mockPeripheralUuid, mockServiceUuid, mockCharacteristicUuid, mockUuid, mockData).should.equal(true);
+      mockNoble.writeValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid, mockData).should.equal(true);
     });
 
     it('should callback', function() {
