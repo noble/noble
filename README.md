@@ -6,7 +6,7 @@ A node.js BLE (Bluetooth low energy) central module.
 
 Want to implement a peripheral? Checkout [bleno](https://github.com/sandeepmistry/bleno)
 
-__Note:__ Mac OS X and Linux are currently the only supported OSes. Other platforms may be developed later on.
+__Note:__ Mac OS X, Linux and Windows are currently the only supported OSes. Other platforms may be developed later on.
 
 ## Prerequisites
 
@@ -34,6 +34,15 @@ sudo yum install bluez bluez-libs bluez-libs-devel
 #### Intel Edison
 
 See [Configure Intel Edison for Bluetooth LE (Smart) Development](http://rexstjohn.com/configure-intel-edison-for-bluetooth-le-smart-development/)
+
+### Windows
+
+ * [node-gyp requirements for Windows](https://github.com/TooTallNate/node-gyp#installation)
+   * Python 2.7
+   * Visual Studio ([Express](https://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx))
+ * [node-bluetooth-hci-socket prerequisites](https://github.com/sandeepmistry/node-bluetooth-hci-socket#windows)
+   * Compatible Bluetooth 4.0 USB adapter
+   * [WinUSB](https://msdn.microsoft.com/en-ca/library/windows/hardware/ff540196(v=vs.85).aspx) driver setup for Bluetooth 4.0 USB adapter, using [Zadig tool](http://zadig.akeo.ie/)
 
 ## Install
 
