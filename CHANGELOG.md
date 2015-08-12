@@ -1,3 +1,10 @@
+## Version 1.1.0
+
+ * Introduce ```peripheral.id```, ```periheral.uuid``` is deprecated now
+ * Initial Windows support via WinUSB and bluetooth-hci-socket
+ * Rework Linux stack to use [bluetooth-hci-socket](https://github.com/sandeepmistry/node-bluetooth-hci-socket)
+ * Clarify notify related API's in read me ([@OJFord](https://github.com/OJFord))
+
 ## Version 1.0.2
 
  * Add mac dummy in binding.pyq ([@DomiR](https://github.com/DomiR))
