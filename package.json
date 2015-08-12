@@ -1,7 +1,7 @@
 {
   "author": "Sandeep Mistry <sandeep.mistry@gmail.com>",
   "name": "noble",
-  "description": "A node.js BLE (Bluetooth low energy) central library.",
+  "description": "A Node.js BLE (Bluetooth Low Energy) central library.",
   "version": "1.0.2",
   "repository": {
     "type": "git",
