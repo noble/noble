@@ -368,13 +368,13 @@ descriptor.on('valueWrite');
 
 ### Running without root/sudo
 
-Run the following command in the directory you ran ```npm install``` from:
+Run the following command:
 
 ```sh
-find -path '*noble*Release/hci-ble' -exec sudo setcap cap_net_raw+eip '{}' \;
+sudo setcap cap_net_raw+eip $(eval readlink -f `which node`)
 ```
 
-This grants noble's ```hci-ble``` binary ```cap_net_raw``` privileges, so it can start/stop scanning for BLE devices.
+This grants the ```node``` binary ```cap_net_raw``` privileges, so it can start/stop BLE advertising.
 
 __Note:__ The above command requires ```setcap``` to be installed, it can be installed using the following:
 
