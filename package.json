@@ -48,8 +48,6 @@
     "test": "mocha -R spec test/*.js"
   },
   "browser": {
-    "./distributed/bindings": false,
-    "./mac/bindings": false,
-    "./hci-socket/bindings": false
+    "./lib/resolve-bindings.js": "./lib/resolve-bindings-web.js"
   }
 }
