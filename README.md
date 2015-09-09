@@ -22,7 +22,7 @@ __Note:__ Mac OS X, Linux and Windows are currently the only supported OSes. Oth
 #### Ubuntu/Debian/Raspbian
 
 ```sh
-sudo apt-get install bluetooth bluez-utils libbluetooth-dev
+sudo apt-get install bluetooth bluez-utils libbluetooth-dev libudev-dev
 ```
 
 #### Fedora / Other-RPM based
