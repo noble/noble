@@ -8,6 +8,7 @@ describe('Peripheral', function() {
   var mockId = 'mock-id';
   var mockAddress = 'mock-address';
   var mockAddressType = 'mock-address-type';
+  var mockConnectable = 'mock-connectable';
   var mockAdvertisement = 'mock-advertisement';
   var mockRssi = 'mock-rssi';
   var mockHandle = 'mock-handle';
@@ -25,7 +26,7 @@ describe('Peripheral', function() {
       writeHandle: sinon.spy()
     };
 
-    peripheral = new Peripheral(mockNoble, mockId, mockAddress, mockAddressType, mockAdvertisement, mockRssi);
+    peripheral = new Peripheral(mockNoble, mockId, mockAddress, mockAddressType, mockConnectable, mockAdvertisement, mockRssi);
   });
 
   afterEach(function() {
@@ -44,6 +45,10 @@ describe('Peripheral', function() {
     peripheral.addressType.should.equal(mockAddressType);
   });
 
+  it('should have connectable', function() {
+    peripheral.connectable.should.equal(mockConnectable);
+  });
+
   it('should have advertisement', function() {
     peripheral.advertisement.should.equal(mockAdvertisement);
   });
@@ -53,8 +58,8 @@ describe('Peripheral', function() {
   });
 
   describe('toString', function() {
-    it('should be id, address, name, type, state', function() {
-      peripheral.toString().should.equal('{"id":"mock-id","address":"mock-address","advertisement":"mock-advertisement","rssi":"mock-rssi","state":"disconnected"}');
+    it('should be id, address, address type, connectable, advertisement, rssi, state', function() {
+      peripheral.toString().should.equal('{"id":"mock-id","address":"mock-address","addressType":"mock-address-type","connectable":"mock-connectable","advertisement":"mock-advertisement","rssi":"mock-rssi","state":"disconnected"}');
     });
   });
 
