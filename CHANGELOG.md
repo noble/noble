@@ -1,3 +1,13 @@
+## Version 1.2.0
+
+ * Use v0.4.0 of bluetooth-hci-socket
+ * Ignore peripherals with only connectable flag on OS X 10.10
+ * Bindings no longer init themselves
+ * Fix this._discoveredPeripheralUUids = []; variable not initalized in constructor ([@jacobrosenthal](https://github.com/jacobrosenthal))
+ * New ```peripheral.connectable``` property
+ * Updates to Linux prerequisites in read me
+ * Throw error if scanning is started when state is not powered on
+
 ## Version 1.1.0
 
  * Introduce ```peripheral.id```, ```periheral.uuid``` is deprecated now
