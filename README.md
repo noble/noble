@@ -48,6 +48,16 @@ See [Configure Intel Edison for Bluetooth LE (Smart) Development](http://rexstjo
    * Compatible Bluetooth 4.0 USB adapter
    * [WinUSB](https://msdn.microsoft.com/en-ca/library/windows/hardware/ff540196(v=vs.85).aspx) driver setup for Bluetooth 4.0 USB adapter, using [Zadig tool](http://zadig.akeo.ie/)
 
+## Notes
+
+### Maximum simulanteous connections
+
+| Platform |     |
+| :------- | --- |
+| OS X 10.11 (El Capitan) | 6 |
+| Linux/Windows - Adapter dependent | |
+| | 5 (CSR based adapter) |
+
 ## Install
 
 ```sh
