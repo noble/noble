@@ -1,3 +1,9 @@
+## Version 1.2.1
+
+ * Use latest v0.4.1 bluetooth-hci-socket dependency (for kernel 4.1.x disconnect workaround)
+ * Add read + write LE host supported commands (for kernel 4.1.x disconnect workaround)
+ * Fix a potential exception when accessing a non existent element ([@Loghorn](https://github.com/Loghorn))
+
 ## Version 1.2.0
 
  * Use v0.4.0 of bluetooth-hci-socket
