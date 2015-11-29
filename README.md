@@ -22,7 +22,7 @@ __Note:__ Mac OS X, Linux and Windows are currently the only supported OSes. Oth
 #### Ubuntu/Debian/Raspbian
 
 ```sh
-sudo apt-get install bluetooth bluez-utils libbluetooth-dev libudev-dev
+sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev
 ```
 
 Make sure ```node``` is on your path, if it's not, some options:
