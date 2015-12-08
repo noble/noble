@@ -48,6 +48,8 @@ See [Configure Intel Edison for Bluetooth LE (Smart) Development](http://rexstjo
    * Compatible Bluetooth 4.0 USB adapter
    * [WinUSB](https://msdn.microsoft.com/en-ca/library/windows/hardware/ff540196(v=vs.85).aspx) driver setup for Bluetooth 4.0 USB adapter, using [Zadig tool](http://zadig.akeo.ie/)
 
+See [@don](https://github.com/don)'s set up guide on [Bluetooth LE with Node.js and Noble on Windows](https://www.youtube.com/watch?v=mL9B8wuEdms).
+
 ## Notes
 
 ### Maximum simulanteous connections
