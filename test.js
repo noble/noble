@@ -109,10 +109,9 @@ noble.on('discover', function(peripheral) {
       // characteristics[characteristicIndex].discoverDescriptors();
     });
 
-    
+
     services[serviceIndex].discoverIncludedServices();
   });
 
   peripheral.connect();
 });
-
