@@ -40,7 +40,7 @@ noble.on('discover', function(peripheral) {
       console.log('  Service Data      = ' + serviceData);
     }
 
-    if (localName) {
+    if (serviceUuids) {
       console.log('  Service UUIDs     = ' + serviceUuids);
     }
 
