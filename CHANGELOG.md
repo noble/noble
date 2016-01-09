@@ -1,3 +1,12 @@
+## Version 1.3.0
+
+ * Check and report LE Create Conn command status
+ * Correct parsing master clock accuracy value from LE Conn Complete event
+ * Added logic to reject rather than ignore unknown requests/commands. ([@george-hawkins](https://github.com/george-hawkins))
+ * Don't reset scan state on read local version response if state is powered on
+ * Expose local adapter address via ```noble.address```, available after ```poweredOn``` state change event
+ * Fix ```serviceUuids``` var check in ```peripheral-explorer.js``` ([@jrobeson](https://github.com/jrobeson))
+
 ## Version 1.2.1
 
  * Use latest v0.4.1 bluetooth-hci-socket dependency (for kernel 4.1.x disconnect workaround)
