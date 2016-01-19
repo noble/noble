@@ -232,11 +232,17 @@ noble.on('stateChange', callback(state));
 
 #### Scan started:
 
+This callback is called once scanning has started. It can also be called
+if some other application enables BLE scanning.
+
 ```javascript
 noble.on('scanStart', callback);
 ```
 
 #### Scan stopped
+
+This callback is called when scanning is stopped. It can also be called
+if a different application stops scanning or changes the scanning parameters.
 
 ```javascript
 noble.on('scanStop', callback);
