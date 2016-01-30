@@ -52,7 +52,7 @@ See [@don](https://github.com/don)'s set up guide on [Bluetooth LE with Node.js 
 
 ## Notes
 
-### Maximum simulanteous connections
+### Maximum simultaneous connections
 
 | Platform |     |
 | :------- | --- |
