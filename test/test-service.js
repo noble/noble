@@ -6,6 +6,7 @@ var Service = require('../lib/service');
 describe('service', function() {
   var mockNoble = null;
   var mockPeripheralId = 'mock-peripheral-id';
+  var mockId = 'mock-id';
   var mockUuid = 'mock-uuid';
 
   var service = null;
@@ -16,11 +17,15 @@ describe('service', function() {
       discoverCharacteristics: sinon.spy()
     };
 
-    service = new Service(mockNoble, mockPeripheralId, mockUuid);
+    service = new Service(mockNoble, mockPeripheralId, mockId, mockUuid);
   });
 
   afterEach(function() {
     service = null;
+  });
+
+  it('should have a id', function() {
+    service.id.should.equal(mockId);
   });
 
   it('should have a uuid', function() {
@@ -28,7 +33,7 @@ describe('service', function() {
   });
 
   it('should lookup name and type by uuid', function() {
-    service = new Service(mockNoble, mockPeripheralId, '1800');
+    service = new Service(mockNoble, mockPeripheralId, mockId, '1800');
 
     service.name.should.equal('Generic Access');
     service.type.should.equal('org.bluetooth.service.generic_access');
@@ -44,7 +49,7 @@ describe('service', function() {
     it('should delegate to noble', function() {
       service.discoverIncludedServices();
 
-      mockNoble.discoverIncludedServices.calledWithExactly(mockPeripheralId, mockUuid, undefined).should.equal(true);
+      mockNoble.discoverIncludedServices.calledWithExactly(mockPeripheralId, mockId, undefined).should.equal(true);
     });
 
     it('should delegate to noble, with uuids', function() {
@@ -52,7 +57,7 @@ describe('service', function() {
 
       service.discoverIncludedServices(mockUuids);
 
-      mockNoble.discoverIncludedServices.calledWithExactly(mockPeripheralId, mockUuid, mockUuids).should.equal(true);
+      mockNoble.discoverIncludedServices.calledWithExactly(mockPeripheralId, mockId, mockUuids).should.equal(true);
     });
 
     it('should callback', function() {
@@ -83,7 +88,7 @@ describe('service', function() {
     it('should delegate to noble', function() {
       service.discoverCharacteristics();
 
-      mockNoble.discoverCharacteristics.calledWithExactly(mockPeripheralId, mockUuid, undefined).should.equal(true);
+      mockNoble.discoverCharacteristics.calledWithExactly(mockPeripheralId, mockId, undefined).should.equal(true);
     });
 
     it('should delegate to noble, with uuids', function() {
@@ -91,7 +96,7 @@ describe('service', function() {
 
       service.discoverCharacteristics(mockUuids);
 
-      mockNoble.discoverCharacteristics.calledWithExactly(mockPeripheralId, mockUuid, mockUuids).should.equal(true);
+      mockNoble.discoverCharacteristics.calledWithExactly(mockPeripheralId, mockId, mockUuids).should.equal(true);
     });
 
     it('should callback', function() {
