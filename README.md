@@ -222,6 +222,8 @@ peripheral.writeHandle(handle, data, withoutResponse, callback(error));
 
 ### Events
 
+See [Node.js EventEmitter docs](https://nodejs.org/api/events.html) for more info. on API's.
+
 #### Adapter state change
 
 ```javascript
@@ -280,25 +282,25 @@ noble.on('warning', callback(message));
 ##### Connected
 
 ```javascript
-peripheral.on('connect', callback);
+peripheral.once('connect', callback);
 ```
 
 ##### Disconnected:
 
 ```javascript
-peripheral.on('disconnect', callback);
+peripheral.once('disconnect', callback);
 ```
 
 ##### RSSI update
 
 ```javascript
-peripheral.on('rssiUpdate', callback(rssi));
+peripheral.once('rssiUpdate', callback(rssi));
 ```
 
 ##### Services discovered
 
 ```javascript
-peripheral.on('servicesDiscover', callback(services));
+peripheral.once('servicesDiscover', callback(services));
 ```
 
 #### Service
@@ -306,7 +308,7 @@ peripheral.on('servicesDiscover', callback(services));
 ##### Included services discovered
 
 ```javascript
-service.on('includedServicesDiscover', callback(includedServiceUuids));
+service.once('includedServicesDiscover', callback(includedServiceUuids));
 ```
 
 ##### Characteristics discovered
@@ -318,7 +320,7 @@ characteristic = {
   properties: [...]
 };
 
-service.on('characteristicsDiscover', callback(characteristics));
+service.once('characteristicsDiscover', callback(characteristics));
 ```
 
 #### Characteristic
@@ -330,7 +332,7 @@ Emitted when characteristic read has completed, result of ```characteristic.read
 ```javascript
 characteristic.on('data', callback(data, isNotification));
 
-characteristic.on('read', callback(data, isNotification)); // legacy
+characteristic.once('read', callback(data, isNotification)); // legacy
 ```
 
 ##### Write
@@ -338,7 +340,7 @@ characteristic.on('read', callback(data, isNotification)); // legacy
 Emitted when characteristic write has completed, result of ```characteristic.write(...)```.
 
 ```javascript
-characteristic.on('write', withoutResponse, callback());
+characteristic.once('write', withoutResponse, callback());
 ```
 
 ##### Broadcast
@@ -346,7 +348,7 @@ characteristic.on('write', withoutResponse, callback());
 Emitted when characteristic broadcast state changes, result of ```characteristic.broadcast(...)```.
 
 ```javascript
-characteristic.on('broadcast', callback(state));
+characteristic.once('broadcast', callback(state));
 ```
 
 ##### Notify
@@ -354,7 +356,7 @@ characteristic.on('broadcast', callback(state));
 Emitted when characteristic notification state changes, result of ```characteristic.notify(...)```.
 
 ```javascript
-characteristic.on('notify', callback(state));
+characteristic.once('notify', callback(state));
 ```
 
 ##### Descriptors discovered
@@ -364,7 +366,7 @@ descriptor = {
   uuid: '<uuid>'
 };
 
-characteristic.on('descriptorsDiscover', callback(descriptors));
+characteristic.once('descriptorsDiscover', callback(descriptors));
 ```
 
 #### Descriptor
@@ -372,13 +374,13 @@ characteristic.on('descriptorsDiscover', callback(descriptors));
 ##### Value read
 
 ```javascript
-descriptor.on('valueRead', data);
+descriptor.once('valueRead', data);
 ```
 
 ##### Value write
 
 ```javascript
-descriptor.on('valueWrite');
+descriptor.once('valueWrite');
 ```
 
 ## Running on Linux
