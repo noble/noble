@@ -1,7 +1,7 @@
 var async = require('async');
 var noble = require('../index');
 
-var peripheralId = process.argv[2].toLowerCase();
+var peripheralIdOrAddress = process.argv[2].toLowerCase();
 
 noble.on('stateChange', function(state) {
   if (state === 'poweredOn') {
@@ -12,10 +12,10 @@ noble.on('stateChange', function(state) {
 });
 
 noble.on('discover', function(peripheral) {
-  if (peripheral.id === peripheralId || peripheral.address === peripheralId) {
+  if (peripheral.id === peripheralIdOrAddress || peripheral.address === peripheralIdOrAddress) {
     noble.stopScanning();
 
-    console.log('peripheral with ID ' + peripheralId + ' found');
+    console.log('peripheral with ID ' + peripheral.id + ' found');
     var advertisement = peripheral.advertisement;
 
     var localName = advertisement.localName;
