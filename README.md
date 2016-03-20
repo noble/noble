@@ -55,6 +55,8 @@ See [@don](https://github.com/don)'s set up guide on [Bluetooth LE with Node.js 
 
 ### Maximum simultaneous connections
 
+This limit is imposed upon by the Bluetooth adapter hardware as well as it's firmware.
+
 | Platform |     |
 | :------- | --- |
 | OS X 10.11 (El Capitan) | 6 |
