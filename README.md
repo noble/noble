@@ -173,8 +173,12 @@ characteristic.read([callback(error, data)]);
 ##### Write
 
 ```javascript
-characteristic.write(data, notify[, callback(error)]); // data is a buffer, notify is true|false
+characteristic.write(data, withoutResponse[, callback(error)]); // data is a buffer, withoutResponse is true|false
 ```
+
+* ```withoutResponse```:
+  * ```false```: send a write request, used with "write" characteristic property
+  * ```true```: send a write command, used with "write without response" characteristic property
 
 ##### Broadcast
 
