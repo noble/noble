@@ -75,12 +75,6 @@ npm install noble
 var noble = require('noble');
 ```
 
-By default, Noble will select bindings to communicate with Bluetooth devices depending on your platform. If you prefer to specify what bindings Noble should use
-
-```javascript
-var noble = require('noble/with-bindings')(require('./my-custom-bindings'));
-```
-
 ### Actions
 
 #### Start scanning
@@ -434,6 +428,16 @@ By default noble waits for both the advertisement data and scan response data fo
 
 ```sh
 sudo NOBLE_REPORT_ALL_HCI_EVENTS=1 node <your file>.js
+```
+
+## Advanced usage
+
+### Override default bindings
+
+By default, noble will select bindings to communicate with Bluetooth devices depending on your platform. If you prefer to specify what bindings noble should use:
+
+```javascript
+var noble = require('noble/with-bindings')(require('./my-custom-bindings'));
 ```
 
 ## Useful Links
