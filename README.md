@@ -173,8 +173,12 @@ characteristic.read([callback(error, data)]);
 ##### Write
 
 ```javascript
-characteristic.write(data, notify[, callback(error)]); // data is a buffer, notify is true|false
+characteristic.write(data, withoutResponse[, callback(error)]); // data is a buffer, withoutResponse is true|false
 ```
+
+* ```withoutResponse```:
+  * ```false```: send a write request, used with "write" characteristic property
+  * ```true```: send a write command, used with "write without response" characteristic property
 
 ##### Broadcast
 
@@ -424,6 +428,16 @@ By default noble waits for both the advertisement data and scan response data fo
 
 ```sh
 sudo NOBLE_REPORT_ALL_HCI_EVENTS=1 node <your file>.js
+```
+
+## Advanced usage
+
+### Override default bindings
+
+By default, noble will select bindings to communicate with Bluetooth devices depending on your platform. If you prefer to specify what bindings noble should use:
+
+```javascript
+var noble = require('noble/with-bindings')(require('./my-custom-bindings'));
 ```
 
 ## Useful Links
