@@ -1,3 +1,10 @@
+## Version 1.4.0
+
+ * hci-socket binding: include service data UUID's when filtering discover
+ * hci-socket binding: emit scan start/stop when external app changes scanning start ([@bradjc](https://github.com/bradjc))
+ * Support for pluggable bindings ([@hgwood](https://github.com/hgwood))
+ * hci-socket binding: don't kill all descriptors when looking for new Characteristics ([@Neutrosider](https://github.com/Neutrosider))
+
 ## Version 1.3.0
 
  * Check and report LE Create Conn command status
