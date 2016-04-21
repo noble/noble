@@ -421,14 +421,6 @@ Example, specify ```hci1```:
 sudo NOBLE_HCI_DEVICE_ID=1 node <your file>.js
 ```
 
-### Bleno compatibility
-
-By default noble will send an error whenever a peripheral command is received. If you're intention is to use bleno in tandem with noble, the following environment variable can be used to bypass this functionality.
-
-```sh
-sudo NOBLE_MULTI_ROLE=1 node <your file>.js
-```
-
 ### Reporting all HCI events
 
 By default noble waits for both the advertisement data and scan response data for each Bluetooth address. If your device does not use scan response the following environment variable can be used to bypass it.
@@ -437,6 +429,15 @@ By default noble waits for both the advertisement data and scan response data fo
 ```sh
 sudo NOBLE_REPORT_ALL_HCI_EVENTS=1 node <your file>.js
 ```
+
+### bleno compatibility
+
+By default noble will respond with an error whenever a GATT request message is received. If your intention is to use bleno in tandem with noble, the following environment variable can be used to bypass this functionality. __Note:__ this requires a Bluetooth 4.1 adapter.
+
+```sh
+sudo NOBLE_MULTI_ROLE=1 node <your file>.js
+```
+
 
 ## Advanced usage
 
