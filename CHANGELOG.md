@@ -1,3 +1,8 @@
+## Version 1.5.0
+
+ * hci-socket binding: add NOBLE_MULTI_ROLE flag for ignoring peripheral role commands ([@popasquat89](https://github.com/bradjc))
+ * Fix variable typo in ```with-bindings.js`` ([@rclai](https://github.com/rclai))
+
 ## Version 1.4.0
 
  * hci-socket binding: include service data UUID's when filtering discover
