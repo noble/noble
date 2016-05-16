@@ -28,12 +28,12 @@
     "win32"
   ],
   "dependencies": {
+
     "debug": "~2.2.0"
   },
   "optionalDependencies": {
     "bluetooth-hci-socket": "~0.4.1",
-    "bplist-parser": "0.0.6",
-    "xpc-connection": "~0.1.4"
+    "core-bluetooth": "sandeepmistry/node-core-bluetooth"
   },
   "devDependencies": {
     "jshint": "latest",
