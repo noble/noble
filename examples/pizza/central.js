@@ -136,7 +136,7 @@ function bakePizza() {
               console.log('result length incorrect')
             }
           });
-          pizzaBakeCharacteristic.notify(true, function(err) {
+          pizzaBakeCharacteristic.subscribe(function(err) {
             //
             // Bake at 450 degrees!
             //

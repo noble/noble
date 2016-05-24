@@ -186,13 +186,22 @@ characteristic.write(data, withoutResponse[, callback(error)]); // data is a buf
 characteristic.broadcast(broadcast[, callback(error)]); // broadcast is true|false
 ```
 
-##### Notify
+##### Subscribe
 
 ```javascript
-characteristic.notify(notify[, callback(error)]); // notify is true|false
+characteristic.subscribe([callback(error)]);
 ```
 
-  * allows notification to trigger `'data'` event
+  * subscribe to a characteristic, triggers `'data'` events when peripheral sends an notification or indication
+  * use for characteristics with notify or indicate properties
+
+##### Unsubscribe
+
+```javascript
+characteristic.unsubscribe([callback(error)]);
+```
+
+  * unsubscribe to a characteristic
   * use for characteristics with notify or indicate properties
 
 ##### Discover descriptors
