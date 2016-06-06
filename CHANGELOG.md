@@ -1,3 +1,10 @@
+## Version 1.6.0
+
+ * hci-socket binding: use latest bluetooth-hci-socket dependency (~0.4.4)
+ * Added characteristic.subscribe and characteristic.unsubscribe API's (characteristic.notify is now deprecated)
+ * hci-socket binding: use OCF_LE_SET_EVENT_MASK for LE_SET_EVENT_MASK_CMD
+ * hci-socket binding: check READ_LE_HOST_SUPPORTED_CMD status before parsing result
+
 ## Version 1.5.0
 
  * hci-socket binding: add NOBLE_MULTI_ROLE flag for ignoring peripheral role commands ([@popasquat89](https://github.com/bradjc))
