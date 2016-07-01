@@ -169,6 +169,44 @@ describe('Characteristic', function() {
     });
   });
 
+  describe('subscribe', function() {
+    it('should delegate to noble notify, true', function() {
+      characteristic.subscribe();
+
+      mockNoble.notify.calledWithExactly(mockPeripheralId, mockServiceUuid, mockUuid, true).should.equal(true);
+    });
+
+    it('should callback', function() {
+      var calledback = false;
+
+      characteristic.subscribe(function() {
+        calledback = true;
+      });
+      characteristic.emit('notify');
+
+      calledback.should.equal(true);
+    });
+  });
+
+  describe('unsubscribe', function() {
+    it('should delegate to noble notify, false', function() {
+      characteristic.unsubscribe();
+
+      mockNoble.notify.calledWithExactly(mockPeripheralId, mockServiceUuid, mockUuid, false).should.equal(true);
+    });
+
+    it('should callback', function() {
+      var calledback = false;
+
+      characteristic.unsubscribe(function() {
+        calledback = true;
+      });
+      characteristic.emit('notify');
+
+      calledback.should.equal(true);
+    });
+  });
+
   describe('discoverDescriptors', function() {
     it('should delegate to noble', function() {
       characteristic.discoverDescriptors();
