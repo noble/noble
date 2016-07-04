@@ -31,7 +31,7 @@
     "debug": "~2.2.0"
   },
   "optionalDependencies": {
-    "bluetooth-hci-socket": "~0.4.4",
+    "bluetooth-hci-socket": "~0.5.0",
     "bplist-parser": "0.0.6",
     "xpc-connection": "~0.1.4"
   },
