@@ -276,7 +276,7 @@ peripheral = {
     localName: "<name>",
     txPowerLevel: <int>,
     serviceUuids: ["<service UUID>", ...],
-    manufacturerData: <Buffer>,
+    manufacturerData: <Buffer>, // Can also be an array of buffers if there are multiple sections
     serviceData: [
         {
             uuid: "<service UUID>"
