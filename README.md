@@ -186,13 +186,22 @@ characteristic.write(data, withoutResponse[, callback(error)]); // data is a buf
 characteristic.broadcast(broadcast[, callback(error)]); // broadcast is true|false
 ```
 
-##### Notify
+##### Subscribe
 
 ```javascript
-characteristic.notify(notify[, callback(error)]); // notify is true|false
+characteristic.subscribe([callback(error)]);
 ```
 
-  * allows notification to trigger `'data'` event
+  * subscribe to a characteristic, triggers `'data'` events when peripheral sends an notification or indication
+  * use for characteristics with notify or indicate properties
+
+##### Unsubscribe
+
+```javascript
+characteristic.unsubscribe([callback(error)]);
+```
+
+  * unsubscribe to a characteristic
   * use for characteristics with notify or indicate properties
 
 ##### Discover descriptors
@@ -281,6 +290,8 @@ peripheral = {
 
 noble.on('discover', callback(peripheral));
 ```
+
+__Note:__ on OS X the address will be set to 'unknown' if the device has not been connected previously.
 
 #### Warnings
 
@@ -423,12 +434,21 @@ sudo NOBLE_HCI_DEVICE_ID=1 node <your file>.js
 
 ### Reporting all HCI events
 
-By default noble waits for both the advertisement data and scan response data for each Bluetooth address. If your device does not use scan response the following enviroment variable can be used to bypass it.
+By default noble waits for both the advertisement data and scan response data for each Bluetooth address. If your device does not use scan response the following environment variable can be used to bypass it.
 
 
 ```sh
 sudo NOBLE_REPORT_ALL_HCI_EVENTS=1 node <your file>.js
 ```
+
+### bleno compatibility
+
+By default noble will respond with an error whenever a GATT request message is received. If your intention is to use bleno in tandem with noble, the following environment variable can be used to bypass this functionality. __Note:__ this requires a Bluetooth 4.1 adapter.
+
+```sh
+sudo NOBLE_MULTI_ROLE=1 node <your file>.js
+```
+
 
 ## Advanced usage
 
@@ -457,4 +477,3 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [![Analytics](https://ga-beacon.appspot.com/UA-56089547-1/sandeepmistry/noble?pixel)](https://github.com/igrigorik/ga-beacon)
-
