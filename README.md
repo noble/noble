@@ -291,6 +291,8 @@ peripheral = {
 noble.on('discover', callback(peripheral));
 ```
 
+__Note:__ on OS X the address will be set to 'unknown' if the device has not been connected previously.
+
 #### Warnings
 
 ```javascript
