@@ -151,7 +151,7 @@ describe('Noble bindings', function() {
     var eventSpy = sandbox.spy();
     bindings.once('discover', eventSpy);
 
-    bindings._onPeripheralDiscover(nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
 
     eventSpy.calledWithExactly(peripheralUuidString, addressString, addressTypeString, connectableBoolean, advertisementObject, rssiNumber).should.equal(true);
   });
@@ -184,7 +184,7 @@ describe('Noble bindings', function() {
     };
 
     //set internal state
-    bindings._peripherals[peripheralUuidString] = bindingsPeripheralObject;
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
 
     //make the call
     bindings.updateRssi(peripheralUuidString);
@@ -197,12 +197,12 @@ describe('Noble bindings', function() {
     bindings.once('servicesDiscover', eventSpy);
 
     //stub native
-    nativePeripheralObject.discoverServices = function(){
+    sinon.stub(nativePeripheralObject, "discoverServices", function(){
       this.emit('servicesDiscover', [nativeServiceObject], mockError);
-    };
+    });
 
     //set internal state
-    bindings._peripherals[peripheralUuidString] = bindingsPeripheralObject;
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
 
     //make the call
     bindings.discoverServices(peripheralUuidString, serviceUuidsArray);
@@ -215,14 +215,16 @@ describe('Noble bindings', function() {
     bindings.once('includedServicesDiscover', eventSpy);
 
     //stub native
-    nativeServiceObject.discoverIncludedServices = function(){
+    sinon.stub(nativeServiceObject, "discoverIncludedServices", function(){
       this.emit('includedServicesDiscover', [nativeIncludedServiceObject], mockError);
-    };
+    });
 
     //set internal state
-    bindings._peripherals[peripheralUuidString] = bindingsPeripheralObject;
-    bindings._peripherals[peripheralUuidString]._services = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString] = nativeServiceObject;
+    sinon.stub(nativePeripheralObject, "discoverServices", function(){
+      this.emit('servicesDiscover', [nativeServiceObject], mockError);
+    });
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
+    bindings.discoverServices(peripheralUuidString, serviceUuidsArray);
 
     //make the call
     bindings.discoverIncludedServices(peripheralUuidString, serviceUuidString, [nativeIncludedServiceUuidString]);
@@ -235,14 +237,16 @@ describe('Noble bindings', function() {
     bindings.once('characteristicsDiscover', eventSpy);
 
     //stub native
-    nativeServiceObject.discoverCharacteristics = function(){
+    sinon.stub(nativeServiceObject, "discoverCharacteristics", function(){
       this.emit('characteristicsDiscover', [nativeCharacteristicObject], mockError);
-    };
+    });
 
     //set internal state
-    bindings._peripherals[peripheralUuidString] = bindingsPeripheralObject;
-    bindings._peripherals[peripheralUuidString]._services = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString] = nativeServiceObject;
+    sinon.stub(nativePeripheralObject, "discoverServices", function(){
+      this.emit('servicesDiscover', [nativeServiceObject], mockError);
+    });
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
+    bindings.discoverServices(peripheralUuidString, serviceUuidsArray);
 
     //make the call
     bindings.discoverCharacteristics(peripheralUuidString, serviceUuidString, [characteristicUuidString]);
@@ -254,8 +258,24 @@ describe('Noble bindings', function() {
     var eventSpy = sandbox.spy();
     bindings.once('read', eventSpy);
 
+    //stub native
+    sinon.stub(nativeCharacteristicObject, "readValue", function(){
+      this.emit('valueUpdate', dataBuffer);
+    });
+
+    //set internal state
+    sinon.stub(nativePeripheralObject, "discoverServices", function(){
+      this.emit('servicesDiscover', [nativeServiceObject], mockError);
+    });
+    sinon.stub(nativeServiceObject, "discoverCharacteristics", function(){
+      this.emit('characteristicsDiscover', [nativeCharacteristicObject], mockError);
+    });
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
+    bindings.discoverServices(peripheralUuidString, serviceUuidsArray);
+    bindings.discoverCharacteristics(peripheralUuidString, serviceUuidString, [characteristicUuidString]);
+
     //make the call
-    bindings._onPeripheralCharacteristicValueUpdate(peripheralUuidString, serviceUuidString, characteristicUuidString, dataBuffer);
+    bindings.read(peripheralUuidString, serviceUuidString, characteristicUuidString);
 
     eventSpy.calledWithExactly(peripheralUuidString, serviceUuidString, characteristicUuidString, dataBuffer).should.equal(true);
   });
@@ -264,15 +284,16 @@ describe('Noble bindings', function() {
     var eventSpy = sandbox.spy();
     bindings.once('write', eventSpy);
 
-    //stub native
-    nativeCharacteristicObject.writeValue = function(){};
-
     //set internal state
-    bindings._peripherals[peripheralUuidString] = bindingsPeripheralObject;
-    bindings._peripherals[peripheralUuidString]._services = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString] = nativeServiceObject;
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString] = nativeCharacteristicObject;
+    sinon.stub(nativePeripheralObject, "discoverServices", function(){
+      this.emit('servicesDiscover', [nativeServiceObject], mockError);
+    });
+    sinon.stub(nativeServiceObject, "discoverCharacteristics", function(){
+      this.emit('characteristicsDiscover', [nativeCharacteristicObject], mockError);
+    });
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
+    bindings.discoverServices(peripheralUuidString, serviceUuidsArray);
+    bindings.discoverCharacteristics(peripheralUuidString, serviceUuidString, [characteristicUuidString]);
 
     //make the call
     bindings.write(peripheralUuidString, serviceUuidString, characteristicUuidString, dataBuffer, true);
@@ -285,16 +306,20 @@ describe('Noble bindings', function() {
     bindings.once('notify', eventSpy);
 
     //stub native
-    nativeCharacteristicObject.setNotifyValue = function(){
+    sinon.stub(nativeCharacteristicObject, "setNotifyValue", function(){
       this.emit('notificationStateUpdate', notifyBoolean, mockError);
-    };
+    });
 
     //set internal state
-    bindings._peripherals[peripheralUuidString] = bindingsPeripheralObject;
-    bindings._peripherals[peripheralUuidString]._services = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString] = nativeServiceObject;
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString] = nativeCharacteristicObject;
+    sinon.stub(nativePeripheralObject, "discoverServices", function(){
+      this.emit('servicesDiscover', [nativeServiceObject], mockError);
+    });
+    sinon.stub(nativeServiceObject, "discoverCharacteristics", function(){
+      this.emit('characteristicsDiscover', [nativeCharacteristicObject], mockError);
+    });
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
+    bindings.discoverServices(peripheralUuidString, serviceUuidsArray);
+    bindings.discoverCharacteristics(peripheralUuidString, serviceUuidString, [characteristicUuidString]);
 
     //make the call
     bindings.notify(peripheralUuidString, serviceUuidString, characteristicUuidString, notifyBoolean);
@@ -307,16 +332,20 @@ describe('Noble bindings', function() {
     bindings.once('descriptorsDiscover', eventSpy);
 
     //stub native
-    nativeCharacteristicObject.discoverDescriptors = function(){
+    sinon.stub(nativeCharacteristicObject, "discoverDescriptors", function(){
       this.emit('descriptorsDiscover', [nativeDescriptorObject], mockError);
-    };
+    });
 
     //set internal state
-    bindings._peripherals[peripheralUuidString] = bindingsPeripheralObject;
-    bindings._peripherals[peripheralUuidString]._services = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString] = nativeServiceObject;
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString] = nativeCharacteristicObject;
+    sinon.stub(nativePeripheralObject, "discoverServices", function(){
+      this.emit('servicesDiscover', [nativeServiceObject], mockError);
+    });
+    sinon.stub(nativeServiceObject, "discoverCharacteristics", function(){
+      this.emit('characteristicsDiscover', [nativeCharacteristicObject], mockError);
+    });
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
+    bindings.discoverServices(peripheralUuidString, serviceUuidsArray);
+    bindings.discoverCharacteristics(peripheralUuidString, serviceUuidString, [characteristicUuidString]);
 
     //make the call
     bindings.discoverDescriptors(peripheralUuidString, serviceUuidString, characteristicUuidString);
@@ -328,18 +357,25 @@ describe('Noble bindings', function() {
     var eventSpy = sandbox.spy();
     bindings.once('valueRead', eventSpy);
 
-    nativeDescriptorObject.readValue = function() {
+    //stub native
+    sinon.stub(nativeDescriptorObject, "readValue", function(){
       this.emit('valueUpdate', dataBuffer, mockError);
-    };
+    });
 
     //set internal state
-    bindings._peripherals[peripheralUuidString] = bindingsPeripheralObject;
-    bindings._peripherals[peripheralUuidString]._services = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString] = nativeServiceObject;
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString] = nativeCharacteristicObject;
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString]._descriptors = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString]._descriptors[descriptorUuidString] = nativeDescriptorObject;
+    sinon.stub(nativePeripheralObject, "discoverServices", function(){
+      this.emit('servicesDiscover', [nativeServiceObject], mockError);
+    });
+    sinon.stub(nativeServiceObject, "discoverCharacteristics", function(){
+      this.emit('characteristicsDiscover', [nativeCharacteristicObject], mockError);
+    });
+    sinon.stub(nativeCharacteristicObject, "discoverDescriptors", function(){
+      this.emit('descriptorsDiscover', [nativeDescriptorObject], mockError);
+    });
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
+    bindings.discoverServices(peripheralUuidString, serviceUuidsArray);
+    bindings.discoverCharacteristics(peripheralUuidString, serviceUuidString, [characteristicUuidString]);
+    bindings.discoverDescriptors(peripheralUuidString, serviceUuidString, characteristicUuidString);
 
     //make the call
     bindings.readValue(peripheralUuidString, serviceUuidString, characteristicUuidString, descriptorUuidString);
@@ -351,18 +387,25 @@ describe('Noble bindings', function() {
     var eventSpy = sandbox.spy();
     bindings.once('valueWrite', eventSpy);
 
-    nativeDescriptorObject.writeValue = function() {
+    //stub native
+    sinon.stub(nativeDescriptorObject, "writeValue", function(){
       this.emit('valueWrite', mockError);
-    };
+    });
 
     //set internal state
-    bindings._peripherals[peripheralUuidString] = bindingsPeripheralObject;
-    bindings._peripherals[peripheralUuidString]._services = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString] = nativeServiceObject;
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString] = nativeCharacteristicObject;
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString]._descriptors = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString]._descriptors[descriptorUuidString] = nativeDescriptorObject;
+    sinon.stub(nativePeripheralObject, "discoverServices", function(){
+      this.emit('servicesDiscover', [nativeServiceObject], mockError);
+    });
+    sinon.stub(nativeServiceObject, "discoverCharacteristics", function(){
+      this.emit('characteristicsDiscover', [nativeCharacteristicObject], mockError);
+    });
+    sinon.stub(nativeCharacteristicObject, "discoverDescriptors", function(){
+      this.emit('descriptorsDiscover', [nativeDescriptorObject], mockError);
+    });
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
+    bindings.discoverServices(peripheralUuidString, serviceUuidsArray);
+    bindings.discoverCharacteristics(peripheralUuidString, serviceUuidString, [characteristicUuidString]);
+    bindings.discoverDescriptors(peripheralUuidString, serviceUuidString, characteristicUuidString);
 
     //make the call
     bindings.writeValue(peripheralUuidString, serviceUuidString, characteristicUuidString, descriptorUuidString, dataBuffer);
@@ -374,18 +417,25 @@ describe('Noble bindings', function() {
     var eventSpy = sandbox.spy();
     bindings.once('disconnect', eventSpy);
 
-    nativePeripheralObject.cancelConnection = function(){
+    //stub native
+    sinon.stub(nativePeripheralObject, "cancelConnection", function(){
       mockNative.emit('peripheralDisconnect', nativePeripheralObject);
-    };
+    });
 
     //set internal state
-    bindings._peripherals[peripheralUuidString] = bindingsPeripheralObject;
-    bindings._peripherals[peripheralUuidString]._services = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString] = nativeServiceObject;
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString] = nativeCharacteristicObject;
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString]._descriptors = [];
-    bindings._peripherals[peripheralUuidString]._services[serviceUuidString]._characteristics[characteristicUuidString]._descriptors[descriptorUuidString] = nativeDescriptorObject;
+    sinon.stub(nativePeripheralObject, "discoverServices", function(){
+      this.emit('servicesDiscover', [nativeServiceObject], mockError);
+    });
+    sinon.stub(nativeServiceObject, "discoverCharacteristics", function(){
+      this.emit('characteristicsDiscover', [nativeCharacteristicObject], mockError);
+    });
+    sinon.stub(nativeCharacteristicObject, "discoverDescriptors", function(){
+      this.emit('descriptorsDiscover', [nativeDescriptorObject], mockError);
+    });
+    mockNative.emit('peripheralDiscover', nativePeripheralObject, nativeAdvertisementObject, rssiNumber);
+    bindings.discoverServices(peripheralUuidString, serviceUuidsArray);
+    bindings.discoverCharacteristics(peripheralUuidString, serviceUuidString, [characteristicUuidString]);
+    bindings.discoverDescriptors(peripheralUuidString, serviceUuidString, characteristicUuidString);
 
     //make the call
     bindings.disconnect(peripheralUuidString);
