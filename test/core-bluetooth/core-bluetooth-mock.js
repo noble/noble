@@ -1,7 +1,7 @@
 var events = require('events');
 var util = require('util');
 
-var a = require('./common');
+var a = require('../abstract/common');
 
 function Mock(bindings, sandbox){
   this.sandbox = sandbox;

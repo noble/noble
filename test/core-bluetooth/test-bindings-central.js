@@ -1,12 +1,12 @@
 
 var should = require('should');
 var sinon = require('sinon');
-var bindings = require('../lib/mac/bindings');
+var bindings = require('../../lib/mac/bindings');
 var Mock = require('./core-bluetooth-mock');
 
-var a = require('./common');
+var a = require('../abstract/common');
 
-var Abstract = require('./test-bindings-abstract');
+var Abstract = require('../abstract/test-bindings-abstract');
 
 
 //native doesnt need to do any setup on these
@@ -49,13 +49,8 @@ Abstract.emitDisconnect(bindings, Mock, function(mock, sandbox){
   mock.discoverDescriptors();
 
 });
-
-
-
-
-    
-
-
+ 
+//these tests are local to the core-bluetooth binding
 describe('Core Bluetooth Bindings Central', function() {
   var sandbox = sinon.sandbox.create();
   var mock;

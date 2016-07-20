@@ -1,10 +1,10 @@
 
 var should = require('should');
 var sinon = require('sinon');
-var bindings = require('../lib/mac/bindings');
+var bindings = require('../../lib/mac/bindings');
 var Mock = require('./core-bluetooth-mock');
 
-var a = require('./common');
+var a = require('../abstract/common');
 
 describe('Noble bindings peripheral', function() {
   var sandbox;
