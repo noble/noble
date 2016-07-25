@@ -82,7 +82,8 @@ NobleBindings.prototype.write = function(peripheralUuidString, serviceUuidString
   throw new Error('write() not implemented');
 };
 
-NobleBindings.prototype.readValue = function(peripheralUuidString, serviceUuidString, characteristicUuidString, descriptorUuidString) {
+NobleBindings.prototype.init
+ = function(peripheralUuidString, serviceUuidString, characteristicUuidString, descriptorUuidString) {
   if (typeof this._readValue == 'function')
     return this._readValue(peripheralUuidString, serviceUuidString, characteristicUuidString, descriptorUuidString);
 
@@ -103,9 +104,9 @@ NobleBindings.prototype.notify = function(peripheralUuidString, serviceUuidStrin
   throw new Error('notify() not implemented');
 };
 
-NobleBindings.prototype.init = function(native) {
+NobleBindings.prototype.init = function(arg) {
   if (typeof this._init == 'function')
-    return this._init(native);
+    return this._init(arg);
 
   throw new Error('init() not implemented');
 };

@@ -1,7 +1,7 @@
 
 
 // all noble specific stuff not to be touched
-  var peripheralUuidString      = 'dfe12bb44e7f460d8c1d112914e21d9e';
+  var peripheralUuidString      = 'd0034b3175f2';
   var serviceUuidString         = 'a90f02524ca848bbae906bc8f541cf8c';
   var includedServiceUuidString = '2d0f40d76c814336a1aa60cbd111317e';
   var characteristicUuidString  = 'e365f8c8a49d4b308547fcc791860697';
