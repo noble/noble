@@ -174,7 +174,7 @@ var emitConnectSuccess = function(bindings, Native, setup) {
       if (typeof setup == 'function')
         setup(mock, sandbox);
 
-      eventSpy.calledWithExactly(a.peripheralUuidString, a.mockError).should.equal(true);
+      eventSpy.calledWithExactly(a.peripheralUuidString, null).should.equal(true);
     });
 
   });

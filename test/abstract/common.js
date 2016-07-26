@@ -18,7 +18,7 @@
   var notifyBoolean = false;
   var rssiNumber = -47;
   var stateString = 'public';
-  var mockError = new Error('mock-error');
+  var mockError = new Error('Connection Timeout');
   var localNameString = 'mock-name';
   var mockServiceData = {};
   var txPowerLevelNumber = 0;
