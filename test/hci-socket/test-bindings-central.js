@@ -26,7 +26,6 @@ Abstract.emitStateChange(bindings, Mock, function(mock){
 });
 
 Abstract.emitDiscover(bindings, Mock, function(mock){
-  console.log(a.addressString, a.addressTypeString, a.connectableBoolean, mock.gapAdvertisementObject, a.rssiNumber);
   mock.mockGap.emit('discover', 0, a.addressString, a.addressTypeString, a.connectableBoolean, mock.gapAdvertisementObject, a.rssiNumber);
 });
 
@@ -37,4 +36,11 @@ Abstract.emitConnectSuccess(bindings, Mock, function(mock){
 Abstract.emitConnectFail(bindings, Mock, function(mock){
   bindings.connect(a.peripheralUuidString);
   mock.mockHci.emit('leConnComplete', 0x08, 0x0000, 0x00, a.addressTypeString, a.addressString);
+});
+
+Abstract.emitDisconnect(bindings, Mock, function(mock, sandbox){
+  bindings.connect(a.peripheralUuidString);
+  mock.mockHci.emit('leConnComplete', 0, 0x0040, 0x01, a.addressTypeString, a.addressString);
+
+  mock.mockHci.emit('disconnComplete', 0x0040, 0x06);
 });
