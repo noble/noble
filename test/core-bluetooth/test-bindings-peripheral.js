@@ -3,52 +3,27 @@ var should = require('should');
 var sinon = require('sinon');
 var bindings = require('../../lib/mac/bindings');
 var Mock = require('./core-bluetooth-mock');
-
 var a = require('../abstract/common');
+var Abstract = require('../abstract/test-bindings-abstract');
 
-describe('Noble bindings peripheral', function() {
-  var sandbox;
-  var mock;
+Abstract.emitRssiUpdate(bindings, Mock, function(mock, sandbox)
+{
+  //stub native
+  mock.nativePeripheralObject.readRSSI = function(){
+    this.emit('rssiUpdate', a.rssiNumber, a.mockError);
+  };
 
-  beforeEach(function() {
-    sandbox = sinon.sandbox.create();
-    mock = new Mock(bindings, sandbox);
+  //set internal state
+  mock.discoverPeripheral();
+});
 
-    //set internal state
-    mock.discoverPeripheral();
+Abstract.emitServicesDiscover(bindings, Mock, function(mock, sandbox)
+{
+  //stub native
+  sandbox.stub(mock.nativePeripheralObject, "discoverServices", function(){
+    this.emit('servicesDiscover', [mock.nativeServiceObject], a.mockError);
   });
 
-  afterEach(function () {
-    sandbox.restore();
-    mock = null;
-  });
-
-  it('should emit rssiUpdate', function() {
-    var eventSpy = sandbox.spy();
-    bindings.once('rssiUpdate', eventSpy);
-
-    //stub native
-    mock.nativePeripheralObject.readRSSI = function(){
-      this.emit('rssiUpdate', a.rssiNumber, a.mockError);
-    };
-
-    //dont touch
-    bindings.updateRssi(a.peripheralUuidString);
-    eventSpy.calledWithExactly(a.peripheralUuidString, a.rssiNumber).should.equal(true);
-  });
-
-  it('should emit servicesDiscover', function() {
-    var eventSpy = sandbox.spy();
-    bindings.once('servicesDiscover', eventSpy);
-
-    //stub native
-    sandbox.stub(mock.nativePeripheralObject, "discoverServices", function(){
-      this.emit('servicesDiscover', [mock.nativeServiceObject], a.mockError);
-    });
-
-    //make the call
-    bindings.discoverServices(a.peripheralUuidString, a.serviceUuidsArray);
-    eventSpy.calledWithExactly(a.peripheralUuidString, a.serviceUuidsArray).should.equal(true);
-  });
-
+  //set internal state
+  mock.discoverPeripheral();
 });
