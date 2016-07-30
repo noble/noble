@@ -174,6 +174,7 @@ var emitConnectSuccess = function(bindings, Native, setup) {
       if (typeof setup == 'function')
         setup(mock, sandbox);
 
+      bindings.connect(a.peripheralUuidString);
       eventSpy.calledWithExactly(a.peripheralUuidString, a.mockError).should.equal(true);
     });
 
@@ -205,6 +206,7 @@ var emitConnectFail = function(bindings, Native, setup) {
       if (typeof setup == 'function')
         setup(mock, sandbox);
 
+      bindings.connect(a.peripheralUuidString);
       eventSpy.calledWithExactly(a.peripheralUuidString, a.mockError).should.equal(true);
     });
 
@@ -324,7 +326,7 @@ var emitIncludedServicesDiscover = function(bindings, Native, setup) {
       if (typeof setup == 'function')
         setup(mock, sandbox);
 
-      bindings.discoverIncludedServices(a.peripheralUuidString, a.serviceUuidString, [mock.nativeIncludedServiceUuidString]);
+      bindings.discoverIncludedServices(a.peripheralUuidString, a.serviceUuidString, [a.includedServiceUuidString]);
       eventSpy.calledWithExactly(a.peripheralUuidString, a.serviceUuidString, [a.includedServiceUuidString]).should.equal(true);
     });
 
@@ -347,7 +349,7 @@ var emitCharacteristicsDiscover = function(bindings, Native, setup) {
       mock = null;
     });
 
-    it('should emit haracteristicsDiscover', function() {
+    it('should emit characteristicsDiscover', function() {
       var eventSpy = sandbox.spy();
       bindings.once('characteristicsDiscover', eventSpy);
 
@@ -384,8 +386,12 @@ var emitRead = function(bindings, Native, setup) {
       if (typeof setup == 'function')
         setup(mock, sandbox);
 
+      var bufferMatcher = sinon.match.instanceOf(Buffer).and(sinon.match(function(val) {
+        return val.toString() === a.dataBuffer.toString();
+      }));
+
       bindings.read(a.peripheralUuidString, a.serviceUuidString,a. characteristicUuidString);
-      eventSpy.calledWithExactly(a.peripheralUuidString, a.serviceUuidString, a.characteristicUuidString, a.dataBuffer).should.equal(true);
+      eventSpy.calledWith(a.peripheralUuidString, a.serviceUuidString, a.characteristicUuidString, bufferMatcher).should.equal(true);
     });
 
   });
@@ -504,8 +510,12 @@ var emitValueRead = function(bindings, Native, setup) {
       if (typeof setup == 'function')
         setup(mock, sandbox);
 
+      var bufferMatcher = sinon.match.instanceOf(Buffer).and(sinon.match(function(val) {
+        return val.toString() === a.dataBuffer.toString();
+      }));
+
       bindings.readValue(a.peripheralUuidString, a.serviceUuidString, a.characteristicUuidString, a.descriptorUuidString);
-      eventSpy.calledWithExactly(a.peripheralUuidString, a.serviceUuidString, a.characteristicUuidString, a.descriptorUuidString, a.dataBuffer).should.equal(true);
+      eventSpy.calledWith(a.peripheralUuidString, a.serviceUuidString, a.characteristicUuidString, a.descriptorUuidString, bufferMatcher).should.equal(true);
     });
 
   });
