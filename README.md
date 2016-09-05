@@ -60,8 +60,7 @@ This limit is imposed upon by the Bluetooth adapter hardware as well as it's fir
 | Platform |     |
 | :------- | --- |
 | OS X 10.11 (El Capitan) | 6 |
-| Linux/Windows - Adapter dependent | |
-| | 5 (CSR based adapter) |
+| Linux/Windows - Adapter dependent | 5 (CSR based adapter) |
 
 ## Install
 
