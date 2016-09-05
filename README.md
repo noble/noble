@@ -276,6 +276,7 @@ peripheral = {
     localName: "<name>",
     txPowerLevel: <int>,
     serviceUuids: ["<service UUID>", ...],
+    serviceSolicitationUuid: ["<service solicitation UUID>", ...],
     manufacturerData: <Buffer>,
     serviceData: [
         {
