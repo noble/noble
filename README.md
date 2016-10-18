@@ -90,7 +90,7 @@ noble.startScanning([], true); // any service UUID, allow duplicates
 var serviceUUIDs = ["<service UUID 1>", ...]; // default: [] => all
 var allowDuplicates = <false|true>; // default: false
 
-noble.startScanning(serviceUUIDs, allowDuplicates[, callback(error)]); // particular UUID's
+noble.startScanning(serviceUUIDs, allowDuplicates, [callback(error)]); // particular UUID's
 ```
 
 __NOTE:__ ```noble.state``` must be ```poweredOn``` before scanning is started. ```noble.on('stateChange', callback(state));``` can be used register for state change events.
@@ -127,7 +127,7 @@ peripheral.updateRssi([callback(error, rssi)]);
 peripheral.discoverServices(); // any service UUID
 
 var serviceUUIDs = ["<service UUID 1>", ...];
-peripheral.discoverServices(serviceUUIDs[, callback(error, services)]); // particular UUID's
+peripheral.discoverServices(serviceUUIDs, [callback(error, services)]); // particular UUID's
 ```
 
 ##### Discover all services and characteristics
@@ -151,7 +151,7 @@ peripheral.discoverSomeServicesAndCharacteristics(serviceUUIDs, characteristicUU
 service.discoverIncludedServices(); // any service UUID
 
 var serviceUUIDs = ["<service UUID 1>", ...];
-service.discoverIncludedServices(serviceUUIDs[, callback(error, includedServiceUuids)]); // particular UUID's
+service.discoverIncludedServices(serviceUUIDs, [callback(error, includedServiceUuids)]); // particular UUID's
 ```
 
 ##### Discover characteristics
@@ -160,7 +160,7 @@ service.discoverIncludedServices(serviceUUIDs[, callback(error, includedServiceU
 service.discoverCharacteristics() // any characteristic UUID
 
 var characteristicUUIDs = ["<characteristic UUID 1>", ...];
-service.discoverCharacteristics(characteristicUUIDs[, callback(error, characteristics)]); // particular UUID's
+service.discoverCharacteristics(characteristicUUIDs, [callback(error, characteristics)]); // particular UUID's
 ```
 
 #### Characteristic
@@ -174,7 +174,7 @@ characteristic.read([callback(error, data)]);
 ##### Write
 
 ```javascript
-characteristic.write(data, withoutResponse[, callback(error)]); // data is a buffer, withoutResponse is true|false
+characteristic.write(data, withoutResponse, [callback(error)]); // data is a buffer, withoutResponse is true|false
 ```
 
 * ```withoutResponse```:
@@ -184,7 +184,7 @@ characteristic.write(data, withoutResponse[, callback(error)]); // data is a buf
 ##### Broadcast
 
 ```javascript
-characteristic.broadcast(broadcast[, callback(error)]); // broadcast is true|false
+characteristic.broadcast(broadcast, [callback(error)]); // broadcast is true|false
 ```
 
 ##### Subscribe
@@ -220,7 +220,7 @@ descriptor.readValue([callback(error, data)]);
 ##### Write value
 
 ```javascript
-descriptor.writeValue(data[, callback(error)]); // data is a buffer
+descriptor.writeValue(data, [callback(error)]); // data is a buffer
 ```
 
 #### Handle
@@ -351,7 +351,7 @@ service.once('characteristicsDiscover', callback(characteristics));
 
 ##### Data
 
-Emitted when characteristic read has completed, result of ```characteristic.read(...)``` or characteristic value has been updated by peripheral via notification or indication - after having been enabled with ```notify(true[, callback(error)])```.
+Emitted when characteristic read has completed, result of ```characteristic.read(...)``` or characteristic value has been updated by peripheral via notification or indication - after having been enabled with ```notify(true, [callback(error)])```.
 
 ```javascript
 characteristic.on('data', callback(data, isNotification));
