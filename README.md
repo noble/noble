@@ -1,7 +1,7 @@
 # ![noble](assets/noble-logo.png)
 
 [![Build Status](https://travis-ci.org/sandeepmistry/noble.svg?branch=master)](https://travis-ci.org/sandeepmistry/noble)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sandeepmistry/noble?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![OpenCollective](https://opencollective.com/noble/backers/badge.svg)](#backers) 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sandeepmistry/noble?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![OpenCollective](https://opencollective.com/noble/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/noble/sponsors/badge.svg)](#sponsors)
 
 
@@ -63,6 +63,14 @@ This limit is imposed upon by the Bluetooth adapter hardware as well as it's fir
 | :------- | --- |
 | OS X 10.11 (El Capitan) | 6 |
 | Linux/Windows - Adapter dependent | 5 (CSR based adapter) |
+
+### Adapter specific known issues
+
+Some BLE adapters like Sena UD-100 (Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)) cannot connect to a peripheral while they are scanning. You will get the following message when trying to connect :
+
+`Error: Command disallowed`
+
+You need to stop scanning before trying to connect in order to solve this issue.
 
 ## Install
 
