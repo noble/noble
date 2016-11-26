@@ -25,6 +25,7 @@
   "os": [
     "darwin",
     "linux",
+    "freebsd",
     "win32"
   ],
   "dependencies": {
