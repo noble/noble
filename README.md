@@ -9,7 +9,7 @@ A Node.js BLE (Bluetooth Low Energy) central module.
 
 Want to implement a peripheral? Checkout [bleno](https://github.com/sandeepmistry/bleno)
 
-__Note:__ Mac OS X, Linux and Windows are currently the only supported OSes. Other platforms may be developed later on.
+__Note:__ macOS / Mac OS X, Linux, FreeBSD and Windows are currently the only supported OSes. Other platforms may be developed later on.
 
 ## Prerequisites
 
@@ -41,6 +41,24 @@ sudo yum install bluez bluez-libs bluez-libs-devel
 #### Intel Edison
 
 See [Configure Intel Edison for Bluetooth LE (Smart) Development](http://rexstjohn.com/configure-intel-edison-for-bluetooth-le-smart-development/)
+
+### FreeBSD
+
+Make sure you have GNU Make:
+
+```sh
+sudo pkg install gmake
+```
+
+Disable automatic loading of the default Bluetooth stack by putting [no-ubt.conf](https://gist.github.com/myfreeweb/44f4f3e791a057bc4f3619a166a03b87) into ```/usr/local/etc/devd/no-ubt.conf``` and restarting devd (```sudo service devd restart```).
+
+Unload ```ng_ubt``` kernel module if already loaded:
+
+```sh
+sudo kldunload ng_ubt
+```
+
+Make sure you have read and write permissions on the ```/dev/usb/*``` device that corresponds to your Bluetooth adapter.
 
 ### Windows
 
