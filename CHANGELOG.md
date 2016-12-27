@@ -1,3 +1,11 @@
+## Version 1.7.0
+
+ * hci-socket binding: now supports "long writes" ([@projectgus](https://github.com/projectgus))
+ * hci-socket binding: use latest bluetooth-hci-socket dependency (~0.5.1)
+ * hci-socket binding: add support to extract service solicitation UUID's from advertisement ([@smartyw](https://github.com/smartyw))
+ * web-socket binding: fixed write handle not working ([@christopherhex](https://github.com/christopherhex))
+ * hci-socket binding: initial bindUser support via HCI_CHANNEL_USER environment variable
+
 ## Version 1.6.0
 
  * hci-socket binding: use latest bluetooth-hci-socket dependency (~0.4.4)
