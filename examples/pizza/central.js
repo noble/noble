@@ -39,8 +39,7 @@ noble.on('discover', function(peripheral) {
   console.log('found peripheral:', peripheral.advertisement);
   //
   // Once the peripheral has been discovered, then connect to it.
-  // It can also be constructed if the uuid is already known.
-  ///
+  //
   peripheral.connect(function(err) {
     //
     // Once the peripheral has been connected, then discover the
