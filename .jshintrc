@@ -1,0 +1,10 @@
+{
+  "browser": true,
+  "node": true,
+  "mocha": true,
+  "unused": false, //enable after cleanup
+  "undef": false, //enable after cleanup
+  "globals": {
+    "Promise": true
+  }
+}
