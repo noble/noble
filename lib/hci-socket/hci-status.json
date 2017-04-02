@@ -63,5 +63,9 @@
   "Connection Terminated due to MIC Failure",
   "Connection Failed to be Established",
   "MAC Connection Failed",
-  "Coarse Clock Adjustment Rejected but Will Try to Adjust Using Clock Dragging"
+  "Coarse Clock Adjustment Rejected but Will Try to Adjust Using Clock Dragging",
+  "Type0 Submap Not Defined",
+  "Unknown Advertising Identifier",
+  "Limit Reached",
+  "Operation Cancelled by Host"
 ]
