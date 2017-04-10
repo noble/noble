@@ -74,7 +74,7 @@ describe('Characteristic', function() {
       characteristic.read(function(error, data) {
         callbackData = data;
       });
-      characteristic.emit('read', mockData);
+      characteristic.emit('read', null, mockData);
 
       callbackData.should.equal(mockData);
     });
@@ -232,7 +232,7 @@ describe('Characteristic', function() {
       characteristic.discoverDescriptors(function(error, descriptors) {
         callbackDescriptors = descriptors;
       });
-      characteristic.emit('descriptorsDiscover', mockDescriptors);
+      characteristic.emit('descriptorsDiscover', null, mockDescriptors);
 
       callbackDescriptors.should.equal(mockDescriptors);
     });

@@ -125,7 +125,7 @@ describe('Peripheral', function() {
       peripheral.updateRssi(function(error, rssi) {
         calledbackRssi = rssi;
       });
-      peripheral.emit('rssiUpdate', mockRssi);
+      peripheral.emit('rssiUpdate', null, mockRssi);
 
       calledbackRssi.should.equal(mockRssi);
     });
@@ -164,7 +164,7 @@ describe('Peripheral', function() {
       peripheral.discoverServices(null, function(error, services) {
         calledbackServices = services;
       });
-      peripheral.emit('servicesDiscover', mockServices);
+      peripheral.emit('servicesDiscover', null, mockServices);
 
       calledbackServices.should.equal(mockServices);
     });
@@ -286,7 +286,7 @@ describe('Peripheral', function() {
       peripheral.readHandle(mockHandle, function(error, data) {
         calledbackData = data;
       });
-      peripheral.emit('handleRead' + mockHandle, mockData);
+      peripheral.emit('handleRead' + mockHandle, null, mockData);
 
       calledbackData.should.equal(mockData);
     });

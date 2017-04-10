@@ -79,7 +79,7 @@ describe('Descriptor', function() {
       descriptor.readValue(function(error, data) {
         callbackData = data;
       });
-      descriptor.emit('valueRead', mockData);
+      descriptor.emit('valueRead', null, mockData);
 
       callbackData.should.equal(mockData);
     });

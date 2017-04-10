@@ -73,7 +73,7 @@ describe('service', function() {
       service.discoverIncludedServices(null, function(error, includedServiceUuids) {
         callbackIncludedServiceUuids = includedServiceUuids;
       });
-      service.emit('includedServicesDiscover', mockIncludedServiceUuids);
+      service.emit('includedServicesDiscover', null, mockIncludedServiceUuids);
 
       callbackIncludedServiceUuids.should.equal(mockIncludedServiceUuids);
     });
@@ -112,7 +112,7 @@ describe('service', function() {
       service.discoverCharacteristics(null, function(error, mockCharacteristics) {
         callbackCharacteristics = mockCharacteristics;
       });
-      service.emit('characteristicsDiscover', mockCharacteristics);
+      service.emit('characteristicsDiscover', null, mockCharacteristics);
 
       callbackCharacteristics.should.equal(mockCharacteristics);
     });
