@@ -164,7 +164,7 @@ peripheral.discoverServices(serviceUUIDs[, callback(error, services)]); // parti
 ##### Discover all services and characteristics
 
 ```javascript
-peripheral.discoverAllServicesAndCharacteristics([callback(error, services, characteristics));
+peripheral.discoverAllServicesAndCharacteristics([callback(error, services, characteristics)]);
 ```
 
 ##### Discover some services and characteristics
