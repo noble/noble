@@ -121,7 +121,7 @@ noble.startScanning([], true); // any service UUID, allow duplicates
 var serviceUUIDs = ["<service UUID 1>", ...]; // default: [] => all
 var allowDuplicates = <false|true>; // default: false
 
-noble.startScanning(serviceUUIDs, allowDuplicates[, callback(error)]); // particular UUID's
+noble.startScanning(serviceUUIDs, allowDuplicates[, callback()]); // particular UUID's
 ```
 
 __NOTE:__ ```noble.state``` must be ```poweredOn``` before scanning is started. ```noble.on('stateChange', callback(state));``` can be used register for state change events.
