@@ -89,13 +89,13 @@ This limit is imposed upon by the Bluetooth adapter hardware as well as it's fir
 
 ### Adapter specific known issues
 
-Some BLE adapters like Sena UD-100 (Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)) cannot connect to a peripheral while they are scanning. You will get the following message when trying to connect :
+Some BLE adapters cannot connect to a peripheral while they are scanning (examples below). You will get the following messages when trying to connect :
 
-`Error: Command disallowed`
+Sena UD-100 (Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)) : `Error: Command disallowed`
+
+Intel Dual Band Wireless-AC 7260 (Intel Corporation Wireless 7260 (rev 73)) : `Error: Connection Rejected due to Limited Resources (0xd)`
 
 You need to stop scanning before trying to connect in order to solve this issue.
-
-(Other errors possible. With an Intel Corporation Wireless 7260 (rev 73) adaptor it's `Error: Connection Rejected due to Limited Resources (0xd)`)
 
 ## Install
 
