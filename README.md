@@ -95,6 +95,8 @@ Some BLE adapters like Sena UD-100 (Cambridge Silicon Radio, Ltd Bluetooth Dongl
 
 You need to stop scanning before trying to connect in order to solve this issue.
 
+(Other errors possible. With an Intel Corporation Wireless 7260 (rev 73) adaptor it's `Error: Connection Rejected due to Limited Resources (0xd)`)
+
 ## Install
 
 ```sh
