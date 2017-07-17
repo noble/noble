@@ -1,0 +1,12 @@
+npmpublish:
+  image: node:8
+  script:
+    - npm install -g npm-cli-login
+    - npm-cli-login -u ${NPM_USER} -p ${NPM_PASS} -e ci@gitlab.io-labs.de -r https://npm.essentim.cloud -s @essentim --quotes
+    - npm publish
+  only:
+    - production
+    - staging
+    - master
+  tags:
+    - amd64
