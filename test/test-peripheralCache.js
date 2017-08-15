@@ -79,13 +79,12 @@ describe('PeripheralCache', function(){
     var cache = new PeripheralCache();
 
     var testPeripheral = {uuid:"12345"};
-    var testService = "test service";
-    var testServiceUuid = "67890";
+    var testService = {uuid: "67890"};
 
     cache.addPeripheral(testPeripheral);
-    cache.addService(testPeripheral.uuid, testServiceUuid, testService);
+    cache.addService(testPeripheral.uuid, testService);
 
-    var retrievedService = cache.getService(testPeripheral.uuid, testServiceUuid);
+    var retrievedService = cache.getService(testPeripheral.uuid, testService.uuid);
     retrievedService.should.equal(testService);
   });
 
@@ -93,16 +92,14 @@ describe('PeripheralCache', function(){
     var cache = new PeripheralCache();
 
     var testPeripheral = {uuid:"12345"};
-    var testService = "test service";
-    var testServiceUuid = "67890";
-    var testCharacteristic = "test characteristic";
-    var testCharacteristicUuid = "13579";
+    var testService = {uuid: "67890"};
+    var testCharacteristic = {uuid: "13579"};
 
     cache.addPeripheral(testPeripheral);
-    cache.addService(testPeripheral.uuid, testServiceUuid, testService);
-    cache.addCharacteristic(testPeripheral.uuid, testServiceUuid, testCharacteristicUuid, testCharacteristic);
+    cache.addService(testPeripheral.uuid, testService);
+    cache.addCharacteristic(testPeripheral.uuid, testService.uuid, testCharacteristic);
 
-    var retrievedCharacteristic = cache.getCharacteristic(testPeripheral.uuid, testServiceUuid, testCharacteristicUuid);
+    var retrievedCharacteristic = cache.getCharacteristic(testPeripheral.uuid, testService.uuid, testCharacteristic.uuid);
     retrievedCharacteristic.should.equal(testCharacteristic);
   });
 
@@ -110,20 +107,16 @@ describe('PeripheralCache', function(){
     var cache = new PeripheralCache();
 
     var testPeripheral = {uuid:"12345"};
-    var testService = "test service";
-    var testServiceUuid = "67890";
-    var testCharacteristic = "test characteristic";
-    var testCharacteristicUuid = "13579";
-    var testDescriptor = "test desceriptor";
-    var testDescriptorUuid = "24680";
-
+    var testService = {uuid: "67890"};
+    var testCharacteristic = {uuid: "13579"};
+    var testDescriptor = {uuid: "24680"};
 
     cache.addPeripheral(testPeripheral);
-    cache.addService(testPeripheral.uuid, testServiceUuid, testService);
-    cache.addCharacteristic(testPeripheral.uuid, testServiceUuid, testCharacteristicUuid, testCharacteristic);
-    cache.addDescriptor(testPeripheral.uuid, testServiceUuid, testCharacteristicUuid, testDescriptorUuid, testDescriptor);
+    cache.addService(testPeripheral.uuid, testService);
+    cache.addCharacteristic(testPeripheral.uuid, testService.uuid, testCharacteristic);
+    cache.addDescriptor(testPeripheral.uuid, testService.uuid, testCharacteristic.uuid, testDescriptor);
 
-    var retrievedDescriptor = cache.getDescriptor(testPeripheral.uuid, testServiceUuid, testCharacteristicUuid, testDescriptorUuid);
+    var retrievedDescriptor = cache.getDescriptor(testPeripheral.uuid, testService.uuid, testCharacteristic.uuid, testDescriptor.uuid);
     retrievedDescriptor.should.equal(testDescriptor);
   });
 
