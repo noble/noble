@@ -1,3 +1,10 @@
+## Version 1.8.1
+
+ * easier install instructions for Windows ([@don](https://github.com/don))
+ * hci-socket binding: more descriptive error outputs ([@mbifulco](https://github.com/mbifulco))
+ * hci-socket binding: report non-connectable advertisements without scan response
+ * Corrected deprecated `read` event for characteristics no emitting for notifications
+
 ## Version 1.8.0
 
  * hci-socket binding: always set scan parameters before scanning ([@Lahorde](https://github.com/Lahorde))
