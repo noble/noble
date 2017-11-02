@@ -63,8 +63,17 @@ describe('service', function() {
     });
 
     it('should callback with data', function(done) {
-      var mockIncludedServiceUuids = [];
+      const mockIncludedServiceUuids = [];
       service.discoverIncludedServices(null, function(error, includedServiceUuids) {
+        includedServiceUuids.should.equal(mockIncludedServiceUuids);
+        done();
+      });
+      service.emit('includedServicesDiscover', mockIncludedServiceUuids);
+    });
+
+    it('should return a promise', function(done) {
+      const mockIncludedServiceUuids = [];
+      service.discoverIncludedServices(null).then(function(includedServiceUuids) {
         includedServiceUuids.should.equal(mockIncludedServiceUuids);
         done();
       });
@@ -80,7 +89,7 @@ describe('service', function() {
     });
 
     it('should delegate to noble, with uuids', function() {
-      var mockUuids = [];
+      const mockUuids = [];
 
       service.discoverCharacteristics(mockUuids);
 
@@ -95,9 +104,19 @@ describe('service', function() {
     });
 
     it('should callback with data', function(done) {
-      var mockCharacteristics = [];
+      const mockCharacteristics = [];
 
       service.discoverCharacteristics(null, function(error, mockCharacteristics) {
+        mockCharacteristics.should.equal(mockCharacteristics);
+        done();
+      });
+      service.emit('characteristicsDiscover', mockCharacteristics);
+    });
+
+    it('should return a promise', function(done) {
+      const mockCharacteristics = [];
+
+      service.discoverCharacteristics(null).then(function(mockCharacteristics) {
         mockCharacteristics.should.equal(mockCharacteristics);
         done();
       });

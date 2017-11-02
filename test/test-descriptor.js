@@ -82,6 +82,17 @@ describe('Descriptor', function() {
       });
       descriptor.emit('valueRead', mockData);
     });
+
+    it('should return a promise', function(done) {
+      var mockData = new Buffer(0);
+
+      descriptor.readValue().then(function(data) {
+        data.should.equal(mockData);
+
+        done();
+      });
+      descriptor.emit('valueRead', mockData);
+    });
   });
 
   describe('writeValue', function() {
@@ -125,6 +136,13 @@ describe('Descriptor', function() {
         calledback.should.equal(1);
         done();
       }, 100);
+    });
+
+    it('should return a promise', function(done) {
+      descriptor.writeValue(mockData).then(function() {
+        done();
+      });
+      descriptor.emit('valueWrite');
     });
   });
 });
