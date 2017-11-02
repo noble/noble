@@ -76,6 +76,13 @@ describe('Peripheral', function() {
       });
       peripheral.emit('connect');
     });
+
+    it('should return a promise', function(done) {
+      peripheral.connect().then(function() {
+        done();
+      });
+      peripheral.emit('connect');
+    });
   });
 
   describe('disconnect', function() {
@@ -87,6 +94,13 @@ describe('Peripheral', function() {
 
     it('should callback', function(done) {
       peripheral.disconnect(function() {
+        done();
+      });
+      peripheral.emit('disconnect');
+    });
+
+    it('should return a promise', function(done) {
+      peripheral.disconnect().then(function() {
         done();
       });
       peripheral.emit('disconnect');
@@ -109,6 +123,14 @@ describe('Peripheral', function() {
 
     it('should callback with rssi', function(done) {
       peripheral.updateRssi(function(error, rssi) {
+        rssi.should.equal(mockRssi);
+        done();
+      });
+      peripheral.emit('rssiUpdate', mockRssi);
+    });
+
+    it('should return a promise', function(done) {
+      peripheral.updateRssi().then(function(rssi) {
         rssi.should.equal(mockRssi);
         done();
       });
@@ -142,6 +164,16 @@ describe('Peripheral', function() {
       var mockServices = [];
 
       peripheral.discoverServices(null, function(error, services) {
+        services.should.equal(mockServices);
+        done();
+      });
+      peripheral.emit('servicesDiscover', mockServices);
+    });
+
+    it('should return a promise', function(done) {
+      var mockServices = [];
+
+      peripheral.discoverServices(null).then(function(services) {
         services.should.equal(mockServices);
         done();
       });
@@ -217,6 +249,25 @@ describe('Peripheral', function() {
       mockServices[0].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic1]);
       mockServices[1].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic2, mockCharacteristic3]);
     });
+
+    it('should return a promise', function(done) {
+      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids).then(function({services, characteristics}) {
+        services.should.equal(mockServices);
+        characteristics.should.eql([mockCharacteristic1, mockCharacteristic2, mockCharacteristic3]);
+        done();
+      });
+
+      var discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
+
+      discoverServicesCallback(null, mockServices);
+
+      var mockCharacteristic1 = { uuid: '1' };
+      var mockCharacteristic2 = { uuid: '2' };
+      var mockCharacteristic3 = { uuid: '3' };
+
+      mockServices[0].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic1]);
+      mockServices[1].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic2, mockCharacteristic3]);
+    });
   });
 
   describe('discoverAllServicesAndCharacteristics', function() {
@@ -252,6 +303,14 @@ describe('Peripheral', function() {
       });
       peripheral.emit('handleRead' + mockHandle, mockData);
     });
+
+    it('should return a promise', function(done) {
+      peripheral.readHandle(mockHandle).then(function(data) {
+        data.should.equal(mockData);
+        done();
+      });
+      peripheral.emit('handleRead' + mockHandle, mockData);
+    });
   });
 
   describe('writeHandle', function() {
@@ -281,6 +340,13 @@ describe('Peripheral', function() {
 
     it('should callback', function(done) {
       peripheral.writeHandle(mockHandle, mockData, false, function() {
+        done();
+      });
+      peripheral.emit('handleWrite' + mockHandle);
+    });
+
+    it('should return a promise', function(done) {
+      peripheral.writeHandle(mockHandle, mockData, false).then(function() {
         done();
       });
       peripheral.emit('handleWrite' + mockHandle);

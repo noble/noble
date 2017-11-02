@@ -71,6 +71,16 @@ describe('Characteristic', function() {
       });
       characteristic.emit('read', mockData);
     });
+
+    it('should return a promise', function(done) {
+      var mockData = new Buffer(0);
+      const p = characteristic.read().then((data) => {
+        data.should.equal(mockData);
+        done();
+      });
+
+      characteristic.emit('read', mockData);
+    });
   });
 
   describe('write', function() {
@@ -106,6 +116,11 @@ describe('Characteristic', function() {
       });
       characteristic.emit('write');
     });
+
+    it('should return a promise', function(done) {
+      const p = characteristic.write(mockData, true).then(() => done());
+      characteristic.emit('write');
+    });
   });
 
   describe('broadcast', function() {
@@ -125,6 +140,11 @@ describe('Characteristic', function() {
       characteristic.broadcast(true, function() {
         done();
       });
+      characteristic.emit('broadcast');
+    });
+
+    it('should return a promise', function(done) {
+      const p = characteristic.broadcast(true).then(() => done());
       characteristic.emit('broadcast');
     });
   });
@@ -148,6 +168,11 @@ describe('Characteristic', function() {
       });
       characteristic.emit('notify');
     });
+
+    it('should return a promise', function(done) {
+      characteristic.notify(true).then(() => done());
+      characteristic.emit('notify');
+    });
   });
 
   describe('subscribe', function() {
@@ -158,10 +183,14 @@ describe('Characteristic', function() {
     });
 
     it('should callback', function(done) {
-
       characteristic.subscribe(function() {
         done();
       });
+      characteristic.emit('notify');
+    });
+
+    it('should return a promise', function(done) {
+      characteristic.subscribe().then(() => done());
       characteristic.emit('notify');
     });
   });
@@ -177,6 +206,11 @@ describe('Characteristic', function() {
       characteristic.unsubscribe(function() {
         done();
       });
+      characteristic.emit('notify');
+    });
+
+    it('should return a promise', function(done) {
+      characteristic.unsubscribe().then(() => done());
       characteristic.emit('notify');
     });
   });
@@ -198,6 +232,15 @@ describe('Characteristic', function() {
     it('should callback with descriptors', function(done) {
       var mockDescriptors = [];
       characteristic.discoverDescriptors(function(error, descriptors) {
+        descriptors.should.equal(mockDescriptors);
+        done();
+      });
+      characteristic.emit('descriptorsDiscover', mockDescriptors);
+    });
+
+    it('should return a promise', function(done) {
+      var mockDescriptors = [];
+      characteristic.discoverDescriptors().then(function(descriptors) {
         descriptors.should.equal(mockDescriptors);
         done();
       });
