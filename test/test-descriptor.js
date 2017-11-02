@@ -49,39 +49,38 @@ describe('Descriptor', function() {
       mockNoble.readValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
-
+    it('should callback', function(done) {
       descriptor.readValue(function() {
-        calledback = true;
+        done();
       });
       descriptor.emit('valueRead');
-
-      calledback.should.equal(true);
     });
 
-    it('should not call callback twice', function() {
+    it('should not call callback twice', function(done) {
       var calledback = 0;
 
       descriptor.readValue(function() {
         calledback += 1;
+
       });
       descriptor.emit('valueRead');
       descriptor.emit('valueRead');
 
-      calledback.should.equal(1);
+      setTimeout(() => {
+        calledback.should.equal(1);
+        done();
+      }, 100);
     });
 
-    it('should callback with error, data', function() {
+    it('should callback with error, data', function(done) {
       var mockData = new Buffer(0);
-      var callbackData = null;
 
       descriptor.readValue(function(error, data) {
-        callbackData = data;
+        data.should.equal(mockData);
+
+        done();
       });
       descriptor.emit('valueRead', mockData);
-
-      callbackData.should.equal(mockData);
     });
   });
 
@@ -106,18 +105,14 @@ describe('Descriptor', function() {
       mockNoble.writeValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid, mockData).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
-
+    it('should callback', function(done) {
       descriptor.writeValue(mockData, function() {
-        calledback = true;
+        done();
       });
       descriptor.emit('valueWrite');
-
-      calledback.should.equal(true);
     });
 
-    it('should not call callback twice', function() {
+    it('should not call callback twice', function(done) {
       var calledback = 0;
 
       descriptor.writeValue(mockData, function() {
@@ -126,8 +121,10 @@ describe('Descriptor', function() {
       descriptor.emit('valueWrite');
       descriptor.emit('valueWrite');
 
-      calledback.should.equal(1);
+      setTimeout(() => {
+        calledback.should.equal(1);
+        done();
+      }, 100);
     });
-
   });
 });
