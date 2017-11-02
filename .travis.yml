@@ -3,9 +3,6 @@ os:
   - osx
 language: cpp
 env:
-  - NODE_VERSION="0.8"
-  - NODE_VERSION="0.10"
-  - NODE_VERSION="0.12"
   - NODE_VERSION="4.0"
   - NODE_VERSION="4.1"
   - NODE_VERSION="4.2"

@@ -251,7 +251,10 @@ describe('Peripheral', function() {
     });
 
     it('should return a promise', function(done) {
-      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids).then(function({services, characteristics}) {
+      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids)
+      .then(function(args) {
+        const services = args.services;
+        const characteristics = args.characteristics;
         services.should.equal(mockServices);
         characteristics.should.eql([mockCharacteristic1, mockCharacteristic2, mockCharacteristic3]);
         done();

@@ -20,7 +20,7 @@
   ],
   "main": "./index.js",
   "engines": {
-    "node": ">=0.8"
+    "node": ">=4.0"
   },
   "os": [
     "darwin",
