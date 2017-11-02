@@ -1,5 +1,6 @@
 {
   "browser": true,
+  "esversion": 6,
   "node": true,
   "mocha": true,
   "unused": false, //enable after cleanup
