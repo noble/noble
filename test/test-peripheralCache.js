@@ -1,4 +1,5 @@
 var should = require('should');
+var sinon = require('sinon');
 
 var PeripheralCache = require("../lib/peripheralCache");
 
@@ -36,8 +37,9 @@ describe('PeripheralCache', function(){
     cache.contains(testPeripheralUuid).should.equal(false);
   });
 
-  it('should sweep old peripherals from the cache', function(done){
-    var cache = new PeripheralCache(1);
+  it('should sweep old peripherals from the cache', function(){
+    var clock = sinon.useFakeTimers();
+    var cache = new PeripheralCache(500);
     var testPeripheral = {uuid:"12345"};
 
     cache.addPeripheral(testPeripheral);
@@ -48,16 +50,18 @@ describe('PeripheralCache', function(){
 
     cache.startSweeping();
 
-    setTimeout(function(){
-      retrievedPeripheral = cache.getPeripheral(testPeripheral.uuid);
-      should.not.exist(retrievedPeripheral);
-      cache.contains(testPeripheral.uuid).should.equal(false);
-      cache.stopSweeping();
-      done();
-    }, 3);
+    clock.tick(1001);
+
+    retrievedPeripheral = cache.getPeripheral(testPeripheral.uuid);
+    should.not.exist(retrievedPeripheral);
+    cache.contains(testPeripheral.uuid).should.equal(false);
+    
+    cache.stopSweeping();
+    clock.restore();
   });
 
-  it('should not sweep old peripherals from the cache when no maximum age was specified', function(done){
+  it('should not sweep old peripherals from the cache when no maximum age was specified', function(){
+    var clock = sinon.useFakeTimers();
     var cache = new PeripheralCache();
     var testPeripheral = {uuid:"12345"};
 
@@ -68,11 +72,12 @@ describe('PeripheralCache', function(){
 
     cache.startSweeping();
 
-    setTimeout(function(){
-      cache.contains(testPeripheral.uuid).should.equal(true);
-      cache.stopSweeping();
-      done();
-    }, 3);
+    clock.tick(1001);
+
+    cache.contains(testPeripheral.uuid).should.equal(true);
+    
+    cache.stopSweeping();
+    clock.restore();
   });
 
   it('should store and retrieve services', function(){
