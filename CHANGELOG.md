@@ -1,3 +1,21 @@
+## Version 1.8.1
+
+ * easier install instructions for Windows ([@don](https://github.com/don))
+ * hci-socket binding: more descriptive error outputs ([@mbifulco](https://github.com/mbifulco))
+ * hci-socket binding: report non-connectable advertisements without scan response
+ * Corrected deprecated `read` event for characteristics no emitting for notifications
+
+## Version 1.8.0
+
+ * hci-socket binding: always set scan parameters before scanning ([@Lahorde](https://github.com/Lahorde))
+ * hci-socket binding: add L2CAP signaling layer for non-Linux or Linux user channel mode
+ * hci-socket binding: Workarounds for scanning with N.T.C. C.H.I.P
+ * hci-socket binding: if `init()` fails we don't want to try and clear up ([@gfwilliams](https://github.com/gfwilliams))
+ * Fix read events firing for notifications ([@zkiiito](https://github.com/zkiiito))
+ * Add FreeBSD support ([@myfreeweb](https://github.com/myfreeweb))
+ * Fix startScanning callback calling setting error to try ([@MarSoft](https://github.com/MarSoft))
+ * New Web Bluetooth API shim ([@monteslu](https://github.com/monteslu))
+
 ## Version 1.7.0
 
  * hci-socket binding: now supports "long writes" ([@projectgus](https://github.com/projectgus))
