@@ -37,7 +37,7 @@ noble.on('discover', function(peripheral) {
     }
 
     if (serviceData) {
-      console.log('  Service Data      = ' + serviceData);
+      console.log('  Service Data      = ' + JSON.stringify(serviceData, null, 2));
     }
 
     if (serviceUuids) {
