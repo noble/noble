@@ -78,7 +78,7 @@ var onMessage = function(message) {
   var command = JSON.parse(message);
 
   var action = command.action;
-  var peripheralUuid = command.peripheralUuid;
+  var peripheralId = command.peripheralUuid;
   var serviceUuids = command.serviceUuids;
   var serviceUuid = command.serviceUuid;
   var characteristicUuids = command.characteristicUuids;
@@ -90,7 +90,7 @@ var onMessage = function(message) {
   var descriptorUuid = command.descriptorUuid;
   var handle = handle;
 
-  var peripheral = peripherals[peripheralUuid];
+  var peripheral = peripherals[peripheralId];
   var service = null;
   var characteristic = null;
   var descriptor = null;
