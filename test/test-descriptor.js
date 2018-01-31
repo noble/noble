@@ -6,8 +6,11 @@ var Descriptor = require('../lib/descriptor');
 describe('Descriptor', function() {
   var mockNoble = null;
   var mockPeripheralId = 'mock-peripheral-id';
+  var mockServiceId = 'mock-service-id';
   var mockServiceUuid = 'mock-service-uuid';
   var mockCharacteristicUuid = 'mock-characteristic-uuid';
+  var mockCharacteristicId = 'mock-characteristic-id';
+  var mockId = 'mock-id';
   var mockUuid = 'mock-uuid';
 
   var descriptor = null;
@@ -18,7 +21,7 @@ describe('Descriptor', function() {
       writeValue: sinon.spy()
     };
 
-    descriptor = new Descriptor(mockNoble, mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid);
+    descriptor = new Descriptor(mockNoble, mockPeripheralId, mockServiceId, mockServiceUuid, mockCharacteristicId, mockCharacteristicUuid, mockId, mockUuid);
   });
 
   afterEach(function() {
@@ -30,7 +33,7 @@ describe('Descriptor', function() {
   });
 
   it('should lookup name and type by uuid', function() {
-    descriptor = new Descriptor(mockNoble, mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, '2900');
+    descriptor = new Descriptor(mockNoble, mockPeripheralId, mockServiceId, mockServiceUuid, mockCharacteristicId, mockCharacteristicUuid, mockId, '2900');
 
     descriptor.name.should.equal('Characteristic Extended Properties');
     descriptor.type.should.equal('org.bluetooth.descriptor.gatt.characteristic_extended_properties');
@@ -38,7 +41,7 @@ describe('Descriptor', function() {
 
   describe('toString', function() {
     it('should be uuid, name, type', function() {
-      descriptor.toString().should.equal('{"uuid":"mock-uuid","name":null,"type":null}');
+      descriptor.toString().should.equal('{"id":"mock-id","uuid":"mock-uuid","name":null,"type":null}');
     });
   });
 
@@ -46,7 +49,7 @@ describe('Descriptor', function() {
     it('should delegate to noble', function() {
       descriptor.readValue();
 
-      mockNoble.readValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid).should.equal(true);
+      mockNoble.readValue.calledWithExactly(mockPeripheralId, mockServiceId, mockCharacteristicId, mockId).should.equal(true);
     });
 
     it('should callback', function() {
@@ -103,7 +106,7 @@ describe('Descriptor', function() {
     it('should delegate to noble', function() {
       descriptor.writeValue(mockData);
 
-      mockNoble.writeValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid, mockData).should.equal(true);
+      mockNoble.writeValue.calledWithExactly(mockPeripheralId, mockServiceId, mockCharacteristicId, mockId,  mockData).should.equal(true);
     });
 
     it('should callback', function() {
