@@ -6,15 +6,9 @@ env:
   - NODE_VERSION="0.8"
   - NODE_VERSION="0.10"
   - NODE_VERSION="0.12"
-  - NODE_VERSION="4.0"
-  - NODE_VERSION="4.1"
-  - NODE_VERSION="4.2"
-  - NODE_VERSION="5.0"
-  - NODE_VERSION="5.1"
-  - NODE_VERSION="5.2"
-  - NODE_VERSION="5.3"
-  - NODE_VERSION="5.4"
-  - NODE_VERSION="5.5"
+  - NODE_VERSION="4"
+  - NODE_VERSION="6"
+  - NODE_VERSION="8"
 matrix:
   fast_finish: true
 before_install:
