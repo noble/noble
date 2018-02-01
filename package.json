@@ -29,7 +29,10 @@
     "win32"
   ],
   "dependencies": {
-    "debug": "~2.2.0"
+    "debug": "~2.2.0",
+    "duplexify": "^3.5.0",
+    "flush-write-stream": "^1.0.2",
+    "from2": "^2.3.0"
   },
   "optionalDependencies": {
     "bluetooth-hci-socket": "^0.5.1",
