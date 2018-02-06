@@ -29,22 +29,24 @@ if (serverMode) {
 
     ws.on('close', function() {
       console.log('ws -> close');
-
       noble.stopScanning();
     });
 
-    if (noble.state == "poweredOn") {
-      sendEvent({
-        type: 'stateChange',
-        state: "poweredOn"
-      });
-    }
     noble.on('stateChange', function(state) {
       sendEvent({
         type: 'stateChange',
         state: state
       });
     });
+
+    // Send poweredOn if already in this state.
+    if (noble.state == "poweredOn") {
+      sendEvent({
+        type: 'stateChange',
+        state: "poweredOn"
+      });
+    }
+
 
   });
 } else {
