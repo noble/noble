@@ -95,7 +95,11 @@ function explore(peripheral) {
                       async.detect(
                         descriptors,
                         function(descriptor, callback) {
-                          return callback(descriptor.uuid === '2901');
+                          if (descriptor.uuid === '2901') {
+                            return callback(descriptor);
+                          } else {
+                            return callback();
+                          }
                         },
                         function(userDescriptionDescriptor){
                           if (userDescriptionDescriptor) {
