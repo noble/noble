@@ -392,6 +392,8 @@ characteristic.on('data', callback(data, isNotification));
 characteristic.once('read', callback(data, isNotification)); // legacy
 ```
 
+**Note:** `isNotification` event parameter value MAY be `undefined` depending on platform support. The parameter is **deprecated** after version 1.8.1, and not supported when on macOS High Sierra and later.
+
 ##### Write
 
 Emitted when characteristic write has completed, result of ```characteristic.write(...)```.
