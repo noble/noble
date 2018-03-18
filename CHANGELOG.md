@@ -1,3 +1,10 @@
+## Version 1.9.1
+
+ * Don't forget previously discovered services and characteristics ([@elafargue](https://github.com/elafargue))
+ * Fixed peripheral-explorer example with newer async versions
+ * web socket binding: various fixes ([@hadrienk](https://github.com/hadrienk))
+ * Fix multiple init of bindings with multiple stateChange listeners added or noble.state is accessed
+
 ## Version 1.9.0
 
  * Don't initialize bindings until first state change listener added
