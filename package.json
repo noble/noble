@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "async": "~0.2.9",
+    "jshint": "latest",
     "mocha": "^5.2.0",
     "should": "~1.2.2",
     "sinon": "~1.6.0",
