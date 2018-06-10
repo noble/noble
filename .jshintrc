@@ -2,6 +2,7 @@
   "browser": true,
   "node": true,
   "mocha": true,
+  "esversion": 6,
   "unused": false, //enable after cleanup
   "undef": false, //enable after cleanup
   "globals": {
