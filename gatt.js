@@ -285,7 +285,7 @@ Gatt.prototype.writeRequest = function(handle, data, withoutResponse) {
 Gatt.prototype.prepareWriteRequest = function(handle, offset, data) {
   var buf = new Buffer(5 + data.length);
 
-  buf.writeUInt8(ATT_OP_PREPARE_WRITE_REQ, 0);
+  buf.writeUInt8(ATT_OP_PREPARE_WRITE_REQ);
   buf.writeUInt16LE(handle, 1);
   buf.writeUInt16LE(offset, 3);
 
@@ -299,7 +299,7 @@ Gatt.prototype.prepareWriteRequest = function(handle, offset, data) {
 Gatt.prototype.executeWriteRequest = function(handle, cancelPreparedWrites) {
   var buf = new Buffer(2);
 
-  buf.writeUInt8(ATT_OP_EXECUTE_WRITE_REQ, 0);
+  buf.writeUInt8(ATT_OP_EXECUTE_WRITE_REQ);
   buf.writeUInt8(cancelPreparedWrites ? 0 : 1, 1);
 
   return buf;
@@ -410,7 +410,7 @@ Gatt.prototype.discoverCharacteristics = function(serviceUuid, characteristicUui
   var service = this._services[serviceUuid];
   var characteristics = [];
 
-  this._characteristics[serviceUuid] = this._characteristics[serviceUuid] || {};
+  this._characteristics[serviceUuid] = {};
   this._descriptors[serviceUuid] = this._descriptors[serviceUuid] || {};
 
   var callback = function(data) {
@@ -668,10 +668,11 @@ Gatt.prototype.discoverDescriptors = function(serviceUuid, characteristicUuid) {
     if (opcode === ATT_OP_FIND_INFO_RESP) {
       var format = data[1];
       var num;
+      var pos;
       switch(format){
         case 1:
           num = (data.length - 2) / 4;
-          for (var pos = 0; pos < num; pos++) {
+          for (pos = 0; pos < num; pos++) {
             descriptors.push({
               handle: data.readUInt16LE(2 + pos * 4 + 0),
               uuid: data.readUInt16LE(2 + pos * 4 + 2).toString(16)
@@ -681,7 +682,7 @@ Gatt.prototype.discoverDescriptors = function(serviceUuid, characteristicUuid) {
         case 2:
           num = (data.length - 2) / 18;
           data = data.slice(2);
-          for (var pos = 0; pos < num; i++) {
+          for (pos = 0; pos < num; i++) {
             var h = data.readUInt16LE(pos * 18);
             var uuidBuf = data.slice(2 + pos*18, (pos+1)*18);
             var u = "";
