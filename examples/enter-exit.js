@@ -1,5 +1,5 @@
 /*
-  Continously scans for peripherals and prints out message when they enter/exit
+  Continuously scans for peripherals and prints out message when they enter/exit
 
     In range criteria:      RSSI < threshold
     Out of range criteria:  lastSeen > grace period
