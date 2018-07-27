@@ -25,3 +25,5 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
+      - build-essential
+      - libudev-dev
