@@ -38,7 +38,7 @@
     "debug": "^3.1.0"
   },
   "optionalDependencies": {
-    "bplist-parser": "0.0.6",
+    "bplist-parser": "0.1.1",
     "xpc-connection": "~0.1.4"
   },
   "devDependencies": {
