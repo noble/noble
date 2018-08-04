@@ -76,10 +76,10 @@ function sendEvent(event) {
 
   console.log('ws -> send: ' + message);
 
-  var clients = serverMode ? wss.clients : [ws];
+  var clients = serverMode ? wss.clients : new Set([ws]);
 
-  for (var i = 0; i < clients.length; i++) {
-    clients[i].send(message);
+  for (var client of clients) {
+    client.send(message);
   }
 }
 
