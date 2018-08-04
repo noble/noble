@@ -42,7 +42,7 @@
     "xpc-connection": "~0.1.4"
   },
   "devDependencies": {
-    "async": "~0.2.9",
+    "async": "^2.6.1",
     "jshint": "latest",
     "mocha": "~1.8.2",
     "should": "~1.2.2",
