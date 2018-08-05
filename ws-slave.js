@@ -40,10 +40,10 @@ if (serverMode) {
     });
 
     // Send poweredOn if already in this state.
-    if (noble.state == "poweredOn") {
+    if (noble.state == 'poweredOn') {
       sendEvent({
         type: 'stateChange',
-        state: "poweredOn"
+        state: 'poweredOn'
       });
     }
 
