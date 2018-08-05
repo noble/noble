@@ -26,7 +26,7 @@ var PizzaBakeResult = {
   CRISPY:     2,
   BURNT:      3,
   ON_FIRE:    4
-}
+};
 
 function Pizza() {
   events.EventEmitter.call(this);
@@ -49,7 +49,7 @@ Pizza.prototype.bake = function(temperature) {
                             PizzaBakeResult.ON_FIRE;
     self.emit('ready', result);
   }, time);
-}
+};
 
 module.exports.Pizza = Pizza;
 module.exports.PizzaToppings = PizzaToppings;

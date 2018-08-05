@@ -20,7 +20,7 @@ noble.on('stateChange', function(state) {
   else {
     noble.stopScanning();
   }
-})
+});
 
 var pizzaService = null;
 var pizzaCrustCharacteristic = null;
@@ -73,7 +73,7 @@ noble.on('discover', function(peripheral) {
             else if (pizzaBakeCharacteristicUuid == characteristic.uuid) {
               pizzaBakeCharacteristic = characteristic;
             }
-          })
+          });
 
           //
           // Check to see if we found all of our characteristics.
@@ -89,11 +89,11 @@ noble.on('discover', function(peripheral) {
           else {
             console.log('missing characteristics');
           }
-        })
-      })
-    })
-  })
-})
+        });
+      });
+    });
+  });
+});
 
 function bakePizza() {
   //
@@ -132,7 +132,7 @@ function bakePizza() {
                   'unknown?');
             }
             else {
-              console.log('result length incorrect')
+              console.log('result length incorrect');
             }
           });
           pizzaBakeCharacteristic.subscribe(function(err) {
@@ -157,5 +157,5 @@ function bakePizza() {
     else {
       console.log('crust error');
     }
-  })
+  });
 }
