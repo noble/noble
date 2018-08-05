@@ -1,4 +1,4 @@
-
+/* eslint-disable no-console */
 var noble = require('../..');
 var pizza = require('./pizza');
 

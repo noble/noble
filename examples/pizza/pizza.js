@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 var util = require('util');
 var events = require('events');
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /*
   Continously scans for peripherals and prints out message when they enter/exit
 

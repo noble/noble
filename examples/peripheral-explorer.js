@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 var async = require('async');
 var noble = require('../index');
 

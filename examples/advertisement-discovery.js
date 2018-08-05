@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 var noble = require('../index');
 
 noble.on('stateChange', function(state) {
