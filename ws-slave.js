@@ -15,20 +15,20 @@ var ws;
 var wss;
 
 if (serverMode) {
-  console.log('noble - ws slave - server mode');
+  debug('noble - ws slave - server mode');
   wss = new WebSocket.Server({
     port: 0xB1e
   });
 
   wss.on('connection', function(ws_) {
-    console.log('ws -> connection');
+    debug('ws -> connection');
 
     ws = ws_;
 
     ws.on('message', onMessage);
 
     ws.on('close', function() {
-      console.log('ws -> close');
+      debug('ws -> close');
       noble.stopScanning();
     });
 
@@ -53,7 +53,7 @@ if (serverMode) {
   ws = new WebSocket('ws://' + host + ':' + port);
 
   ws.on('open', function() {
-    console.log('ws -> open');
+    debug('ws -> open');
   });
 
   ws.on('message', function(message) {
@@ -61,7 +61,7 @@ if (serverMode) {
   });
 
   ws.on('close', function() {
-    console.log('ws -> close');
+    debug('ws -> close');
 
     noble.stopScanning();
   });
@@ -74,7 +74,7 @@ var peripherals = {};
 function sendEvent(event) {
   var message = JSON.stringify(event);
 
-  console.log('ws -> send: ' + message);
+  debug('ws -> send: ' + message);
 
   var clients = serverMode ? wss.clients : new Set([ws]);
 
@@ -84,7 +84,7 @@ function sendEvent(event) {
 }
 
 var onMessage = function(message) {
-  console.log('ws -> message: ' + message);
+  debug('ws -> message: ' + message);
 
   var command = JSON.parse(message);
 
