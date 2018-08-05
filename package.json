@@ -43,14 +43,14 @@
   },
   "devDependencies": {
     "async": "^2.6.1",
-    "jshint": "latest",
+    "eslint": "^5.3.0",
     "mocha": "^5.2.0",
     "should": "^13.2.3",
     "sinon": "^6.1.4",
     "ws": "^6.0.0"
   },
   "scripts": {
-    "pretest": "jshint *.js lib/. test/.",
+    "pretest": "eslint *.js lib/ test/ examples/",
     "test": "mocha -R spec test/*.js"
   },
   "browser": {

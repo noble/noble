@@ -1,4 +1,3 @@
-/* jshint loopfunc: true */
 var debug = require('debug')('slave');
 var WebSocket = require('ws');
 
