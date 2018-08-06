@@ -129,7 +129,7 @@ function bakePizza() {
                 result === pizza.PizzaBakeResult.CRISPY ? 'crispy.' :
                 result === pizza.PizzaBakeResult.BURNT ? 'burnt.' :
                 result === pizza.PizzaBakeResult.ON_FIRE ? 'on fire!' :
-                  'unknown?');
+                'unknown?');
             }
             else {
               console.log('result length incorrect');

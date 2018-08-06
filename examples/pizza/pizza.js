@@ -46,7 +46,7 @@ Pizza.prototype.bake = function(temperature) {
       (temperature < 450) ? PizzaBakeResult.BAKED:
       (temperature < 500) ? PizzaBakeResult.CRISPY:
       (temperature < 600) ? PizzaBakeResult.BURNT:
-                            PizzaBakeResult.ON_FIRE;
+      PizzaBakeResult.ON_FIRE;
     self.emit('ready', result);
   }, time);
 };

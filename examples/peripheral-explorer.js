@@ -118,7 +118,7 @@ function explore(peripheral) {
                     });
                   },
                   function(callback) {
-                        characteristicInfo += `\n    properties  ${characteristic.properties.join(', ')}`;
+                    characteristicInfo += `\n    properties  ${characteristic.properties.join(', ')}`;
 
                     if (characteristic.properties.indexOf('read') !== -1) {
                       characteristic.read(function(error, data) {
