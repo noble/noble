@@ -50,7 +50,7 @@ if (serverMode) {
 
   });
 } else {
-  ws = new WebSocket('ws://' + host + ':' + port);
+  ws = new WebSocket(`ws://${host}:${port}`);
 
   ws.on('open', function() {
     debug('ws -> open');
@@ -74,7 +74,7 @@ var peripherals = {};
 function sendEvent(event) {
   var message = JSON.stringify(event);
 
-  debug('ws -> send: ' + message);
+  debug(`ws -> send: ${message}`);
 
   var clients = serverMode ? wss.clients : new Set([ws]);
 
@@ -84,7 +84,7 @@ function sendEvent(event) {
 }
 
 var onMessage = function(message) {
-  debug('ws -> message: ' + message);
+  debug(`ws -> message: ${message}`);
 
   var command = JSON.parse(message);
 

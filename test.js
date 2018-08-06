@@ -4,7 +4,7 @@ var noble = require('./index');
 console.log('noble');
 
 noble.on('stateChange', function(state) {
-  console.log('on -> stateChange: ' + state);
+  console.log(`on -> stateChange: ${state}`);
 
   if (state === 'poweredOn') {
     noble.startScanning();
@@ -24,7 +24,7 @@ noble.on('scanStop', function() {
 
 
 noble.on('discover', function(peripheral) {
-  console.log('on -> discover: ' + peripheral);
+  console.log(`on -> discover: ${peripheral}`);
 
   noble.stopScanning();
 
@@ -38,27 +38,27 @@ noble.on('discover', function(peripheral) {
   });
 
   peripheral.on('rssiUpdate', function(rssi) {
-    console.log('on -> RSSI update ' + rssi);
+    console.log(`on -> RSSI update ${rssi}`);
     this.discoverServices();
   });
 
   peripheral.on('servicesDiscover', function(services) {
-    console.log('on -> peripheral services discovered ' + services);
+    console.log(`on -> peripheral services discovered ${services}`);
 
     var serviceIndex = 0;
 
     services[serviceIndex].on('includedServicesDiscover', function(includedServiceUuids) {
-      console.log('on -> service included services discovered ' + includedServiceUuids);
+      console.log(`on -> service included services discovered ${includedServiceUuids}`);
       this.discoverCharacteristics();
     });
 
     services[serviceIndex].on('characteristicsDiscover', function(characteristics) {
-      console.log('on -> service characteristics discovered ' + characteristics);
+      console.log(`on -> service characteristics discovered ${characteristics}`);
 
       var characteristicIndex = 0;
 
       characteristics[characteristicIndex].on('read', function(data, isNotification) {
-        console.log('on -> characteristic read ' + data + ' ' + isNotification);
+        console.log(`on -> characteristic read ${data} ${isNotification}`);
         console.log(data);
 
         peripheral.disconnect();
@@ -71,24 +71,24 @@ noble.on('discover', function(peripheral) {
       });
 
       characteristics[characteristicIndex].on('broadcast', function(state) {
-        console.log('on -> characteristic broadcast ' + state);
+        console.log(`on -> characteristic broadcast ${state}`);
 
         peripheral.disconnect();
       });
 
       characteristics[characteristicIndex].on('notify', function(state) {
-        console.log('on -> characteristic notify ' + state);
+        console.log(`on -> characteristic notify ${state}`);
 
         peripheral.disconnect();
       });
 
       characteristics[characteristicIndex].on('descriptorsDiscover', function(descriptors) {
-        console.log('on -> descriptors discover ' + descriptors);
+        console.log(`on -> descriptors discover ${descriptors}`);
 
         var descriptorIndex = 0;
 
         descriptors[descriptorIndex].on('valueRead', function(data) {
-          console.log('on -> descriptor value read ' + data);
+          console.log(`on -> descriptor value read ${data}`);
           console.log(data);
           peripheral.disconnect();
         });

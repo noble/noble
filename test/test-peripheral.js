@@ -293,7 +293,7 @@ describe('Peripheral', function() {
       peripheral.readHandle(mockHandle, function() {
         done();
       });
-      peripheral.emit('handleRead' + mockHandle);
+      peripheral.emit(`handleRead${mockHandle}`);
     });
 
     it('should callback with data', function(done) {
@@ -301,7 +301,7 @@ describe('Peripheral', function() {
         data.should.equal(mockData);
         done();
       });
-      peripheral.emit('handleRead' + mockHandle, mockData);
+      peripheral.emit(`handleRead${mockHandle}`, mockData);
     });
 
     it('should return a promise', function(done) {
@@ -309,7 +309,7 @@ describe('Peripheral', function() {
         data.should.equal(mockData);
         done();
       });
-      peripheral.emit('handleRead' + mockHandle, mockData);
+      peripheral.emit(`handleRead${mockHandle}`, mockData);
     });
   });
 
@@ -342,14 +342,14 @@ describe('Peripheral', function() {
       peripheral.writeHandle(mockHandle, mockData, false, function() {
         done();
       });
-      peripheral.emit('handleWrite' + mockHandle);
+      peripheral.emit(`handleWrite${mockHandle}`);
     });
 
     it('should return a promise', function(done) {
       peripheral.writeHandle(mockHandle, mockData, false).then(function() {
         done();
       });
-      peripheral.emit('handleWrite' + mockHandle);
+      peripheral.emit(`handleWrite${mockHandle}`);
     });
   });
 });
