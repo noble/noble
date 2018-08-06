@@ -73,7 +73,7 @@ describe('Descriptor', function() {
     });
 
     it('should callback with error, data', function(done) {
-      var mockData = new Buffer(0);
+      var mockData = Buffer.alloc(0);
 
       descriptor.readValue(function(error, data) {
         data.should.equal(mockData);
@@ -84,7 +84,7 @@ describe('Descriptor', function() {
     });
 
     it('should return a promise', function(done) {
-      var mockData = new Buffer(0);
+      var mockData = Buffer.alloc(0);
 
       descriptor.readValue().then(function(data) {
         data.should.equal(mockData);
@@ -99,7 +99,7 @@ describe('Descriptor', function() {
     var mockData = null;
 
     beforeEach(function() {
-      mockData = new Buffer(0);
+      mockData = Buffer.alloc(0);
     });
 
     it('should only accept data as a buffer', function() {

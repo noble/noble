@@ -64,7 +64,7 @@ describe('Characteristic', function() {
     });
 
     it('should callback with data', function(done) {
-      var mockData = new Buffer(0);
+      var mockData = Buffer.alloc(0);
       characteristic.read(function(error, data) {
         data.should.equal(mockData);
         done();
@@ -73,7 +73,7 @@ describe('Characteristic', function() {
     });
 
     it('should return a promise', function(done) {
-      var mockData = new Buffer(0);
+      var mockData = Buffer.alloc(0);
       characteristic.read().then((data) => {
         data.should.equal(mockData);
         done();
@@ -87,7 +87,7 @@ describe('Characteristic', function() {
     var mockData = null;
 
     beforeEach(function() {
-      mockData = new Buffer(0);
+      mockData = Buffer.alloc(0);
     });
 
     it('should only accept data as a buffer', function() {
