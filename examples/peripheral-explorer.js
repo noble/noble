@@ -120,7 +120,7 @@ function explore(peripheral) {
                   function(callback) {
                     characteristicInfo += `\n    properties  ${characteristic.properties.join(', ')}`;
 
-                    if (characteristic.properties.indexOf('read') !== -1) {
+                    if (characteristic.properties.includes('read')) {
                       characteristic.read(function(error, data) {
                         if (data) {
                           var string = data.toString('ascii');
