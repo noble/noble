@@ -1,16 +1,16 @@
 require('should');
-var sinon = require('sinon');
+const sinon = require('sinon');
 
-var Characteristic = require('../lib/characteristic');
+const Characteristic = require('../lib/characteristic');
 
 describe('Characteristic', function() {
-  var mockNoble = null;
-  var mockPeripheralId = 'mock-peripheral-id';
-  var mockServiceUuid = 'mock-service-uuid';
-  var mockUuid = 'mock-uuid';
-  var mockProperties = ['mock-property-1', 'mock-property-2'];
+  let mockNoble = null;
+  const mockPeripheralId = 'mock-peripheral-id';
+  const mockServiceUuid = 'mock-service-uuid';
+  const mockUuid = 'mock-uuid';
+  const mockProperties = ['mock-property-1', 'mock-property-2'];
 
-  var characteristic = null;
+  let characteristic = null;
 
   beforeEach(function() {
     mockNoble = {
@@ -64,7 +64,7 @@ describe('Characteristic', function() {
     });
 
     it('should callback with data', function(done) {
-      var mockData = Buffer.alloc(0);
+      const mockData = Buffer.alloc(0);
       characteristic.read(function(error, data) {
         data.should.equal(mockData);
         done();
@@ -73,7 +73,7 @@ describe('Characteristic', function() {
     });
 
     it('should return a promise', function(done) {
-      var mockData = Buffer.alloc(0);
+      const mockData = Buffer.alloc(0);
       characteristic.read().then((data) => {
         data.should.equal(mockData);
         done();
@@ -84,7 +84,7 @@ describe('Characteristic', function() {
   });
 
   describe('write', function() {
-    var mockData = null;
+    let mockData = null;
 
     beforeEach(function() {
       mockData = Buffer.alloc(0);
@@ -230,7 +230,7 @@ describe('Characteristic', function() {
     });
 
     it('should callback with descriptors', function(done) {
-      var mockDescriptors = [];
+      const mockDescriptors = [];
       characteristic.discoverDescriptors(function(error, descriptors) {
         descriptors.should.equal(mockDescriptors);
         done();
@@ -239,7 +239,7 @@ describe('Characteristic', function() {
     });
 
     it('should return a promise', function(done) {
-      var mockDescriptors = [];
+      const mockDescriptors = [];
       characteristic.discoverDescriptors().then(function(descriptors) {
         descriptors.should.equal(mockDescriptors);
         done();

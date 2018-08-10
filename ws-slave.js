@@ -1,15 +1,15 @@
-var debug = require('debug')('slave');
-var WebSocket = require('ws');
+const debug = require('debug')('slave');
+const WebSocket = require('ws');
 
-var noble = require('./index');
+const noble = require('./index');
 
-var serverMode = !process.argv[2];
-var port = 0xB1e;
-var host = process.argv[2];
+const serverMode = !process.argv[2];
+const port = 0xB1e;
+const host = process.argv[2];
 
 
-var ws;
-var wss;
+let ws;
+let wss;
 
 if (serverMode) {
   debug('noble - ws slave - server mode');
@@ -64,64 +64,64 @@ if (serverMode) {
   });
 }
 
-var peripherals = {};
+const peripherals = {};
 
 // TODO: open/close ws on state change
 
 function sendEvent(event) {
-  var message = JSON.stringify(event);
+  const message = JSON.stringify(event);
 
   debug(`ws -> send: ${message}`);
 
-  var clients = serverMode ? wss.clients : new Set([ws]);
+  const clients = serverMode ? wss.clients : new Set([ws]);
 
-  for (var client of clients) {
+  for (const client of clients) {
     client.send(message);
   }
 }
 
-var onMessage = function(message) {
+const onMessage = function(message) {
   debug(`ws -> message: ${message}`);
 
-  var command = JSON.parse(message);
+  const command = JSON.parse(message);
 
-  var action = command.action;
-  var peripheralUuid = command.peripheralUuid;
-  var serviceUuids = command.serviceUuids;
-  var serviceUuid = command.serviceUuid;
-  var characteristicUuids = command.characteristicUuids;
-  var characteristicUuid = command.characteristicUuid;
-  var data = command.data ? Buffer.from(command.data, 'hex') : null;
-  var withoutResponse = command.withoutResponse;
-  var broadcast = command.broadcast;
-  var notify = command.notify;
-  var descriptorUuid = command.descriptorUuid;
-  var handle = handle;
+  const action = command.action;
+  const peripheralUuid = command.peripheralUuid;
+  const serviceUuids = command.serviceUuids;
+  const serviceUuid = command.serviceUuid;
+  const characteristicUuids = command.characteristicUuids;
+  const characteristicUuid = command.characteristicUuid;
+  const data = command.data ? Buffer.from(command.data, 'hex') : null;
+  const withoutResponse = command.withoutResponse;
+  const broadcast = command.broadcast;
+  const notify = command.notify;
+  const descriptorUuid = command.descriptorUuid;
+  const handle = handle;
 
-  var peripheral = peripherals[peripheralUuid];
-  var service = null;
-  var characteristic = null;
-  var descriptor = null;
+  const peripheral = peripherals[peripheralUuid];
+  let service = null;
+  let characteristic = null;
+  let descriptor = null;
 
 
   if (peripheral && serviceUuid) {
-    var services = peripheral.services;
+    const services = peripheral.services;
 
-    for (var i in services) {
+    for (const i in services) {
       if (services[i].uuid === serviceUuid) {
         service = services[i];
 
         if (characteristicUuid) {
-          var characteristics = service.characteristics;
+          const characteristics = service.characteristics;
 
-          for (var j in characteristics) {
+          for (const j in characteristics) {
             if (characteristics[j].uuid === characteristicUuid) {
               characteristic = characteristics[j];
 
               if (descriptorUuid) {
-                var descriptors = characteristic.descriptors;
+                const descriptors = characteristic.descriptors;
 
-                for (var k in descriptors) {
+                for (const k in descriptors) {
                   if (descriptors[k].uuid === descriptorUuid) {
                     descriptor = descriptors[k];
                     break;
@@ -190,9 +190,9 @@ noble.on('discover', function(peripheral) {
       peripheralUuid: this.uuid
     });
 
-    for (var i in this.services) {
-      for (var j in this.services[i].characteristics) {
-        for (var k in this.services[i].characteristics[j].descriptors) {
+    for (const i in this.services) {
+      for (const j in this.services[i].characteristics) {
+        for (const k in this.services[i].characteristics[j].descriptors) {
           this.services[i].characteristics[j].descriptors[k].removeAllListeners();
         }
 
@@ -213,10 +213,10 @@ noble.on('discover', function(peripheral) {
   });
 
   peripheral.on('servicesDiscover', function(services) {
-    var peripheral = this;
-    var serviceUuids = [];
+    const peripheral = this;
+    const serviceUuids = [];
 
-    var includedServicesDiscover = function(includedServiceUuids) {
+    const includedServicesDiscover = function(includedServiceUuids) {
       sendEvent({
         type: 'includedServicesDiscover',
         peripheralUuid: peripheral.uuid,
@@ -225,12 +225,12 @@ noble.on('discover', function(peripheral) {
       });
     };
 
-    var characteristicsDiscover = function(characteristics) {
-      var service = this;
-      var discoveredCharacteristics = [];
+    const characteristicsDiscover = function(characteristics) {
+      const service = this;
+      const discoveredCharacteristics = [];
 
-      var read = function(data, isNotification) {
-        var characteristic = this;
+      const read = function(data, isNotification) {
+        const characteristic = this;
 
         sendEvent({
           type: 'read',
@@ -242,8 +242,8 @@ noble.on('discover', function(peripheral) {
         });
       };
 
-      var write = function() {
-        var characteristic = this;
+      const write = function() {
+        const characteristic = this;
 
         sendEvent({
           type: 'write',
@@ -253,8 +253,8 @@ noble.on('discover', function(peripheral) {
         });
       };
 
-      var broadcast = function(state) {
-        var characteristic = this;
+      const broadcast = function(state) {
+        const characteristic = this;
 
         sendEvent({
           type: 'broadcast',
@@ -265,8 +265,8 @@ noble.on('discover', function(peripheral) {
         });
       };
 
-      var notify = function(state) {
-        var characteristic = this;
+      const notify = function(state) {
+        const characteristic = this;
 
         sendEvent({
           type: 'notify',
@@ -277,13 +277,13 @@ noble.on('discover', function(peripheral) {
         });
       };
 
-      var descriptorsDiscover = function(descriptors) {
-        var characteristic = this;
+      const descriptorsDiscover = function(descriptors) {
+        const characteristic = this;
 
-        var discoveredDescriptors = [];
+        const discoveredDescriptors = [];
 
-        var valueRead = function(data) {
-          var descriptor = this;
+        const valueRead = function(data) {
+          const descriptor = this;
 
           sendEvent({
             type: 'valueRead',
@@ -295,8 +295,8 @@ noble.on('discover', function(peripheral) {
           });
         };
 
-        var valueWrite = function(data) {
-          var descriptor = this;
+        const valueWrite = function(data) {
+          const descriptor = this;
 
           sendEvent({
             type: 'valueWrite',
@@ -307,7 +307,7 @@ noble.on('discover', function(peripheral) {
           });
         };
 
-        for (var k in descriptors) {
+        for (const k in descriptors) {
           descriptors[k].on('valueRead', valueRead);
 
           descriptors[k].on('valueWrite', valueWrite);
@@ -324,7 +324,7 @@ noble.on('discover', function(peripheral) {
         });
       };
 
-      for (var j = 0; j < characteristics.length; j++) {
+      for (let j = 0; j < characteristics.length; j++) {
         characteristics[j].on('read', read);
 
         characteristics[j].on('write', write);
@@ -349,7 +349,7 @@ noble.on('discover', function(peripheral) {
       });
     };
 
-    for (var i in services) {
+    for (const i in services) {
       services[i].on('includedServicesDiscover', includedServicesDiscover);
 
       services[i].on('characteristicsDiscover', characteristicsDiscover);

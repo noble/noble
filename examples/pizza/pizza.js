@@ -1,14 +1,14 @@
 /* eslint-disable no-console */
-var util = require('util');
-var events = require('events');
+const util = require('util');
+const events = require('events');
 
-var PizzaCrust = {
+const PizzaCrust = {
   NORMAL:    0,
   DEEP_DISH: 1,
   THIN:      2,
 };
 
-var PizzaToppings = {
+const PizzaToppings = {
   NONE:           0,
   PEPPERONI:      1 << 0,
   MUSHROOMS:      1 << 1,
@@ -20,7 +20,7 @@ var PizzaToppings = {
   SAUSAGE:        1 << 7,
 };
 
-var PizzaBakeResult = {
+const PizzaBakeResult = {
   HALF_BAKED: 0,
   BAKED:      1,
   CRISPY:     2,
@@ -37,11 +37,11 @@ function Pizza() {
 util.inherits(Pizza, events.EventEmitter);
 
 Pizza.prototype.bake = function(temperature) {
-  var time = temperature * 10;
-  var self = this;
+  const time = temperature * 10;
+  const self = this;
   console.log('baking pizza at', temperature, 'degrees for', time, 'milliseconds');
   setTimeout(function() {
-    var result =
+    const result =
       (temperature < 350) ? PizzaBakeResult.HALF_BAKED:
       (temperature < 450) ? PizzaBakeResult.BAKED:
       (temperature < 500) ? PizzaBakeResult.CRISPY:

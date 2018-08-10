@@ -1,14 +1,14 @@
 require('should');
-var sinon = require('sinon');
+const sinon = require('sinon');
 
-var Service = require('../lib/service');
+const Service = require('../lib/service');
 
 describe('service', function() {
-  var mockNoble = null;
-  var mockPeripheralId = 'mock-peripheral-id';
-  var mockUuid = 'mock-uuid';
+  let mockNoble = null;
+  const mockPeripheralId = 'mock-peripheral-id';
+  const mockUuid = 'mock-uuid';
 
-  var service = null;
+  let service = null;
 
   beforeEach(function() {
     mockNoble = {
@@ -48,7 +48,7 @@ describe('service', function() {
     });
 
     it('should delegate to noble, with uuids', function() {
-      var mockUuids = [];
+      const mockUuids = [];
 
       service.discoverIncludedServices(mockUuids);
 
