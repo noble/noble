@@ -324,20 +324,20 @@ noble.on('discover', function(peripheral) {
         });
       };
 
-      for (let j = 0; j < characteristics.length; j++) {
-        characteristics[j].on('read', read);
+      for (const characteristic of characteristics) {
+        characteristic.on('read', read);
 
-        characteristics[j].on('write', write);
+        characteristic.on('write', write);
 
-        characteristics[j].on('broadcast', broadcast);
+        characteristic.on('broadcast', broadcast);
 
-        characteristics[j].on('notify', notify);
+        characteristic.on('notify', notify);
 
-        characteristics[j].on('descriptorsDiscover', descriptorsDiscover);
+        characteristic.on('descriptorsDiscover', descriptorsDiscover);
 
         discoveredCharacteristics.push({
-          uuid: characteristics[j].uuid,
-          properties: characteristics[j].properties
+          uuid: characteristic.uuid,
+          properties: characteristic.properties
         });
       }
 
