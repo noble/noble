@@ -14,7 +14,7 @@ const EXIT_GRACE_PERIOD = 2000; // milliseconds
 
 const inRange = [];
 
-noble.on('discover', function(peripheral) {
+noble.on('discover', (peripheral) => {
   if (peripheral.rssi < RSSI_THRESHOLD) {
     // ignore
     return;
@@ -34,7 +34,7 @@ noble.on('discover', function(peripheral) {
   inRange[id].lastSeen = Date.now();
 });
 
-setInterval(function() {
+setInterval(() => {
   for (const id in inRange) {
     if (inRange[id].lastSeen < (Date.now() - EXIT_GRACE_PERIOD)) {
       const peripheral = inRange[id].peripheral;
@@ -46,7 +46,7 @@ setInterval(function() {
   }
 }, EXIT_GRACE_PERIOD / 2);
 
-noble.on('stateChange', function(state) {
+noble.on('stateChange', (state) => {
   if (state === 'poweredOn') {
     noble.startScanning([], true);
   } else {

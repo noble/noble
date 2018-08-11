@@ -4,7 +4,7 @@ const noble = require('../index');
 
 const peripheralIdOrAddress = process.argv[2].toLowerCase();
 
-noble.on('stateChange', function(state) {
+noble.on('stateChange', (state) => {
   if (state === 'poweredOn') {
     noble.startScanning();
   } else {
@@ -12,7 +12,7 @@ noble.on('stateChange', function(state) {
   }
 });
 
-noble.on('discover', function(peripheral) {
+noble.on('discover', (peripheral) => {
   if (peripheral.id === peripheralIdOrAddress || peripheral.address === peripheralIdOrAddress) {
     noble.stopScanning();
 
@@ -54,19 +54,19 @@ noble.on('discover', function(peripheral) {
 function explore(peripheral) {
   console.log('services and characteristics:');
 
-  peripheral.on('disconnect', function() {
+  peripheral.on('disconnect', () => {
     process.exit(0);
   });
 
-  peripheral.connect(function(error) {
-    peripheral.discoverServices([], function(error, services) {
+  peripheral.connect((error) => {
+    peripheral.discoverServices([], (error, services) => {
       let serviceIndex = 0;
 
       async.whilst(
-        function () {
+        () => {
           return (serviceIndex < services.length);
         },
-        function(callback) {
+        (callback) => {
           const service = services[serviceIndex];
           let serviceInfo = service.uuid;
 
@@ -75,14 +75,14 @@ function explore(peripheral) {
           }
           console.log(serviceInfo);
 
-          service.discoverCharacteristics([], function(error, characteristics) {
+          service.discoverCharacteristics([], (error, characteristics) => {
             let characteristicIndex = 0;
 
             async.whilst(
-              function () {
+              () => {
                 return (characteristicIndex < characteristics.length);
               },
-              function(callback) {
+              (callback) => {
                 const characteristic = characteristics[characteristicIndex];
                 let characteristicInfo = `  ${characteristic.uuid}`;
 
@@ -92,19 +92,19 @@ function explore(peripheral) {
 
                 async.series([
                   function(callback) {
-                    characteristic.discoverDescriptors(function(error, descriptors) {
+                    characteristic.discoverDescriptors((error, descriptors) => {
                       async.detect(
                         descriptors,
-                        function(descriptor, callback) {
+                        (descriptor, callback) => {
                           if (descriptor.uuid === '2901') {
                             return callback(descriptor);
                           } else {
                             return callback();
                           }
                         },
-                        function(userDescriptionDescriptor){
+                        (userDescriptionDescriptor) => {
                           if (userDescriptionDescriptor) {
-                            userDescriptionDescriptor.readValue(function(error, data) {
+                            userDescriptionDescriptor.readValue((error, data) => {
                               if (data) {
                                 characteristicInfo += ` (${data.toString()})`;
                               }
@@ -121,7 +121,7 @@ function explore(peripheral) {
                     characteristicInfo += `\n    properties  ${characteristic.properties.join(', ')}`;
 
                     if (characteristic.properties.includes('read')) {
-                      characteristic.read(function(error, data) {
+                      characteristic.read((error, data) => {
                         if (data) {
                           const string = data.toString('ascii');
 
@@ -140,14 +140,14 @@ function explore(peripheral) {
                   }
                 ]);
               },
-              function(error) {
+              (error) => {
                 serviceIndex++;
                 callback();
               }
             );
           });
         },
-        function (err) {
+        (err) => {
           peripheral.disconnect();
         }
       );

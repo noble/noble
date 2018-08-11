@@ -17,19 +17,19 @@ if (serverMode) {
     port: 0xB1e
   });
 
-  wss.on('connection', function(ws_) {
+  wss.on('connection', (ws_) => {
     debug('ws -> connection');
 
     ws = ws_;
 
     ws.on('message', onMessage);
 
-    ws.on('close', function() {
+    ws.on('close', () => {
       debug('ws -> close');
       noble.stopScanning();
     });
 
-    noble.on('stateChange', function(state) {
+    noble.on('stateChange', (state) => {
       sendEvent({
         type: 'stateChange',
         state: state
@@ -49,15 +49,15 @@ if (serverMode) {
 } else {
   ws = new WebSocket(`ws://${host}:${port}`);
 
-  ws.on('open', function() {
+  ws.on('open', () => {
     debug('ws -> open');
   });
 
-  ws.on('message', function(message) {
+  ws.on('message', (message) => {
     onMessage(message);
   });
 
-  ws.on('close', function() {
+  ws.on('close', () => {
     debug('ws -> close');
 
     noble.stopScanning();
@@ -174,7 +174,7 @@ const onMessage = function(message) {
   }
 };
 
-noble.on('discover', function(peripheral) {
+noble.on('discover', (peripheral) => {
   peripherals[peripheral.uuid] = peripheral;
 
   peripheral.on('connect', function() {

@@ -7,7 +7,7 @@ const pizzaCrustCharacteristicUuid = '13333333333333333333333333330001';
 const pizzaToppingsCharacteristicUuid = '13333333333333333333333333330002';
 const pizzaBakeCharacteristicUuid = '13333333333333333333333333330003';
 
-noble.on('stateChange', function(state) {
+noble.on('stateChange', (state) => {
   if (state === 'poweredOn') {
     //
     // Once the BLE radio has been powered on, it is possible
@@ -26,7 +26,7 @@ let pizzaCrustCharacteristic = null;
 let pizzaToppingsCharacteristic = null;
 let pizzaBakeCharacteristic = null;
 
-noble.on('discover', function(peripheral) {
+noble.on('discover', (peripheral) => {
   // we found a peripheral, stop scanning
   noble.stopScanning();
 
@@ -39,13 +39,13 @@ noble.on('discover', function(peripheral) {
   //
   // Once the peripheral has been discovered, then connect to it.
   //
-  peripheral.connect(function(err) {
+  peripheral.connect((err) => {
     //
     // Once the peripheral has been connected, then discover the
     // services and characteristics of interest.
     //
-    peripheral.discoverServices([pizzaServiceUuid], function(err, services) {
-      services.forEach(function(service) {
+    peripheral.discoverServices([pizzaServiceUuid], (err, services) => {
+      services.forEach((service) => {
         //
         // This must be the service we were looking for.
         //
@@ -54,9 +54,9 @@ noble.on('discover', function(peripheral) {
         //
         // So, discover its characteristics.
         //
-        service.discoverCharacteristics([], function(err, characteristics) {
+        service.discoverCharacteristics([], (err, characteristics) => {
 
-          characteristics.forEach(function(characteristic) {
+          characteristics.forEach((characteristic) => {
             //
             // Loop through each characteristic and match them to the
             // UUIDs that we know about.
@@ -100,7 +100,7 @@ function bakePizza() {
   //
   const crust = Buffer.alloc(1);
   crust.writeUInt8(pizza.PizzaCrust.THIN, 0);
-  pizzaCrustCharacteristic.write(crust, false, function(err) {
+  pizzaCrustCharacteristic.write(crust, false, (err) => {
     if (!err) {
       //
       // Pick the toppings.
@@ -112,13 +112,13 @@ function bakePizza() {
         pizza.PizzaToppings.PINEAPPLE,
         0
       );
-      pizzaToppingsCharacteristic.write(toppings, false, function(err) {
+      pizzaToppingsCharacteristic.write(toppings, false, (err) => {
         if (!err) {
           //
           // Subscribe to the bake notification, so we know when
           // our pizza will be ready.
           //
-          pizzaBakeCharacteristic.on('read', function(data, isNotification) {
+          pizzaBakeCharacteristic.on('read', (data, isNotification) => {
             console.log('Our pizza is ready!');
             if (data.length === 1) {
               const result = data.readUInt8(0);
@@ -134,13 +134,13 @@ function bakePizza() {
               console.log('result length incorrect');
             }
           });
-          pizzaBakeCharacteristic.subscribe(function(err) {
+          pizzaBakeCharacteristic.subscribe((err) => {
             //
             // Bake at 450 degrees!
             //
             const temperature = Buffer.alloc(2);
             temperature.writeUInt16BE(450, 0);
-            pizzaBakeCharacteristic.write(temperature, false, function(err) {
+            pizzaBakeCharacteristic.write(temperature, false, (err) => {
               if (err) {
                 console.log('bake error');
               }

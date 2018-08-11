@@ -40,7 +40,7 @@ Pizza.prototype.bake = function(temperature) {
   const time = temperature * 10;
   const self = this;
   console.log('baking pizza at', temperature, 'degrees for', time, 'milliseconds');
-  setTimeout(function() {
+  setTimeout(() => {
     const result =
       (temperature < 350) ? PizzaBakeResult.HALF_BAKED:
       (temperature < 450) ? PizzaBakeResult.BAKED:

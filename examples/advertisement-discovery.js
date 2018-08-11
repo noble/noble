@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const noble = require('../index');
 
-noble.on('stateChange', function(state) {
+noble.on('stateChange', (state) => {
   if (state === 'poweredOn') {
     noble.startScanning();
   } else {
@@ -9,7 +9,7 @@ noble.on('stateChange', function(state) {
   }
 });
 
-noble.on('discover', function(peripheral) {
+noble.on('discover', (peripheral) => {
   console.log(`peripheral discovered (${peripheral.id} with address <${peripheral.address}, ${peripheral.addressType}>, connectable ${peripheral.connectable}, RSSI ${peripheral.rssi}:`);
   console.log('\thello my local name is:');
   console.log(`\t\t${peripheral.advertisement.localName}`);
