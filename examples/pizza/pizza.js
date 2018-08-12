@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-const util = require('util');
 const events = require('events');
 
 const PizzaCrust = {
@@ -28,28 +27,27 @@ const PizzaBakeResult = {
   ON_FIRE:    4
 };
 
-function Pizza() {
-  events.EventEmitter.call(this);
-  this.toppings = PizzaToppings.NONE;
-  this.crust = PizzaCrust.NORMAL;
+class Pizza extends events.EventEmitter {
+  constructor() {
+    super();
+    this.toppings = PizzaToppings.NONE;
+    this.crust = PizzaCrust.NORMAL;
+  }
+
+  bake(temperature) {
+    const time = temperature * 10;
+    console.log('baking pizza at', temperature, 'degrees for', time, 'milliseconds');
+    setTimeout(() => {
+      const result =
+        (temperature < 350) ? PizzaBakeResult.HALF_BAKED:
+        (temperature < 450) ? PizzaBakeResult.BAKED:
+        (temperature < 500) ? PizzaBakeResult.CRISPY:
+        (temperature < 600) ? PizzaBakeResult.BURNT:
+        PizzaBakeResult.ON_FIRE;
+      this.emit('ready', result);
+    }, time);
+  }
 }
-
-util.inherits(Pizza, events.EventEmitter);
-
-Pizza.prototype.bake = function(temperature) {
-  const time = temperature * 10;
-  const self = this;
-  console.log('baking pizza at', temperature, 'degrees for', time, 'milliseconds');
-  setTimeout(() => {
-    const result =
-      (temperature < 350) ? PizzaBakeResult.HALF_BAKED:
-      (temperature < 450) ? PizzaBakeResult.BAKED:
-      (temperature < 500) ? PizzaBakeResult.CRISPY:
-      (temperature < 600) ? PizzaBakeResult.BURNT:
-      PizzaBakeResult.ON_FIRE;
-    self.emit('ready', result);
-  }, time);
-};
 
 module.exports.Pizza = Pizza;
 module.exports.PizzaToppings = PizzaToppings;
