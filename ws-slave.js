@@ -96,7 +96,7 @@ const onMessage = function(message) {
   const broadcast = command.broadcast;
   const notify = command.notify;
   const descriptorUuid = command.descriptorUuid;
-  const handle = handle;
+  const handle = command.handle;
 
   const peripheral = peripherals[peripheralUuid];
   let service = null;
@@ -401,7 +401,7 @@ noble.on('discover', (peripheral) => {
       txPowerLevel: peripheral.advertisement.txPowerLevel,
       serviceUuids: peripheral.advertisement.serviceUuids,
       manufacturerData: (peripheral.advertisement.manufacturerData ? peripheral.advertisement.manufacturerData.toString('hex') : null),
-      serviceData: (peripheral.advertisement.serviceData ? peripheral.advertisement.serviceData.toString('hex') : null)
+      serviceData: (peripheral.advertisement.serviceData ? Buffer.from(peripheral.advertisement.serviceData).toString('hex') : null)
     },
     rssi: peripheral.rssi
   });

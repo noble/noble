@@ -12,7 +12,7 @@ const noble = require('../index');
 const RSSI_THRESHOLD    = -90;
 const EXIT_GRACE_PERIOD = 2000; // milliseconds
 
-const inRange = [];
+const inRange = {};
 
 noble.on('discover', (peripheral) => {
   if (peripheral.rssi < RSSI_THRESHOLD) {
