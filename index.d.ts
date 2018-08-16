@@ -62,8 +62,8 @@ export declare class Peripheral extends events.EventEmitter {
     on(event: "connect", listener: (error: string) => void): this;
     on(event: "disconnect", listener: (error: string) => void): this;
     on(event: "rssiUpdate", listener: (rssi: number) => void): this;
-	on(event: "servicesDiscover", listener: (services: Service[]) => void): this;
-	on(event: string, listener: Function): this;
+    on(event: "servicesDiscover", listener: (services: Service[]) => void): this;
+    on(event: string, listener: Function): this;
 }
 
 export interface Advertisement {
@@ -89,8 +89,8 @@ export declare class Service extends events.EventEmitter {
     toString(): string;
 
     on(event: "includedServicesDiscover", listener: (includedServiceUuids: string[]) => void): this;
-	on(event: "characteristicsDiscover", listener: (characteristics: Characteristic[]) => void): this;
-	on(event: string, listener: Function): this;
+	  on(event: "characteristicsDiscover", listener: (characteristics: Characteristic[]) => void): this;
+	  on(event: string, listener: Function): this;
 }
 
 export declare class Characteristic extends events.EventEmitter {
