@@ -23,8 +23,9 @@
     "central"
   ],
   "main": "./index.js",
+  "types": "./index.d.ts",
   "engines": {
-    "node": ">=0.8"
+    "node": ">=6.0"
   },
   "os": [
     "darwin",
@@ -33,23 +34,23 @@
     "win32"
   ],
   "dependencies": {
-    "debug": "~2.2.0"
+    "bluetooth-hci-socket": "git://github.com/jrobeson/node-bluetooth-hci-socket.git#refactor",
+    "debug": "^3.1.0"
   },
   "optionalDependencies": {
-    "bluetooth-hci-socket": "^0.5.1",
-    "bplist-parser": "0.0.6",
+    "bplist-parser": "0.1.1",
     "xpc-connection": "~0.1.4"
   },
   "devDependencies": {
-    "jshint": "latest",
-    "mocha": "~1.8.2",
-    "should": "~1.2.2",
-    "sinon": "~1.6.0",
-    "async": "~0.2.9",
-    "ws": "~0.4.31"
+    "async": "^2.6.1",
+    "eslint": "^5.4.0",
+    "mocha": "^5.2.0",
+    "should": "^13.2.3",
+    "sinon": "^6.1.4",
+    "ws": "^6.0.0"
   },
   "scripts": {
-    "pretest": "jshint *.js lib/. test/.",
+    "pretest": "eslint *.js lib/ test/ examples/",
     "test": "mocha -R spec test/*.js"
   },
   "browser": {

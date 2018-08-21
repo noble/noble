@@ -1,14 +1,14 @@
+dist: trusty
+sudo: false
 os:
   - linux
   - osx
 language: cpp
 env:
-  - NODE_VERSION="0.8"
-  - NODE_VERSION="0.10"
-  - NODE_VERSION="0.12"
-  - NODE_VERSION="4"
   - NODE_VERSION="6"
   - NODE_VERSION="8"
+  - NODE_VERSION="10"
+
 matrix:
   fast_finish: true
 before_install:
@@ -16,12 +16,6 @@ before_install:
   - source /tmp/.nvm/nvm.sh;
   - nvm install $NODE_VERSION;
   - nvm use --delete-prefix $NODE_VERSION;
-  - if [ $TRAVIS_OS_NAME == "linux" ]; then
-      export CC="g++-4.8";
-    fi
-  - if [ $NODE_VERSION == "0.8" ]; then
-      npm install -g npm@2;
-    fi
 install:
   - npm install
 script:
@@ -31,4 +25,5 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
+      - build-essential
+      - libudev-dev

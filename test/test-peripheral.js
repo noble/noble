@@ -1,22 +1,22 @@
-var should = require('should');
-var sinon = require('sinon');
+require('should');
+const sinon = require('sinon');
 
-var Peripheral = require('../lib/peripheral');
+const Peripheral = require('../lib/peripheral');
 
-describe('Peripheral', function() {
-  var mockNoble = null;
-  var mockId = 'mock-id';
-  var mockAddress = 'mock-address';
-  var mockAddressType = 'mock-address-type';
-  var mockConnectable = 'mock-connectable';
-  var mockAdvertisement = 'mock-advertisement';
-  var mockRssi = 'mock-rssi';
-  var mockHandle = 'mock-handle';
-  var mockData = 'mock-data';
+describe('Peripheral', () => {
+  let mockNoble = null;
+  const mockId = 'mock-id';
+  const mockAddress = 'mock-address';
+  const mockAddressType = 'mock-address-type';
+  const mockConnectable = 'mock-connectable';
+  const mockAdvertisement = 'mock-advertisement';
+  const mockRssi = 'mock-rssi';
+  const mockHandle = 'mock-handle';
+  let mockData = 'mock-data';
 
-  var peripheral = null;
+  let peripheral = null;
 
-  beforeEach(function() {
+  beforeEach(() => {
     mockNoble = {
       connect: sinon.spy(),
       disconnect: sinon.spy(),
@@ -29,153 +29,164 @@ describe('Peripheral', function() {
     peripheral = new Peripheral(mockNoble, mockId, mockAddress, mockAddressType, mockConnectable, mockAdvertisement, mockRssi);
   });
 
-  afterEach(function() {
+  afterEach(() => {
     peripheral = null;
   });
 
-  it('should have a id', function() {
+  it('should have a id', () => {
     peripheral.id.should.equal(mockId);
   });
 
-  it('should have an address', function() {
+  it('should have an address', () => {
     peripheral.address.should.equal(mockAddress);
   });
 
-  it('should have an address type', function() {
+  it('should have an address type', () => {
     peripheral.addressType.should.equal(mockAddressType);
   });
 
-  it('should have connectable', function() {
+  it('should have connectable', () => {
     peripheral.connectable.should.equal(mockConnectable);
   });
 
-  it('should have advertisement', function() {
+  it('should have advertisement', () => {
     peripheral.advertisement.should.equal(mockAdvertisement);
   });
 
-  it('should have rssi', function() {
+  it('should have rssi', () => {
     peripheral.rssi.should.equal(mockRssi);
   });
 
-  describe('toString', function() {
-    it('should be id, address, address type, connectable, advertisement, rssi, state', function() {
+  describe('toString', () => {
+    it('should be id, address, address type, connectable, advertisement, rssi, state', () => {
       peripheral.toString().should.equal('{"id":"mock-id","address":"mock-address","addressType":"mock-address-type","connectable":"mock-connectable","advertisement":"mock-advertisement","rssi":"mock-rssi","state":"disconnected"}');
     });
   });
 
-  describe('connect', function() {
-    it('should delegate to noble', function() {
+  describe('connect', () => {
+    it('should delegate to noble', () => {
       peripheral.connect();
 
       mockNoble.connect.calledWithExactly(mockId).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
-
-      peripheral.connect(function() {
-        calledback = true;
+    it('should callback', (done) => {
+      peripheral.connect(() => {
+        done();
       });
       peripheral.emit('connect');
+    });
 
-      calledback.should.equal(true);
+    it('should return a promise', (done) => {
+      peripheral.connect().then(() => {
+        done();
+      });
+      peripheral.emit('connect');
     });
   });
 
-  describe('disconnect', function() {
-    it('should delegate to noble', function() {
+  describe('disconnect', () => {
+    it('should delegate to noble', () => {
       peripheral.disconnect();
 
       mockNoble.disconnect.calledWithExactly(mockId).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
-
-      peripheral.disconnect(function() {
-        calledback = true;
+    it('should callback', (done) => {
+      peripheral.disconnect(() => {
+        done();
       });
       peripheral.emit('disconnect');
+    });
 
-      calledback.should.equal(true);
+    it('should return a promise', (done) => {
+      peripheral.disconnect().then(() => {
+        done();
+      });
+      peripheral.emit('disconnect');
     });
   });
 
-  describe('updateRssi', function() {
-    it('should delegate to noble', function() {
+  describe('updateRssi', () => {
+    it('should delegate to noble', () => {
       peripheral.updateRssi();
 
       mockNoble.updateRssi.calledWithExactly(mockId).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
-
-      peripheral.updateRssi(function() {
-        calledback = true;
+    it('should callback', (done) => {
+      peripheral.updateRssi(() => {
+        done();
       });
       peripheral.emit('rssiUpdate');
-
-      calledback.should.equal(true);
     });
 
-    it('should callback with rssi', function() {
-      var calledbackRssi = null;
-
-      peripheral.updateRssi(function(error, rssi) {
-        calledbackRssi = rssi;
+    it('should callback with rssi', (done) => {
+      peripheral.updateRssi((error, rssi) => {
+        rssi.should.equal(mockRssi);
+        done();
       });
       peripheral.emit('rssiUpdate', mockRssi);
+    });
 
-      calledbackRssi.should.equal(mockRssi);
+    it('should return a promise', (done) => {
+      peripheral.updateRssi().then((rssi) => {
+        rssi.should.equal(mockRssi);
+        done();
+      });
+      peripheral.emit('rssiUpdate', mockRssi);
     });
   });
 
-  describe('discoverServices', function() {
-    it('should delegate to noble', function() {
+  describe('discoverServices', () => {
+    it('should delegate to noble', () => {
       peripheral.discoverServices();
 
       mockNoble.discoverServices.calledWithExactly(mockId, undefined).should.equal(true);
     });
 
-    it('should delegate to noble, service uuids', function() {
-      var mockServiceUuids = [];
+    it('should delegate to noble, service uuids', () => {
+      const mockServiceUuids = [];
 
       peripheral.discoverServices(mockServiceUuids);
 
       mockNoble.discoverServices.calledWithExactly(mockId, mockServiceUuids).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
-
-      peripheral.discoverServices(null, function() {
-        calledback = true;
+    it('should callback', (done) => {
+      peripheral.discoverServices(null, () => {
+        done();
       });
       peripheral.emit('servicesDiscover');
-
-      calledback.should.equal(true);
     });
 
-    it('should callback with services', function() {
-      var mockServices = [];
-      var calledbackServices = null;
+    it('should callback with services', (done) => {
+      const mockServices = [];
 
-      peripheral.discoverServices(null, function(error, services) {
-        calledbackServices = services;
+      peripheral.discoverServices(null, (error, services) => {
+        services.should.equal(mockServices);
+        done();
       });
       peripheral.emit('servicesDiscover', mockServices);
+    });
 
-      calledbackServices.should.equal(mockServices);
+    it('should return a promise', (done) => {
+      const mockServices = [];
+
+      peripheral.discoverServices(null).then((services) => {
+        services.should.equal(mockServices);
+        done();
+      });
+      peripheral.emit('servicesDiscover', mockServices);
     });
   });
 
-  describe('discoverSomeServicesAndCharacteristics', function() {
-    var mockServiceUuids = [];
-    var mockCharacteristicUuids = [];
-    var mockServices = null;
+  describe('discoverSomeServicesAndCharacteristics', () => {
+    const mockServiceUuids = [];
+    const mockCharacteristicUuids = [];
+    let mockServices = null;
 
-    beforeEach(function() {
+    beforeEach(() => {
       peripheral.discoverServices = sinon.spy();
 
       mockServices = [
@@ -190,16 +201,16 @@ describe('Peripheral', function() {
       ];
     });
 
-    it('should call discoverServices', function() {
+    it('should call discoverServices', () => {
       peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids);
 
       peripheral.discoverServices.calledWith(mockServiceUuids).should.equal(true);
     });
 
-    it('should call discoverCharacteristics on each service discovered', function() {
+    it('should call discoverCharacteristics on each service discovered', () => {
       peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids);
 
-      var discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
+      const discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
 
       discoverServicesCallback(null, mockServices);
 
@@ -207,52 +218,61 @@ describe('Peripheral', function() {
       mockServices[1].discoverCharacteristics.calledWith(mockCharacteristicUuids).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
-
-
-      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids, function() {
-        calledback = true;
+    it('should callback', (done) => {
+      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids, () => {
+        done();
       });
 
-      var discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
+      const discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
 
       discoverServicesCallback(null, mockServices);
 
       mockServices[0].discoverCharacteristics.getCall(0).args[1](null, []);
       mockServices[1].discoverCharacteristics.getCall(0).args[1](null, []);
-
-      calledback.should.equal(true);
     });
 
-    it('should callback with the services and characteristics discovered', function() {
-      var calledbackServices = null;
-      var calledbackCharacteristics = null;
-
-      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids, function(err, services, characteristics) {
-        calledbackServices = services;
-        calledbackCharacteristics = characteristics;
+    it('should callback with the services and characteristics discovered', (done) => {
+      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids, (err, services, characteristics) => {
+        services.should.equal(mockServices);
+        characteristics.should.eql([mockCharacteristic1, mockCharacteristic2, mockCharacteristic3]);
+        done();
       });
 
-      var discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
+      const discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
 
       discoverServicesCallback(null, mockServices);
 
-      var mockCharacteristic1 = { uuid: '1' };
-      var mockCharacteristic2 = { uuid: '2' };
-      var mockCharacteristic3 = { uuid: '3' };
+      const mockCharacteristic1 = { uuid: '1' };
+      const mockCharacteristic2 = { uuid: '2' };
+      const mockCharacteristic3 = { uuid: '3' };
 
       mockServices[0].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic1]);
       mockServices[1].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic2, mockCharacteristic3]);
+    });
 
-      calledbackServices.should.equal(mockServices);
-      calledbackCharacteristics.should.eql([mockCharacteristic1, mockCharacteristic2, mockCharacteristic3]);
+    it('should return a promise', (done) => {
+      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids).then(({services, characteristics}) => {
+        services.should.equal(mockServices);
+        characteristics.should.eql([mockCharacteristic1, mockCharacteristic2, mockCharacteristic3]);
+        done();
+      });
+
+      const discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
+
+      discoverServicesCallback(null, mockServices);
+
+      const mockCharacteristic1 = { uuid: '1' };
+      const mockCharacteristic2 = { uuid: '2' };
+      const mockCharacteristic3 = { uuid: '3' };
+
+      mockServices[0].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic1]);
+      mockServices[1].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic2, mockCharacteristic3]);
     });
   });
 
-  describe('discoverAllServicesAndCharacteristics', function() {
-    it('should call discoverSomeServicesAndCharacteristics', function() {
-      var mockCallback = sinon.spy();
+  describe('discoverAllServicesAndCharacteristics', () => {
+    it('should call discoverSomeServicesAndCharacteristics', () => {
+      const mockCallback = sinon.spy();
 
       peripheral.discoverSomeServicesAndCharacteristics = sinon.spy();
 
@@ -262,42 +282,43 @@ describe('Peripheral', function() {
     });
   });
 
-  describe('readHandle', function() {
-    it('should delegate to noble', function() {
+  describe('readHandle', () => {
+    it('should delegate to noble', () => {
       peripheral.readHandle(mockHandle);
 
       mockNoble.readHandle.calledWithExactly(mockId, mockHandle).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
-
-      peripheral.readHandle(mockHandle, function() {
-        calledback = true;
+    it('should callback', (done) => {
+      peripheral.readHandle(mockHandle, () => {
+        done();
       });
-      peripheral.emit('handleRead' + mockHandle);
-
-      calledback.should.equal(true);
+      peripheral.emit(`handleRead${mockHandle}`);
     });
 
-    it('should callback with data', function() {
-      var calledbackData = null;
-
-      peripheral.readHandle(mockHandle, function(error, data) {
-        calledbackData = data;
+    it('should callback with data', (done) => {
+      peripheral.readHandle(mockHandle, (error, data) => {
+        data.should.equal(mockData);
+        done();
       });
-      peripheral.emit('handleRead' + mockHandle, mockData);
+      peripheral.emit(`handleRead${mockHandle}`, mockData);
+    });
 
-      calledbackData.should.equal(mockData);
+    it('should return a promise', (done) => {
+      peripheral.readHandle(mockHandle).then((data) => {
+        data.should.equal(mockData);
+        done();
+      });
+      peripheral.emit(`handleRead${mockHandle}`, mockData);
     });
   });
 
-  describe('writeHandle', function() {
-    beforeEach(function() {
-      mockData = new Buffer(0);
+  describe('writeHandle', () => {
+    beforeEach(() => {
+      mockData = Buffer.alloc(0);
     });
 
-    it('should only accept data as a buffer', function() {
+    it('should only accept data as a buffer', () => {
       mockData = {};
 
       (function(){
@@ -305,27 +326,30 @@ describe('Peripheral', function() {
       }).should.throwError('data must be a Buffer');
     });
 
-    it('should delegate to noble, withoutResponse false', function() {
+    it('should delegate to noble, withoutResponse false', () => {
       peripheral.writeHandle(mockHandle, mockData, false);
 
       mockNoble.writeHandle.calledWithExactly(mockId, mockHandle, mockData, false).should.equal(true);
     });
 
-    it('should delegate to noble, withoutResponse true', function() {
+    it('should delegate to noble, withoutResponse true', () => {
       peripheral.writeHandle(mockHandle, mockData, true);
 
       mockNoble.writeHandle.calledWithExactly(mockId, mockHandle, mockData, true).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
-
-      peripheral.writeHandle(mockHandle, mockData, false, function() {
-        calledback = true;
+    it('should callback', (done) => {
+      peripheral.writeHandle(mockHandle, mockData, false, () => {
+        done();
       });
-      peripheral.emit('handleWrite' + mockHandle);
+      peripheral.emit(`handleWrite${mockHandle}`);
+    });
 
-      calledback.should.equal(true);
+    it('should return a promise', (done) => {
+      peripheral.writeHandle(mockHandle, mockData, false).then(() => {
+        done();
+      });
+      peripheral.emit(`handleWrite${mockHandle}`);
     });
   });
 });
