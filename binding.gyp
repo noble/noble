@@ -2,8 +2,17 @@
   'targets': [
     {
       'target_name': 'noble',
-      'dependencies': [
-        'lib/mac/binding.gyp:binding',
+      'conditions': [
+        ['OS=="mac"', {
+          'dependencies': [
+            'lib/mac/binding.gyp:binding',
+          ],
+        }],
+        ['OS=="win"', {
+          'dependencies': [
+            'lib/winrt/binding.gyp:binding',
+          ],
+        }],
       ],
     },
   ],
