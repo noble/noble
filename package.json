@@ -36,9 +36,7 @@
     "debug": "^4.1.0"
   },
   "optionalDependencies": {
-    "@abandonware/bluetooth-hci-socket": "^0.5.3-1",
-    "bplist-parser": "0.1.1",
-    "xpc-connection": "~0.1.4"
+    "@abandonware/bluetooth-hci-socket": "^0.5.3-1"
   },
   "devDependencies": {
     "async": "~2.6.1",
