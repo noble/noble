@@ -35,7 +35,8 @@
   "dependencies": {
     "debug": "~2.2.0",
     "napi-thread-safe-callback": "0.0.6",
-    "node-addon-api": "^1.1.0"
+    "node-addon-api": "^1.1.0",
+    "node-pre-gyp": "^0.10.0"
   },
   "optionalDependencies": {
     "bluetooth-hci-socket": "^0.5.1",
@@ -54,9 +55,17 @@
   },
   "scripts": {
     "pretest": "jshint *.js lib/. test/.",
-    "test": "mocha -R spec test/*.js"
+    "test": "mocha -R spec test/*.js",
+    "install": "node-pre-gyp install --fallback-to-build",
+    "ci": "node --napi-modules ./test/test-ci.js"
   },
   "browser": {
     "./lib/resolve-bindings.js": "./lib/resolve-bindings-web.js"
+  },
+  "binary": {
+    "module_name": "noble",
+    "module_path": "./native/{platform}",
+    "host": "https://github.com/Timeular/noble/releases/download/",
+    "remote_path": "{version}"
   }
 }

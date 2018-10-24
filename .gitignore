@@ -15,5 +15,4 @@ build/
 node_modules/
 npm-debug.log
 
-lib/mac/native
-lib/winrt/native
+native/
