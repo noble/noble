@@ -1,0 +1,65 @@
+# vs 2017 image because Windows SDK 10.0.15063.0 is not available on vs 2015 image
+image: Visual Studio 2017
+
+cache:
+ - "%LOCALAPPDATA%\\Yarn"
+
+environment:
+  matrix:
+    # node
+    - RUNTIME: 'node'
+      RVERSION: '6.14.4'
+    - RUNTIME: 'node'
+      RVERSION: '8.12.0'
+    - RUNTIME: 'node'
+      RVERSION: '9.11.2'
+    - RUNTIME: 'node'
+      RVERSION: '10.10.0'
+
+    # electron
+    - RUNTIME: 'electron'
+      RVERSION: '2.0.0'
+      DIST_URL: 'https://atom.io/download/atom-shell'
+    - RUNTIME: 'electron'
+      RVERSION: '3.0.0'
+      DIST_URL: 'https://atom.io/download/atom-shell'
+
+
+install:
+  # install the right node version
+  - ps: $in_node_version = $env:RVERSION
+  - ps: if ($env:RUNTIME -match "electron") { $in_node_version="10.10.0"; }
+  - ps: echo "running node $in_node_version (was $env:RVERSION) on $env:platform"
+  - ps: Install-Product node $in_node_version $env:platform
+  - ps: |
+        npm install -g node-gyp node-pre-gyp-github npm-windows-upgrade 2>&1 | out-null
+        if ($LASTEXITCODE -NE 0) { throw "Failed installing node-gyp node-pre-gyp-github npm-windows-upgrade"; }
+  # update npm and node-gyp, some configurations wont build without an up to date node-gyp
+  - ps: npm-windows-upgrade --npm-version latest
+  - ps: npm -v
+  - ps: node-gyp -v
+  - cmd: npm uninstall -g node-pre-gyp-github
+  - cmd: yarn install --frozen-lockfile
+  - cmd: yarn ci
+  - ps: $publish_binary = 0
+  - ps: if ($env:appveyor_repo_tag -match "true") { $publish_binary=1; }
+  - ps: echo "tag $env:appveyor_repo_tag_name branch $env:APPVEYOR_REPO_BRANCH"
+build_script:
+  - ps: echo "publish $publish_binary"
+  - ps: $arch = $env:platform
+  - ps: if ($arch -match "x86") { $arch="ia32"; }
+  - ps: |
+      if ($publish_binary -Eq "1") {
+        yarn global add node-pre-gyp node-pre-gyp-github@1.3.1 2>&1 | write-host
+        node-pre-gyp configure --runtime=$env:RUNTIME --target=$env:RVERSION --target_arch=$arch --dist-url=$env:DIST_URL 2>&1 | write-host
+        node-pre-gyp build --runtime=$env:RUNTIME  --target=$env:RVERSION --target_arch=$arch --dist-url=$env:DIST_URL 2>&1 | write-host
+        node-pre-gyp package --runtime=$env:RUNTIME  --target=$env:RVERSION --target_arch=$arch --dist-url=$env:DIST_URL 2>&1 | write-host
+        node-pre-gyp-github publish 2>&1 | write-host
+        if (-Not ($?)) {
+          throw "publishing failed";
+        }
+      }
+      echo "done."
+platform:
+  - x86
+  - x64
