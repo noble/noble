@@ -38,7 +38,11 @@
     "node-addon-api": "^1.1.0"
   },
   "optionalDependencies": {
-    "bluetooth-hci-socket": "^0.5.1"
+    "bluetooth-hci-socket": "^0.5.1",
+    "usb": "git+https://github.com/Timeular/nobe-usb#4abf5703413ec6b3dae76afb44544208d5785989"
+  },
+  "resolutions": {
+    "bluetooth-hci-socket/usb": "git+https://github.com/Timeular/nobe-usb#4abf5703413ec6b3dae76afb44544208d5785989"
   },
   "devDependencies": {
     "jshint": "latest",
