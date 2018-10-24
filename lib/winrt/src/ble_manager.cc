@@ -114,6 +114,7 @@ void BLEManager::OnRadio(Radio& radio)
 
 void BLEManager::Scan(const std::vector<UUID>& serviceUUIDs, bool allowDuplicates)
 {
+    mAdvertismentMap.clear();
     mAllowDuplicates = allowDuplicates;
     BluetoothLEAdvertisementFilter filter = BluetoothLEAdvertisementFilter();
     BluetoothLEAdvertisement advertisment = BluetoothLEAdvertisement();
@@ -138,6 +139,7 @@ void BLEManager::OnScanResult(BluetoothLEAdvertisementWatcher watcher,
 
     if (mDeviceMap.find(uuid) == mDeviceMap.end())
     {
+        mAdvertismentMap.insert(uuid);
         auto peripheral =
             PeripheralWinrt(bluetoothAddress, advertismentType, rssi, args.Advertisement());
         mEmit.Scan(uuid, rssi, peripheral);
@@ -147,8 +149,9 @@ void BLEManager::OnScanResult(BluetoothLEAdvertisementWatcher watcher,
     {
         PeripheralWinrt& peripheral = mDeviceMap[uuid];
         peripheral.Update(rssi, args.Advertisement());
-        if (mAllowDuplicates)
+        if (mAllowDuplicates || mAdvertismentMap.find(uuid) == mAdvertismentMap.end())
         {
+            mAdvertismentMap.insert(uuid);
             mEmit.Scan(uuid, rssi, peripheral);
         }
     }

@@ -72,5 +72,6 @@ private:
     bool mAllowDuplicates;
 
     std::unordered_map<std::string, PeripheralWinrt> mDeviceMap;
+    std::set<std::string> mAdvertismentMap;
     NotifyMap mNotifyMap;
 };
