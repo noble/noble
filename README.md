@@ -100,7 +100,7 @@ You need to stop scanning before trying to connect in order to solve this issue.
 ## Install
 
 ```sh
-npm install noble
+npm install @abandonware/noble
 ```
 
 ## Usage
