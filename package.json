@@ -7,7 +7,7 @@
   "license": "MIT",
   "name": "@abandonware/noble",
   "description": "A Node.js BLE (Bluetooth Low Energy) central library.",
-  "version": "1.9.1",
+  "version": "1.9.2-0",
   "repository": {
     "type": "git",
     "url": "https://github.com/sandeepmistry/noble.git"
