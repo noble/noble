@@ -37,15 +37,15 @@
   },
   "optionalDependencies": {
     "@abandonware/bluetooth-hci-socket": "^0.5.3-1",
-    "bplist-parser": "0.0.6",
+    "bplist-parser": "0.1.1",
     "xpc-connection": "~0.1.4"
   },
   "devDependencies": {
-    "async": "~0.2.9",
+    "async": "~2.6.1",
     "jshint": "latest",
     "mocha": "^5.2.0",
-    "should": "~1.2.2",
-    "sinon": "~1.6.0",
+    "should": "~13.2.3",
+    "sinon": "~7.2.2",
     "ws": "^6.1.2"
   },
   "scripts": {
