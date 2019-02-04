@@ -106,7 +106,7 @@ npm install noble
 ## Usage
 
 ```javascript
-var noble = require('noble');
+var noble = require('@abandonware/noble');
 ```
 
 ### Actions
