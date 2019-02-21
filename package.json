@@ -33,12 +33,12 @@
     "win32"
   ],
   "dependencies": {
-    "debug": "~2.2.0"
+    "debug": "~2.2.0",
+    "napi-thread-safe-callback": "0.0.6",
+    "node-addon-api": "^1.1.0"
   },
   "optionalDependencies": {
-    "bluetooth-hci-socket": "^0.5.1",
-    "bplist-parser": "0.0.6",
-    "xpc-connection": "~0.1.4"
+    "bluetooth-hci-socket": "^0.5.1"
   },
   "devDependencies": {
     "jshint": "latest",
