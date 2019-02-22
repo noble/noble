@@ -134,6 +134,14 @@ __NOTE:__ ```noble.state``` must be ```poweredOn``` before scanning is started. 
 noble.stopScanning();
 ```
 
+#### Reset device
+
+```javascript
+noble.reset();
+```
+
+As there is no return event for reset, you may want to put sleep for a fraction of a second.
+
 #### Peripheral
 
 ##### Connect
@@ -141,6 +149,8 @@ noble.stopScanning();
 ```javascript
 peripheral.connect([callback(error)]);
 ```
+
+Some of the bluetooth devices doesn't connect seamlessly, may be because of bluetooth device firmware or kernel. Do reset the device with noble.reset() API before connect API.
 
 ##### Disconnect or cancel pending connection
 
