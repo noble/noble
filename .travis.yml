@@ -9,9 +9,12 @@ env:
   - NODE_VERSION="4"
   - NODE_VERSION="6"
   - NODE_VERSION="8"
+  - NODE_VERSION="10"
+  - NODE_VERSION="12"
 matrix:
   fast_finish: true
 before_install:
+  - 'echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config'
   - git clone https://github.com/creationix/nvm.git /tmp/.nvm;
   - source /tmp/.nvm/nvm.sh;
   - nvm install $NODE_VERSION;
