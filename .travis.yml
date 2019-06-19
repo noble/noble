@@ -14,9 +14,11 @@ env:
 matrix:
   fast_finish: true
 before_install:
-  - 'echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config'
   - git clone https://github.com/creationix/nvm.git /tmp/.nvm;
   - source /tmp/.nvm/nvm.sh;
+  - if [ $NODE_VERSION == "0.8" ]; then
+      npm config set strict-ssl false
+    fi
   - nvm install $NODE_VERSION;
   - nvm use --delete-prefix $NODE_VERSION;
   - if [ $TRAVIS_OS_NAME == "linux" ]; then
