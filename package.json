@@ -10,10 +10,10 @@
   "version": "1.9.2-2",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sandeepmistry/noble.git"
+    "url": "https://github.com/abandonware/noble.git"
   },
   "bugs": {
-    "url": "https://github.com/sandeepmistry/noble/issues"
+    "url": "https://github.com/abandonware/noble/issues"
   },
   "keywords": [
     "bluetooth",
