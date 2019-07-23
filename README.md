@@ -1,13 +1,13 @@
 # ![noble](assets/noble-logo.png)
 
 [![Build Status](https://travis-ci.org/abandonware/noble.svg?branch=master)](https://travis-ci.org/abandonware/noble)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sandeepmistry/noble?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![OpenCollective](https://opencollective.com/noble/backers/badge.svg)](#backers)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/abandonware/noble?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![OpenCollective](https://opencollective.com/noble/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/noble/sponsors/badge.svg)](#sponsors)
 
 
 A Node.js BLE (Bluetooth Low Energy) central module.
 
-Want to implement a peripheral? Checkout [bleno](https://github.com/sandeepmistry/bleno)
+Want to implement a peripheral? Checkout [bleno](https://github.com/abandonware/bleno)
 
 __Note:__ macOS / Mac OS X, Linux, FreeBSD and Windows are currently the only supported OSes. Other platforms may be developed later on.
 
@@ -70,7 +70,7 @@ Install the required tools and configurations using Microsoft's [windows-build-t
 npm install --global --production windows-build-tools
 ```
 
-[node-bluetooth-hci-socket prerequisites](https://github.com/sandeepmistry/node-bluetooth-hci-socket#windows)
+[node-bluetooth-hci-socket prerequisites](https://github.com/abandonware/node-bluetooth-hci-socket#windows)
    * Compatible Bluetooth 4.0 USB adapter
    * [WinUSB](https://msdn.microsoft.com/en-ca/library/windows/hardware/ff540196(v=vs.85).aspx) driver setup for Bluetooth 4.0 USB adapter, using [Zadig tool](http://zadig.akeo.ie/)
 
