@@ -6,6 +6,7 @@ env:
   - NODE_VERSION="6"
   - NODE_VERSION="8"
   - NODE_VERSION="10"
+  - NODE_VERSION="12"
 matrix:
   fast_finish: true
 before_install:
