@@ -1,3 +1,20 @@
+## Version 1.9.1
+
+ * Don't forget previously discovered services and characteristics ([@elafargue](https://github.com/elafargue))
+ * Fixed peripheral-explorer example with newer async versions
+ * web socket binding: various fixes ([@hadrienk](https://github.com/hadrienk))
+ * Fix multiple init of bindings with multiple stateChange listeners added or noble.state is accessed
+
+## Version 1.9.0
+
+ * Don't initialize bindings until first state change listener added
+ * webble: hooked up disconnect event
+ * webble: clear cached services on reconnect
+ * hci-socket: Added upport 32-bit and 128-bit service data UUIDs ([@arekzelechowski](https://github.com/arekzelechowski))
+ * Update 'connectable' property upon discovery ([@dimitrisx](https://github.com/dimitrisx))
+ * macOS: Added support for High Sierra
+ * webble: remove subscribe listeners on disconnect
+
 ## Version 1.8.1
 
  * easier install instructions for Windows ([@don](https://github.com/don))
