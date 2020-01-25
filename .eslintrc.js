@@ -18,7 +18,6 @@ module.exports = {
       {
         args: "none"
       }
-    ],
-    "no-undef": 0
+    ]
   }
 };
