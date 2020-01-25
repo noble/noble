@@ -68,7 +68,7 @@ describe('Characteristic', function () {
     });
 
     it('should callback with data', function () {
-      var mockData = new Buffer(0);
+      var mockData = Buffer.alloc(0);
       var callbackData = null;
 
       characteristic.read(function (error, data) {
@@ -84,7 +84,7 @@ describe('Characteristic', function () {
     var mockData = null;
 
     beforeEach(function () {
-      mockData = new Buffer(0);
+      mockData = Buffer.alloc(0);
     });
 
     it('should only accept data as a buffer', function () {
