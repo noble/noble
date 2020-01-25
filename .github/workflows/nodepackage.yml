@@ -45,4 +45,11 @@ jobs:
             export CC="g++-4.8"
           fi
           npm install
-          npm test
+          npm run test
+      - name: Lint
+        run: |
+          if [ ${{ matrix.node }} = 6 ]; then
+            # ESLint 6+ is not compatible with Node 6
+            exit 0
+          fi
+          npm run lint
