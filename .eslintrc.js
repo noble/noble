@@ -13,7 +13,12 @@ module.exports = {
     Promise: true
   },
   rules: {
-    "no-unused-vars": 0,
+    "no-unused-vars": [
+      "error",
+      {
+        args: "none"
+      }
+    ],
     "no-undef": 0
   }
 };
