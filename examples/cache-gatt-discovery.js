@@ -35,17 +35,14 @@ const meta = {
 };
 
 noble.on('discover', function (peripheral) {
-  console.log('peripheral discovered (' + peripheral.id +
-              ' with address <' + peripheral.address + ', ' + peripheral.addressType + '>,' +
-              ' connectable ' + peripheral.connectable + ',' +
-              ' RSSI ' + peripheral.rssi + ':');
+  console.log(`peripheral discovered (${peripheral.id} with address <${peripheral.address}, ${peripheral.addressType}>, connectable ${peripheral.connectable}, RSSI ${peripheral.rssi}:`);
   console.log('\thello my local name is:');
-  console.log('\t\t' + peripheral.advertisement.localName);
+  console.log(`\t\t${peripheral.advertisement.localName}`);
   console.log();
 
   // connect to the first device with a valid name
   if (peripheral.advertisement.localName) {
-    console.log('Connecting to  ' + peripheral.address + ' ' + peripheral.advertisement.localName);
+    console.log(`Connecting to  ${peripheral.address} ${peripheral.advertisement.localName}`);
 
     tDisco = Date.now();
 
@@ -60,7 +57,7 @@ const connectToDevice = function (peripheral) {
   peripheral.connect((error) => {
     // noble.startScanning([], true)
     if (error) {
-      console.log('Connect error: ' + error);
+      console.log(`Connect error: ${error}`);
       noble.startScanning([], true);
       return;
     }
@@ -82,11 +79,11 @@ const findServices = function (noble, peripheral) {
 
   // callback triggers with GATT-relevant data
   peripheral.on('servicesDiscovered', (peripheral, services) => {
-    console.log('servicesDiscovered: Found ' + services.length + ' services! ');
+    console.log(`servicesDiscovered: Found ${services.length} services! `);
     meta.services = services;
     for (const i in services) {
       const service = services[i];
-      console.log('\tservice ' + i + ' : ' + JSON.stringify(service));
+      console.log(`\tservice ${i} : ${JSON.stringify(service)}`);
       // meta.services[ service.uuid ] = service
     }
   });
@@ -104,20 +101,20 @@ const findServices = function (noble, peripheral) {
         // store the list of characteristics per service
         meta.characteristics[service.uuid] = characteristics;
 
-        console.log('SRV\t' + service.uuid + ' characteristic GATT data: ');
+        console.log(`SRV\t${service.uuid} characteristic GATT data: `);
         for (let i = 0; i < characteristics.length; i++) {
-          console.log('\t' + service.uuid + ' chara.\t ' + ' ' + i + ' ' + JSON.stringify(characteristics[i]));
+          console.log(`\t${service.uuid} chara.\t  ${i} ${JSON.stringify(characteristics[i])}`);
         }
       });
 
       service.discoverCharacteristics([], function (error, characteristics) {
-        console.log('SRV\t' + service.uuid + ' characteristic decoded data: ');
+        console.log(`SRV\t${service.uuid} characteristic decoded data: `);
         for (let j = 0; j < characteristics.length; j++) {
           const ch = characteristics[j];
-          console.log('\t' + service.uuid + ' chara.\t ' + ' ' + j + ' ' + ch);
+          console.log(`\t${service.uuid} chara.\t  ${j} ${ch}`);
 
           if (ch.name === CHANNEL) {
-            console.log('found ' + CHANNEL + ' characteristic!');
+            console.log(`found ${CHANNEL} characteristic!`);
             sensorCharacteristic = ch;
           }
         }
@@ -141,18 +138,18 @@ const findServices = function (noble, peripheral) {
 
             sensorCharacteristic.on('data', (data) => {
               if (BITS === 16) {
-                console.log(' new ' + CHANNEL + ' ' + (data.readUInt16LE() * FACTOR));
+                console.log(` new ${CHANNEL} ${data.readUInt16LE() * FACTOR}`);
               } else if (BITS === 32) {
-                console.log(' new ' + CHANNEL + ' ' + (data.readUInt32LE() * FACTOR));
+                console.log(` new ${CHANNEL} ${data.readUInt32LE() * FACTOR}`);
               } else {
-                console.log(' Cannot cope with BITS value ' + BITS);
+                console.log(` Cannot cope with BITS value ${BITS}`);
               }
             });
             sensorCharacteristic.read();
           }
 
-          console.log('Timespan from discovery to connected: ' + (tConn - tDisco) + ' ms');
-          console.log('Timespan from connected to reading  : ' + (tRead - tConn) + ' ms');
+          console.log(`Timespan from discovery to connected: ${tConn - tDisco} ms`);
+          console.log(`Timespan from connected to reading  : ${tRead - tConn} ms`);
         }
       });
     }

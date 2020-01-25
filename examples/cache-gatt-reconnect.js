@@ -35,18 +35,15 @@ let meta = {
 };
 
 noble.on('discover', function (peripheral) {
-  console.log('peripheral discovered (' + peripheral.id +
-              ' with address <' + peripheral.address + ', ' + peripheral.addressType + '>,' +
-              ' connectable ' + peripheral.connectable + ',' +
-              ' RSSI ' + peripheral.rssi + ':');
+  console.log(`peripheral discovered (${peripheral.id} with address <${peripheral.address}, ${peripheral.addressType}>, connectable ${peripheral.connectable}, RSSI ${peripheral.rssi}:`);
   console.log('\thello my local name is:');
-  console.log('\t\t' + peripheral.advertisement.localName);
+  console.log(`\t\t${peripheral.advertisement.localName}`);
   console.log();
 
   // Check if a dump  exists in the current directory.
   fs.access(peripheral.uuid + EXT, fs.constants.F_OK, (err) => {
     if (!err) {
-      console.log('found dump file for ' + peripheral.uuid);
+      console.log(`found dump file for ${peripheral.uuid}`);
 
       tDisco = Date.now();
 
@@ -61,7 +58,7 @@ const quickConnect = function (peripheral) {
 
   peripheral.connect((error) => {
     if (error) {
-      console.log('Connect error: ' + error);
+      console.log(`Connect error: ${error}`);
       noble.startScanning([], true);
       return;
     }
@@ -83,17 +80,17 @@ const quickConnect = function (peripheral) {
 
       sensorCharacteristic.on('data', (data) => {
         if (BITS === 16) {
-          console.log(' new ' + CHANNEL + ' ' + (data.readUInt16LE() * FACTOR));
+          console.log(` new ${CHANNEL} ${data.readUInt16LE() * FACTOR}`);
         } else if (BITS === 32) {
-          console.log(' new ' + CHANNEL + ' ' + (data.readUInt32LE() * FACTOR));
+          console.log(` new ${CHANNEL} ${data.readUInt32LE() * FACTOR}`);
         } else {
-          console.log(' Cannot cope with BITS value ' + BITS);
+          console.log(` Cannot cope with BITS value ${BITS}`);
         }
       });
       sensorCharacteristic.read();
 
-      console.log('Timespan from discovery to connected: ' + (tConn - tDisco) + ' ms');
-      console.log('Timespan from connected to reading  : ' + (tRead - tConn) + ' ms');
+      console.log(`Timespan from discovery to connected: ${tConn - tDisco} ms`);
+      console.log(`Timespan from connected to reading  : ${tRead - tConn} ms`);
     }
   });
 };
@@ -116,7 +113,7 @@ const setData = function (peripheral, meta) {
   console.log('initialized services: ');
   for (const i in services) {
     const service = services[i];
-    console.log('\tservice ' + i + ' ' + service);
+    console.log(`\tservice ${i} ${service}`);
   }
   console.log();
 
@@ -127,15 +124,15 @@ const setData = function (peripheral, meta) {
   for (const i in services) {
     const service = services[i];
     const charas = meta.characteristics[service.uuid];
-    console.log('\tservice ' + i + ' ' + service + ' ' + JSON.stringify(charas));
+    console.log(`\tservice ${i} ${service} ${JSON.stringify(charas)}`);
 
     const characteristics = noble.addCharacteristics(peripheral.uuid, service.uuid, charas);
 
     for (const j in characteristics) {
       const characteristic = characteristics[j];
-      console.log('\t\tcharac ' + service.uuid + ' ' + j + ' ' + characteristic + ' ' + characteristic.rawProps);
+      console.log(`\t\tcharac ${service.uuid} ${j} ${characteristic} ${characteristic.rawProps}`);
       if (characteristic.name === CHANNEL) {
-        console.log('\t\t\t-->found ' + CHANNEL + ' characteristic!');
+        console.log(`\t\t\t-->found ${CHANNEL} characteristic!`);
         sensorCharacteristic = characteristic;
       }
     }

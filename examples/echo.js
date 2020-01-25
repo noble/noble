@@ -52,7 +52,7 @@ function onServicesAndCharacteristicsDiscovered (error, services, characteristic
 
   // data callback receives notifications
   echoCharacteristic.on('data', (data, isNotification) => {
-    console.log('Received: "' + data + '"');
+    console.log(`Received: "${data}"`);
   });
 
   // subscribe to be notified whenever the peripheral update the characteristic
@@ -68,8 +68,8 @@ function onServicesAndCharacteristicsDiscovered (error, services, characteristic
   let count = 0;
   setInterval(() => {
     count++;
-    const message = Buffer.from('hello, ble ' + count, 'utf-8');
-    console.log("Sending:  '" + message + "'");
+    const message = Buffer.from(`hello, ble ${count}`, 'utf-8');
+    console.log(`Sending:  '${message}'`);
     echoCharacteristic.write(message);
   }, 2500);
 }

@@ -28,7 +28,7 @@ noble.on('discover', function (peripheral) {
       peripheral: peripheral
     };
 
-    console.log('"' + peripheral.advertisement.localName + '" entered (RSSI ' + peripheral.rssi + ') ' + new Date());
+    console.log(`"${peripheral.advertisement.localName}" entered (RSSI ${peripheral.rssi}) ${new Date()}`);
   }
 
   inRange[id].lastSeen = Date.now();
@@ -39,7 +39,7 @@ setInterval(function () {
     if (inRange[id].lastSeen < (Date.now() - EXIT_GRACE_PERIOD)) {
       const peripheral = inRange[id].peripheral;
 
-      console.log('"' + peripheral.advertisement.localName + '" exited (RSSI ' + peripheral.rssi + ') ' + new Date());
+      console.log(`"${peripheral.advertisement.localName}" exited (RSSI ${peripheral.rssi}) ${new Date()}`);
 
       delete inRange[id];
     }

@@ -16,7 +16,7 @@ noble.on('discover', function (peripheral) {
   if (peripheral.id === peripheralIdOrAddress || peripheral.address === peripheralIdOrAddress) {
     noble.stopScanning();
 
-    console.log('peripheral with ID ' + peripheral.id + ' found');
+    console.log(`peripheral with ID ${peripheral.id} found`);
     const advertisement = peripheral.advertisement;
 
     const localName = advertisement.localName;
@@ -26,23 +26,23 @@ noble.on('discover', function (peripheral) {
     const serviceUuids = advertisement.serviceUuids;
 
     if (localName) {
-      console.log('  Local Name        = ' + localName);
+      console.log(`  Local Name        = ${localName}`);
     }
 
     if (txPowerLevel) {
-      console.log('  TX Power Level    = ' + txPowerLevel);
+      console.log(`  TX Power Level    = ${txPowerLevel}`);
     }
 
     if (manufacturerData) {
-      console.log('  Manufacturer Data = ' + manufacturerData.toString('hex'));
+      console.log(`  Manufacturer Data = ${manufacturerData.toString('hex')}`);
     }
 
     if (serviceData) {
-      console.log('  Service Data      = ' + JSON.stringify(serviceData, null, 2));
+      console.log(`  Service Data      = ${JSON.stringify(serviceData, null, 2)}`);
     }
 
     if (serviceUuids) {
-      console.log('  Service UUIDs     = ' + serviceUuids);
+      console.log(`  Service UUIDs     = ${serviceUuids}`);
     }
 
     console.log();
@@ -71,7 +71,7 @@ function explore (peripheral) {
           let serviceInfo = service.uuid;
 
           if (service.name) {
-            serviceInfo += ' (' + service.name + ')';
+            serviceInfo += ` (${service.name})`;
           }
           console.log(serviceInfo);
 
@@ -84,10 +84,10 @@ function explore (peripheral) {
               },
               function (callback) {
                 const characteristic = characteristics[characteristicIndex];
-                let characteristicInfo = '  ' + characteristic.uuid;
+                let characteristicInfo = `  ${characteristic.uuid}`;
 
                 if (characteristic.name) {
-                  characteristicInfo += ' (' + characteristic.name + ')';
+                  characteristicInfo += ` (${characteristic.name})`;
                 }
 
                 async.series([
@@ -106,7 +106,7 @@ function explore (peripheral) {
                           if (userDescriptionDescriptor) {
                             userDescriptionDescriptor.readValue(function (error, data) {
                               if (data) {
-                                characteristicInfo += ' (' + data.toString() + ')';
+                                characteristicInfo += ` (${data.toString()})`;
                               }
                               callback();
                             });
@@ -118,14 +118,14 @@ function explore (peripheral) {
                     });
                   },
                   function (callback) {
-                    characteristicInfo += '\n    properties  ' + characteristic.properties.join(', ');
+                    characteristicInfo += `\n    properties  ${characteristic.properties.join(', ')}`;
 
                     if (characteristic.properties.indexOf('read') !== -1) {
                       characteristic.read(function (error, data) {
                         if (data) {
                           const string = data.toString('ascii');
 
-                          characteristicInfo += '\n    value       ' + data.toString('hex') + ' | \'' + string + '\'';
+                          characteristicInfo += `\n    value       ${data.toString('hex')} | '${string}'`;
                         }
                         callback();
                       });
