@@ -7,12 +7,12 @@
 
   based on code provided by: Mattias Ask (http://www.dittlof.com)
 */
-var noble = require('../index');
+const noble = require('../index');
 
-var RSSI_THRESHOLD = -90;
-var EXIT_GRACE_PERIOD = 2000; // milliseconds
+const RSSI_THRESHOLD = -90;
+const EXIT_GRACE_PERIOD = 2000; // milliseconds
 
-var inRange = [];
+const inRange = [];
 
 noble.on('discover', function (peripheral) {
   if (peripheral.rssi < RSSI_THRESHOLD) {
@@ -20,8 +20,8 @@ noble.on('discover', function (peripheral) {
     return;
   }
 
-  var id = peripheral.id;
-  var entered = !inRange[id];
+  const id = peripheral.id;
+  const entered = !inRange[id];
 
   if (entered) {
     inRange[id] = {
@@ -35,9 +35,9 @@ noble.on('discover', function (peripheral) {
 });
 
 setInterval(function () {
-  for (var id in inRange) {
+  for (const id in inRange) {
     if (inRange[id].lastSeen < (Date.now() - EXIT_GRACE_PERIOD)) {
-      var peripheral = inRange[id].peripheral;
+      const peripheral = inRange[id].peripheral;
 
       console.log('"' + peripheral.advertisement.localName + '" exited (RSSI ' + peripheral.rssi + ') ' + new Date());
 

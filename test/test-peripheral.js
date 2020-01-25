@@ -1,20 +1,20 @@
 require('should');
-var sinon = require('sinon');
+const sinon = require('sinon');
 
-var Peripheral = require('../lib/peripheral');
+const Peripheral = require('../lib/peripheral');
 
 describe('Peripheral', function () {
-  var mockNoble = null;
-  var mockId = 'mock-id';
-  var mockAddress = 'mock-address';
-  var mockAddressType = 'mock-address-type';
-  var mockConnectable = 'mock-connectable';
-  var mockAdvertisement = 'mock-advertisement';
-  var mockRssi = 'mock-rssi';
-  var mockHandle = 'mock-handle';
-  var mockData = 'mock-data';
+  let mockNoble = null;
+  const mockId = 'mock-id';
+  const mockAddress = 'mock-address';
+  const mockAddressType = 'mock-address-type';
+  const mockConnectable = 'mock-connectable';
+  const mockAdvertisement = 'mock-advertisement';
+  const mockRssi = 'mock-rssi';
+  const mockHandle = 'mock-handle';
+  let mockData = 'mock-data';
 
-  var peripheral = null;
+  let peripheral = null;
 
   beforeEach(function () {
     mockNoble = {
@@ -71,7 +71,7 @@ describe('Peripheral', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       peripheral.connect(function () {
         calledback = true;
@@ -90,7 +90,7 @@ describe('Peripheral', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       peripheral.disconnect(function () {
         calledback = true;
@@ -109,7 +109,7 @@ describe('Peripheral', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       peripheral.updateRssi(function () {
         calledback = true;
@@ -120,7 +120,7 @@ describe('Peripheral', function () {
     });
 
     it('should callback with rssi', function () {
-      var calledbackRssi = null;
+      let calledbackRssi = null;
 
       peripheral.updateRssi(function (error, rssi) {
         if (error) {
@@ -142,7 +142,7 @@ describe('Peripheral', function () {
     });
 
     it('should delegate to noble, service uuids', function () {
-      var mockServiceUuids = [];
+      const mockServiceUuids = [];
 
       peripheral.discoverServices(mockServiceUuids);
 
@@ -150,7 +150,7 @@ describe('Peripheral', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       peripheral.discoverServices(null, function () {
         calledback = true;
@@ -161,8 +161,8 @@ describe('Peripheral', function () {
     });
 
     it('should callback with services', function () {
-      var mockServices = [];
-      var calledbackServices = null;
+      const mockServices = [];
+      let calledbackServices = null;
 
       peripheral.discoverServices(null, function (error, services) {
         if (error) {
@@ -177,9 +177,9 @@ describe('Peripheral', function () {
   });
 
   describe('discoverSomeServicesAndCharacteristics', function () {
-    var mockServiceUuids = [];
-    var mockCharacteristicUuids = [];
-    var mockServices = null;
+    const mockServiceUuids = [];
+    const mockCharacteristicUuids = [];
+    let mockServices = null;
 
     beforeEach(function () {
       peripheral.discoverServices = sinon.spy();
@@ -205,7 +205,7 @@ describe('Peripheral', function () {
     it('should call discoverCharacteristics on each service discovered', function () {
       peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids);
 
-      var discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
+      const discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
 
       discoverServicesCallback(null, mockServices);
 
@@ -214,13 +214,13 @@ describe('Peripheral', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids, function () {
         calledback = true;
       });
 
-      var discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
+      const discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
 
       discoverServicesCallback(null, mockServices);
 
@@ -231,8 +231,8 @@ describe('Peripheral', function () {
     });
 
     it('should callback with the services and characteristics discovered', function () {
-      var calledbackServices = null;
-      var calledbackCharacteristics = null;
+      let calledbackServices = null;
+      let calledbackCharacteristics = null;
 
       peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids, function (err, services, characteristics) {
         if (err) {
@@ -242,13 +242,13 @@ describe('Peripheral', function () {
         calledbackCharacteristics = characteristics;
       });
 
-      var discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
+      const discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
 
       discoverServicesCallback(null, mockServices);
 
-      var mockCharacteristic1 = { uuid: '1' };
-      var mockCharacteristic2 = { uuid: '2' };
-      var mockCharacteristic3 = { uuid: '3' };
+      const mockCharacteristic1 = { uuid: '1' };
+      const mockCharacteristic2 = { uuid: '2' };
+      const mockCharacteristic3 = { uuid: '3' };
 
       mockServices[0].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic1]);
       mockServices[1].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic2, mockCharacteristic3]);
@@ -260,7 +260,7 @@ describe('Peripheral', function () {
 
   describe('discoverAllServicesAndCharacteristics', function () {
     it('should call discoverSomeServicesAndCharacteristics', function () {
-      var mockCallback = sinon.spy();
+      const mockCallback = sinon.spy();
 
       peripheral.discoverSomeServicesAndCharacteristics = sinon.spy();
 
@@ -278,7 +278,7 @@ describe('Peripheral', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       peripheral.readHandle(mockHandle, function () {
         calledback = true;
@@ -289,7 +289,7 @@ describe('Peripheral', function () {
     });
 
     it('should callback with data', function () {
-      var calledbackData = null;
+      let calledbackData = null;
 
       peripheral.readHandle(mockHandle, function (error, data) {
         if (error) {
@@ -329,7 +329,7 @@ describe('Peripheral', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       peripheral.writeHandle(mockHandle, mockData, false, function () {
         calledback = true;

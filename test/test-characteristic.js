@@ -1,16 +1,16 @@
 require('should');
-var sinon = require('sinon');
+const sinon = require('sinon');
 
-var Characteristic = require('../lib/characteristic');
+const Characteristic = require('../lib/characteristic');
 
 describe('Characteristic', function () {
-  var mockNoble = null;
-  var mockPeripheralId = 'mock-peripheral-id';
-  var mockServiceUuid = 'mock-service-uuid';
-  var mockUuid = 'mock-uuid';
-  var mockProperties = ['mock-property-1', 'mock-property-2'];
+  let mockNoble = null;
+  const mockPeripheralId = 'mock-peripheral-id';
+  const mockServiceUuid = 'mock-service-uuid';
+  const mockUuid = 'mock-uuid';
+  const mockProperties = ['mock-property-1', 'mock-property-2'];
 
-  var characteristic = null;
+  let characteristic = null;
 
   beforeEach(function () {
     mockNoble = {
@@ -57,7 +57,7 @@ describe('Characteristic', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       characteristic.read(function () {
         calledback = true;
@@ -68,8 +68,8 @@ describe('Characteristic', function () {
     });
 
     it('should callback with data', function () {
-      var mockData = Buffer.alloc(0);
-      var callbackData = null;
+      const mockData = Buffer.alloc(0);
+      let callbackData = null;
 
       characteristic.read(function (error, data) {
         if (error) {
@@ -84,7 +84,7 @@ describe('Characteristic', function () {
   });
 
   describe('write', function () {
-    var mockData = null;
+    let mockData = null;
 
     beforeEach(function () {
       mockData = Buffer.alloc(0);
@@ -111,7 +111,7 @@ describe('Characteristic', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       characteristic.write(mockData, true, function () {
         calledback = true;
@@ -136,7 +136,7 @@ describe('Characteristic', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       characteristic.broadcast(true, function () {
         calledback = true;
@@ -161,7 +161,7 @@ describe('Characteristic', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       characteristic.notify(true, function () {
         calledback = true;
@@ -180,7 +180,7 @@ describe('Characteristic', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       characteristic.subscribe(function () {
         calledback = true;
@@ -199,7 +199,7 @@ describe('Characteristic', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       characteristic.unsubscribe(function () {
         calledback = true;
@@ -218,7 +218,7 @@ describe('Characteristic', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       characteristic.discoverDescriptors(function () {
         calledback = true;
@@ -229,8 +229,8 @@ describe('Characteristic', function () {
     });
 
     it('should callback with descriptors', function () {
-      var mockDescriptors = [];
-      var callbackDescriptors = null;
+      const mockDescriptors = [];
+      let callbackDescriptors = null;
 
       characteristic.discoverDescriptors(function (error, descriptors) {
         if (error) {

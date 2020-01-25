@@ -1,11 +1,11 @@
 /* eslint-disable handle-callback-err */
-var noble = require('../..');
-var pizza = require('./pizza');
+const noble = require('../..');
+const pizza = require('./pizza');
 
-var pizzaServiceUuid = '13333333333333333333333333333337';
-var pizzaCrustCharacteristicUuid = '13333333333333333333333333330001';
-var pizzaToppingsCharacteristicUuid = '13333333333333333333333333330002';
-var pizzaBakeCharacteristicUuid = '13333333333333333333333333330003';
+const pizzaServiceUuid = '13333333333333333333333333333337';
+const pizzaCrustCharacteristicUuid = '13333333333333333333333333330001';
+const pizzaToppingsCharacteristicUuid = '13333333333333333333333333330002';
+const pizzaBakeCharacteristicUuid = '13333333333333333333333333330003';
 
 noble.on('stateChange', function (state) {
   if (state === 'poweredOn') {
@@ -21,9 +21,9 @@ noble.on('stateChange', function (state) {
   }
 });
 
-var pizzaCrustCharacteristic = null;
-var pizzaToppingsCharacteristic = null;
-var pizzaBakeCharacteristic = null;
+let pizzaCrustCharacteristic = null;
+let pizzaToppingsCharacteristic = null;
+let pizzaBakeCharacteristic = null;
 
 noble.on('discover', function (peripheral) {
   // we found a peripheral, stop scanning
@@ -93,14 +93,14 @@ function bakePizza () {
   //
   // Pick the crust.
   //
-  var crust = Buffer.alloc(1);
+  const crust = Buffer.alloc(1);
   crust.writeUInt8(pizza.PizzaCrust.THIN, 0);
   pizzaCrustCharacteristic.write(crust, false, function (err) {
     if (!err) {
       //
       // Pick the toppings.
       //
-      var toppings = Buffer.alloc(2);
+      const toppings = Buffer.alloc(2);
       toppings.writeUInt16BE(
         pizza.PizzaToppings.EXTRA_CHEESE |
         pizza.PizzaToppings.CANADIAN_BACON |
@@ -116,7 +116,7 @@ function bakePizza () {
           pizzaBakeCharacteristic.on('read', function (data, isNotification) {
             console.log('Our pizza is ready!');
             if (data.length === 1) {
-              var result = data.readUInt8(0);
+              const result = data.readUInt8(0);
               console.log('The result is',
                 result === pizza.PizzaBakeResult.HALF_BAKED ? 'half baked.'
                   : result === pizza.PizzaBakeResult.BAKED ? 'baked.'
@@ -132,7 +132,7 @@ function bakePizza () {
             //
             // Bake at 450 degrees!
             //
-            var temperature = Buffer.alloc(2);
+            const temperature = Buffer.alloc(2);
             temperature.writeUInt16BE(450, 0);
             pizzaBakeCharacteristic.write(temperature, false, function (err) {
               if (err) {
