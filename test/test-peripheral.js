@@ -293,7 +293,7 @@ describe('Peripheral', function () {
 
   describe('writeHandle', function () {
     beforeEach(function () {
-      mockData = new Buffer(0);
+      mockData = Buffer.alloc(0);
     });
 
     it('should only accept data as a buffer', function () {

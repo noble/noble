@@ -73,7 +73,7 @@ describe('Descriptor', function () {
     });
 
     it('should callback with error, data', function () {
-      var mockData = new Buffer(0);
+      var mockData = Buffer.alloc(0);
       var callbackData = null;
 
       descriptor.readValue(function (error, data) {
@@ -89,7 +89,7 @@ describe('Descriptor', function () {
     var mockData = null;
 
     beforeEach(function () {
-      mockData = new Buffer(0);
+      mockData = Buffer.alloc(0);
     });
 
     it('should only accept data as a buffer', function () {

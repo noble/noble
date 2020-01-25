@@ -93,14 +93,14 @@ function bakePizza () {
   //
   // Pick the crust.
   //
-  var crust = new Buffer(1);
+  var crust = Buffer.alloc(1);
   crust.writeUInt8(pizza.PizzaCrust.THIN, 0);
   pizzaCrustCharacteristic.write(crust, false, function (err) {
     if (!err) {
       //
       // Pick the toppings.
       //
-      var toppings = new Buffer(2);
+      var toppings = Buffer.alloc(2);
       toppings.writeUInt16BE(
         pizza.PizzaToppings.EXTRA_CHEESE |
         pizza.PizzaToppings.CANADIAN_BACON |
@@ -132,7 +132,7 @@ function bakePizza () {
             //
             // Bake at 450 degrees!
             //
-            var temperature = new Buffer(2);
+            var temperature = Buffer.alloc(2);
             temperature.writeUInt16BE(450, 0);
             pizzaBakeCharacteristic.write(temperature, false, function (err) {
               if (err) {
