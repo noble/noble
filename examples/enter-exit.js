@@ -1,3 +1,4 @@
+/* eslint-disable handle-callback-err */
 /*
   Continuously scans for peripherals and prints out message when they enter/exit
 

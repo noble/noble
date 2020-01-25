@@ -1,3 +1,4 @@
+/* eslint-disable handle-callback-err */
 /** discover a device (here, the first one where the name was resolved),
  * for the first device discover all services and characteristics,
  * store the collected GATT information into a meta-data object and write to disk.

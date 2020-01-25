@@ -1,3 +1,4 @@
+/* eslint-disable handle-callback-err */
 // Connect to a peripheral running the echo service
 // https://github.com/noble/bleno/blob/master/examples/echo
 
