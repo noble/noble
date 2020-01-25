@@ -3,7 +3,7 @@ var noble = require('../index');
 
 var peripheralIdOrAddress = process.argv[2].toLowerCase();
 
-noble.on('stateChange', function(state) {
+noble.on('stateChange', function (state) {
   if (state === 'poweredOn') {
     noble.startScanning();
   } else {
@@ -11,7 +11,7 @@ noble.on('stateChange', function(state) {
   }
 });
 
-noble.on('discover', function(peripheral) {
+noble.on('discover', function (peripheral) {
   if (peripheral.id === peripheralIdOrAddress || peripheral.address === peripheralIdOrAddress) {
     noble.stopScanning();
 
@@ -50,22 +50,22 @@ noble.on('discover', function(peripheral) {
   }
 });
 
-function explore(peripheral) {
+function explore (peripheral) {
   console.log('services and characteristics:');
 
-  peripheral.on('disconnect', function() {
+  peripheral.on('disconnect', function () {
     process.exit(0);
   });
 
-  peripheral.connect(function(error) {
-    peripheral.discoverServices([], function(error, services) {
+  peripheral.connect(function (error) {
+    peripheral.discoverServices([], function (error, services) {
       var serviceIndex = 0;
 
       async.whilst(
         function () {
           return (serviceIndex < services.length);
         },
-        function(callback) {
+        function (callback) {
           var service = services[serviceIndex];
           var serviceInfo = service.uuid;
 
@@ -74,14 +74,14 @@ function explore(peripheral) {
           }
           console.log(serviceInfo);
 
-          service.discoverCharacteristics([], function(error, characteristics) {
+          service.discoverCharacteristics([], function (error, characteristics) {
             var characteristicIndex = 0;
 
             async.whilst(
               function () {
                 return (characteristicIndex < characteristics.length);
               },
-              function(callback) {
+              function (callback) {
                 var characteristic = characteristics[characteristicIndex];
                 var characteristicInfo = '  ' + characteristic.uuid;
 
@@ -90,20 +90,20 @@ function explore(peripheral) {
                 }
 
                 async.series([
-                  function(callback) {
-                    characteristic.discoverDescriptors(function(error, descriptors) {
+                  function (callback) {
+                    characteristic.discoverDescriptors(function (error, descriptors) {
                       async.detect(
                         descriptors,
-                        function(descriptor, callback) {
+                        function (descriptor, callback) {
                           if (descriptor.uuid === '2901') {
                             return callback(descriptor);
                           } else {
                             return callback();
                           }
                         },
-                        function(userDescriptionDescriptor){
+                        function (userDescriptionDescriptor) {
                           if (userDescriptionDescriptor) {
-                            userDescriptionDescriptor.readValue(function(error, data) {
+                            userDescriptionDescriptor.readValue(function (error, data) {
                               if (data) {
                                 characteristicInfo += ' (' + data.toString() + ')';
                               }
@@ -116,11 +116,11 @@ function explore(peripheral) {
                       );
                     });
                   },
-                  function(callback) {
-                        characteristicInfo += '\n    properties  ' + characteristic.properties.join(', ');
+                  function (callback) {
+                    characteristicInfo += '\n    properties  ' + characteristic.properties.join(', ');
 
                     if (characteristic.properties.indexOf('read') !== -1) {
-                      characteristic.read(function(error, data) {
+                      characteristic.read(function (error, data) {
                         if (data) {
                           var string = data.toString('ascii');
 
@@ -132,14 +132,14 @@ function explore(peripheral) {
                       callback();
                     }
                   },
-                  function() {
+                  function () {
                     console.log(characteristicInfo);
                     characteristicIndex++;
                     callback();
                   }
                 ]);
               },
-              function(error) {
+              function (error) {
                 serviceIndex++;
                 callback();
               }
@@ -153,4 +153,3 @@ function explore(peripheral) {
     });
   });
 }
-

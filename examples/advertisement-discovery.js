@@ -1,6 +1,6 @@
 var noble = require('../index');
 
-noble.on('stateChange', function(state) {
+noble.on('stateChange', function (state) {
   if (state === 'poweredOn') {
     noble.startScanning();
   } else {
@@ -8,9 +8,9 @@ noble.on('stateChange', function(state) {
   }
 });
 
-noble.on('discover', function(peripheral) {
+noble.on('discover', function (peripheral) {
   console.log('peripheral discovered (' + peripheral.id +
-              ' with address <' + peripheral.address +  ', ' + peripheral.addressType + '>,' +
+              ' with address <' + peripheral.address + ', ' + peripheral.addressType + '>,' +
               ' connectable ' + peripheral.connectable + ',' +
               ' RSSI ' + peripheral.rssi + ':');
   console.log('\thello my local name is:');
@@ -36,4 +36,3 @@ noble.on('discover', function(peripheral) {
 
   console.log();
 });
-
