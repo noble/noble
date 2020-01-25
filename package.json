@@ -60,7 +60,6 @@
   },
   "scripts": {
     "lint": "eslint '**/*.js'",
-    "pretest": "npm run lint",
     "test": "mocha -R spec test/*.js"
   },
   "browser": {
