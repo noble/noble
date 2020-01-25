@@ -1,3 +1,4 @@
+/* eslint-disable handle-callback-err */
 /** reconnect to a device that has been discovered earlier on using cache-gatt-discovery:
  * If a device is discovered and a dump file exists, load it and connect to it, re-initializing service
  * and characteristic objects in the noble stack.

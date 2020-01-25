@@ -1,4 +1,4 @@
-
+/* eslint-disable handle-callback-err */
 var noble = require('../..');
 var pizza = require('./pizza');
 

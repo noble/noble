@@ -1,3 +1,4 @@
+/* eslint-disable handle-callback-err */
 var async = require('async');
 var noble = require('../index');
 
