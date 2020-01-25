@@ -1,4 +1,4 @@
-var should = require('should');
+require('should');
 var sinon = require('sinon');
 
 var Descriptor = require('../lib/descriptor');

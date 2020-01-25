@@ -1,7 +1,4 @@
 /* jshint loopfunc: true */
-var events = require('events');
-
-var debug = require('debug')('slave');
 var WebSocket = require('ws');
 
 var noble = require('./index');

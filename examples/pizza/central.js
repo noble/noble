@@ -22,7 +22,6 @@ noble.on('stateChange', function(state) {
   }
 })
 
-var pizzaService = null;
 var pizzaCrustCharacteristic = null;
 var pizzaToppingsCharacteristic = null;
 var pizzaBakeCharacteristic = null;
