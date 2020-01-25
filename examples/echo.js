@@ -4,7 +4,7 @@
 // subscribe to be notified when the value changes
 // start an interval to write data to the characteristic
 
-//const noble = require('noble');
+// const noble = require('noble');
 const noble = require('..');
 
 const ECHO_SERVICE_UUID = 'ec00';
@@ -20,15 +20,14 @@ noble.on('stateChange', state => {
 });
 
 noble.on('discover', peripheral => {
-    // connect to the first peripheral that is scanned
-    noble.stopScanning();
-    const name = peripheral.advertisement.localName;
-    console.log(`Connecting to '${name}' ${peripheral.id}`);
-    connectAndSetUp(peripheral);
+  // connect to the first peripheral that is scanned
+  noble.stopScanning();
+  const name = peripheral.advertisement.localName;
+  console.log(`Connecting to '${name}' ${peripheral.id}`);
+  connectAndSetUp(peripheral);
 });
 
-function connectAndSetUp(peripheral) {
-
+function connectAndSetUp (peripheral) {
   peripheral.connect(error => {
     console.log('Connected to', peripheral.id);
 
@@ -37,16 +36,16 @@ function connectAndSetUp(peripheral) {
     const characteristicUUIDs = [ECHO_CHARACTERISTIC_UUID];
 
     peripheral.discoverSomeServicesAndCharacteristics(
-        serviceUUIDs,
-        characteristicUUIDs,
-        onServicesAndCharacteristicsDiscovered
+      serviceUUIDs,
+      characteristicUUIDs,
+      onServicesAndCharacteristicsDiscovered
     );
   });
-  
+
   peripheral.on('disconnect', () => console.log('disconnected'));
 }
 
-function onServicesAndCharacteristicsDiscovered(error, services, characteristics) {
+function onServicesAndCharacteristicsDiscovered (error, services, characteristics) {
   console.log('Discovered services and characteristics');
   const echoCharacteristic = characteristics[0];
 
@@ -54,7 +53,7 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
   echoCharacteristic.on('data', (data, isNotification) => {
     console.log('Received: "' + data + '"');
   });
-  
+
   // subscribe to be notified whenever the peripheral update the characteristic
   echoCharacteristic.subscribe(error => {
     if (error) {

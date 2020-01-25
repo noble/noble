@@ -3,7 +3,7 @@ var sinon = require('sinon');
 
 var Peripheral = require('../lib/peripheral');
 
-describe('Peripheral', function() {
+describe('Peripheral', function () {
   var mockNoble = null;
   var mockId = 'mock-id';
   var mockAddress = 'mock-address';
@@ -16,7 +16,7 @@ describe('Peripheral', function() {
 
   var peripheral = null;
 
-  beforeEach(function() {
+  beforeEach(function () {
     mockNoble = {
       connect: sinon.spy(),
       disconnect: sinon.spy(),
@@ -29,51 +29,51 @@ describe('Peripheral', function() {
     peripheral = new Peripheral(mockNoble, mockId, mockAddress, mockAddressType, mockConnectable, mockAdvertisement, mockRssi);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     peripheral = null;
   });
 
-  it('should have a id', function() {
+  it('should have a id', function () {
     peripheral.id.should.equal(mockId);
   });
 
-  it('should have an address', function() {
+  it('should have an address', function () {
     peripheral.address.should.equal(mockAddress);
   });
 
-  it('should have an address type', function() {
+  it('should have an address type', function () {
     peripheral.addressType.should.equal(mockAddressType);
   });
 
-  it('should have connectable', function() {
+  it('should have connectable', function () {
     peripheral.connectable.should.equal(mockConnectable);
   });
 
-  it('should have advertisement', function() {
+  it('should have advertisement', function () {
     peripheral.advertisement.should.equal(mockAdvertisement);
   });
 
-  it('should have rssi', function() {
+  it('should have rssi', function () {
     peripheral.rssi.should.equal(mockRssi);
   });
 
-  describe('toString', function() {
-    it('should be id, address, address type, connectable, advertisement, rssi, state', function() {
+  describe('toString', function () {
+    it('should be id, address, address type, connectable, advertisement, rssi, state', function () {
       peripheral.toString().should.equal('{"id":"mock-id","address":"mock-address","addressType":"mock-address-type","connectable":"mock-connectable","advertisement":"mock-advertisement","rssi":"mock-rssi","mtu":null,"state":"disconnected"}');
     });
   });
 
-  describe('connect', function() {
-    it('should delegate to noble', function() {
+  describe('connect', function () {
+    it('should delegate to noble', function () {
       peripheral.connect();
 
       mockNoble.connect.calledWithExactly(mockId).should.equal(true);
     });
 
-    it('should callback', function() {
+    it('should callback', function () {
       var calledback = false;
 
-      peripheral.connect(function() {
+      peripheral.connect(function () {
         calledback = true;
       });
       peripheral.emit('connect');
@@ -82,17 +82,17 @@ describe('Peripheral', function() {
     });
   });
 
-  describe('disconnect', function() {
-    it('should delegate to noble', function() {
+  describe('disconnect', function () {
+    it('should delegate to noble', function () {
       peripheral.disconnect();
 
       mockNoble.disconnect.calledWithExactly(mockId).should.equal(true);
     });
 
-    it('should callback', function() {
+    it('should callback', function () {
       var calledback = false;
 
-      peripheral.disconnect(function() {
+      peripheral.disconnect(function () {
         calledback = true;
       });
       peripheral.emit('disconnect');
@@ -101,17 +101,17 @@ describe('Peripheral', function() {
     });
   });
 
-  describe('updateRssi', function() {
-    it('should delegate to noble', function() {
+  describe('updateRssi', function () {
+    it('should delegate to noble', function () {
       peripheral.updateRssi();
 
       mockNoble.updateRssi.calledWithExactly(mockId).should.equal(true);
     });
 
-    it('should callback', function() {
+    it('should callback', function () {
       var calledback = false;
 
-      peripheral.updateRssi(function() {
+      peripheral.updateRssi(function () {
         calledback = true;
       });
       peripheral.emit('rssiUpdate');
@@ -119,10 +119,10 @@ describe('Peripheral', function() {
       calledback.should.equal(true);
     });
 
-    it('should callback with rssi', function() {
+    it('should callback with rssi', function () {
       var calledbackRssi = null;
 
-      peripheral.updateRssi(function(error, rssi) {
+      peripheral.updateRssi(function (error, rssi) {
         calledbackRssi = rssi;
       });
       peripheral.emit('rssiUpdate', mockRssi);
@@ -131,14 +131,14 @@ describe('Peripheral', function() {
     });
   });
 
-  describe('discoverServices', function() {
-    it('should delegate to noble', function() {
+  describe('discoverServices', function () {
+    it('should delegate to noble', function () {
       peripheral.discoverServices();
 
       mockNoble.discoverServices.calledWithExactly(mockId, undefined).should.equal(true);
     });
 
-    it('should delegate to noble, service uuids', function() {
+    it('should delegate to noble, service uuids', function () {
       var mockServiceUuids = [];
 
       peripheral.discoverServices(mockServiceUuids);
@@ -146,10 +146,10 @@ describe('Peripheral', function() {
       mockNoble.discoverServices.calledWithExactly(mockId, mockServiceUuids).should.equal(true);
     });
 
-    it('should callback', function() {
+    it('should callback', function () {
       var calledback = false;
 
-      peripheral.discoverServices(null, function() {
+      peripheral.discoverServices(null, function () {
         calledback = true;
       });
       peripheral.emit('servicesDiscover');
@@ -157,11 +157,11 @@ describe('Peripheral', function() {
       calledback.should.equal(true);
     });
 
-    it('should callback with services', function() {
+    it('should callback with services', function () {
       var mockServices = [];
       var calledbackServices = null;
 
-      peripheral.discoverServices(null, function(error, services) {
+      peripheral.discoverServices(null, function (error, services) {
         calledbackServices = services;
       });
       peripheral.emit('servicesDiscover', mockServices);
@@ -170,12 +170,12 @@ describe('Peripheral', function() {
     });
   });
 
-  describe('discoverSomeServicesAndCharacteristics', function() {
+  describe('discoverSomeServicesAndCharacteristics', function () {
     var mockServiceUuids = [];
     var mockCharacteristicUuids = [];
     var mockServices = null;
 
-    beforeEach(function() {
+    beforeEach(function () {
       peripheral.discoverServices = sinon.spy();
 
       mockServices = [
@@ -190,13 +190,13 @@ describe('Peripheral', function() {
       ];
     });
 
-    it('should call discoverServices', function() {
+    it('should call discoverServices', function () {
       peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids);
 
       peripheral.discoverServices.calledWith(mockServiceUuids).should.equal(true);
     });
 
-    it('should call discoverCharacteristics on each service discovered', function() {
+    it('should call discoverCharacteristics on each service discovered', function () {
       peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids);
 
       var discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
@@ -207,11 +207,10 @@ describe('Peripheral', function() {
       mockServices[1].discoverCharacteristics.calledWith(mockCharacteristicUuids).should.equal(true);
     });
 
-    it('should callback', function() {
+    it('should callback', function () {
       var calledback = false;
 
-
-      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids, function() {
+      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids, function () {
         calledback = true;
       });
 
@@ -225,11 +224,11 @@ describe('Peripheral', function() {
       calledback.should.equal(true);
     });
 
-    it('should callback with the services and characteristics discovered', function() {
+    it('should callback with the services and characteristics discovered', function () {
       var calledbackServices = null;
       var calledbackCharacteristics = null;
 
-      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids, function(err, services, characteristics) {
+      peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids, function (err, services, characteristics) {
         calledbackServices = services;
         calledbackCharacteristics = characteristics;
       });
@@ -250,8 +249,8 @@ describe('Peripheral', function() {
     });
   });
 
-  describe('discoverAllServicesAndCharacteristics', function() {
-    it('should call discoverSomeServicesAndCharacteristics', function() {
+  describe('discoverAllServicesAndCharacteristics', function () {
+    it('should call discoverSomeServicesAndCharacteristics', function () {
       var mockCallback = sinon.spy();
 
       peripheral.discoverSomeServicesAndCharacteristics = sinon.spy();
@@ -262,17 +261,17 @@ describe('Peripheral', function() {
     });
   });
 
-  describe('readHandle', function() {
-    it('should delegate to noble', function() {
+  describe('readHandle', function () {
+    it('should delegate to noble', function () {
       peripheral.readHandle(mockHandle);
 
       mockNoble.readHandle.calledWithExactly(mockId, mockHandle).should.equal(true);
     });
 
-    it('should callback', function() {
+    it('should callback', function () {
       var calledback = false;
 
-      peripheral.readHandle(mockHandle, function() {
+      peripheral.readHandle(mockHandle, function () {
         calledback = true;
       });
       peripheral.emit('handleRead' + mockHandle);
@@ -280,10 +279,10 @@ describe('Peripheral', function() {
       calledback.should.equal(true);
     });
 
-    it('should callback with data', function() {
+    it('should callback with data', function () {
       var calledbackData = null;
 
-      peripheral.readHandle(mockHandle, function(error, data) {
+      peripheral.readHandle(mockHandle, function (error, data) {
         calledbackData = data;
       });
       peripheral.emit('handleRead' + mockHandle, mockData);
@@ -292,35 +291,35 @@ describe('Peripheral', function() {
     });
   });
 
-  describe('writeHandle', function() {
-    beforeEach(function() {
+  describe('writeHandle', function () {
+    beforeEach(function () {
       mockData = new Buffer(0);
     });
 
-    it('should only accept data as a buffer', function() {
+    it('should only accept data as a buffer', function () {
       mockData = {};
 
-      (function(){
+      (function () {
         peripheral.writeHandle(mockHandle, mockData);
       }).should.throwError('data must be a Buffer');
     });
 
-    it('should delegate to noble, withoutResponse false', function() {
+    it('should delegate to noble, withoutResponse false', function () {
       peripheral.writeHandle(mockHandle, mockData, false);
 
       mockNoble.writeHandle.calledWithExactly(mockId, mockHandle, mockData, false).should.equal(true);
     });
 
-    it('should delegate to noble, withoutResponse true', function() {
+    it('should delegate to noble, withoutResponse true', function () {
       peripheral.writeHandle(mockHandle, mockData, true);
 
       mockNoble.writeHandle.calledWithExactly(mockId, mockHandle, mockData, true).should.equal(true);
     });
 
-    it('should callback', function() {
+    it('should callback', function () {
       var calledback = false;
 
-      peripheral.writeHandle(mockHandle, mockData, false, function() {
+      peripheral.writeHandle(mockHandle, mockData, false, function () {
         calledback = true;
       });
       peripheral.emit('handleWrite' + mockHandle);
