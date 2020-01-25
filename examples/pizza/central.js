@@ -61,11 +61,11 @@ noble.on('discover', function (peripheral) {
             //
             console.log('found characteristic:', characteristic.uuid);
 
-            if (pizzaCrustCharacteristicUuid == characteristic.uuid) {
+            if (pizzaCrustCharacteristicUuid === characteristic.uuid) {
               pizzaCrustCharacteristic = characteristic;
-            } else if (pizzaToppingsCharacteristicUuid == characteristic.uuid) {
+            } else if (pizzaToppingsCharacteristicUuid === characteristic.uuid) {
               pizzaToppingsCharacteristic = characteristic;
-            } else if (pizzaBakeCharacteristicUuid == characteristic.uuid) {
+            } else if (pizzaBakeCharacteristicUuid === characteristic.uuid) {
               pizzaBakeCharacteristic = characteristic;
             }
           });
@@ -118,11 +118,11 @@ function bakePizza () {
             if (data.length === 1) {
               var result = data.readUInt8(0);
               console.log('The result is',
-                result == pizza.PizzaBakeResult.HALF_BAKED ? 'half baked.'
-                  : result == pizza.PizzaBakeResult.BAKED ? 'baked.'
-                    : result == pizza.PizzaBakeResult.CRISPY ? 'crispy.'
-                      : result == pizza.PizzaBakeResult.BURNT ? 'burnt.'
-                        : result == pizza.PizzaBakeResult.ON_FIRE ? 'on fire!'
+                result === pizza.PizzaBakeResult.HALF_BAKED ? 'half baked.'
+                  : result === pizza.PizzaBakeResult.BAKED ? 'baked.'
+                    : result === pizza.PizzaBakeResult.CRISPY ? 'crispy.'
+                      : result === pizza.PizzaBakeResult.BURNT ? 'burnt.'
+                        : result === pizza.PizzaBakeResult.ON_FIRE ? 'on fire!'
                           : 'unknown?');
             } else {
               console.log('result length incorrect');
