@@ -1,14 +1,14 @@
 require('should');
-var sinon = require('sinon');
+const sinon = require('sinon');
 
-var Service = require('../lib/service');
+const Service = require('../lib/service');
 
 describe('service', function () {
-  var mockNoble = null;
-  var mockPeripheralId = 'mock-peripheral-id';
-  var mockUuid = 'mock-uuid';
+  let mockNoble = null;
+  const mockPeripheralId = 'mock-peripheral-id';
+  const mockUuid = 'mock-uuid';
 
-  var service = null;
+  let service = null;
 
   beforeEach(function () {
     mockNoble = {
@@ -48,7 +48,7 @@ describe('service', function () {
     });
 
     it('should delegate to noble, with uuids', function () {
-      var mockUuids = [];
+      const mockUuids = [];
 
       service.discoverIncludedServices(mockUuids);
 
@@ -56,7 +56,7 @@ describe('service', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       service.discoverIncludedServices(null, function () {
         calledback = true;
@@ -67,8 +67,8 @@ describe('service', function () {
     });
 
     it('should callback with data', function () {
-      var mockIncludedServiceUuids = [];
-      var callbackIncludedServiceUuids = null;
+      const mockIncludedServiceUuids = [];
+      let callbackIncludedServiceUuids = null;
 
       service.discoverIncludedServices(null, function (error, includedServiceUuids) {
         if (error) {
@@ -90,7 +90,7 @@ describe('service', function () {
     });
 
     it('should delegate to noble, with uuids', function () {
-      var mockUuids = [];
+      const mockUuids = [];
 
       service.discoverCharacteristics(mockUuids);
 
@@ -98,7 +98,7 @@ describe('service', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       service.discoverCharacteristics(null, function () {
         calledback = true;
@@ -109,8 +109,8 @@ describe('service', function () {
     });
 
     it('should callback with data', function () {
-      var mockCharacteristics = [];
-      var callbackCharacteristics = null;
+      const mockCharacteristics = [];
+      let callbackCharacteristics = null;
 
       service.discoverCharacteristics(null, function (error, mockCharacteristics) {
         if (error) {

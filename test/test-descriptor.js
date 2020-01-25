@@ -1,16 +1,16 @@
 require('should');
-var sinon = require('sinon');
+const sinon = require('sinon');
 
-var Descriptor = require('../lib/descriptor');
+const Descriptor = require('../lib/descriptor');
 
 describe('Descriptor', function () {
-  var mockNoble = null;
-  var mockPeripheralId = 'mock-peripheral-id';
-  var mockServiceUuid = 'mock-service-uuid';
-  var mockCharacteristicUuid = 'mock-characteristic-uuid';
-  var mockUuid = 'mock-uuid';
+  let mockNoble = null;
+  const mockPeripheralId = 'mock-peripheral-id';
+  const mockServiceUuid = 'mock-service-uuid';
+  const mockCharacteristicUuid = 'mock-characteristic-uuid';
+  const mockUuid = 'mock-uuid';
 
-  var descriptor = null;
+  let descriptor = null;
 
   beforeEach(function () {
     mockNoble = {
@@ -50,7 +50,7 @@ describe('Descriptor', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       descriptor.readValue(function () {
         calledback = true;
@@ -61,7 +61,7 @@ describe('Descriptor', function () {
     });
 
     it('should not call callback twice', function () {
-      var calledback = 0;
+      let calledback = 0;
 
       descriptor.readValue(function () {
         calledback += 1;
@@ -73,8 +73,8 @@ describe('Descriptor', function () {
     });
 
     it('should callback with error, data', function () {
-      var mockData = Buffer.alloc(0);
-      var callbackData = null;
+      const mockData = Buffer.alloc(0);
+      let callbackData = null;
 
       descriptor.readValue(function (error, data) {
         if (error) {
@@ -89,7 +89,7 @@ describe('Descriptor', function () {
   });
 
   describe('writeValue', function () {
-    var mockData = null;
+    let mockData = null;
 
     beforeEach(function () {
       mockData = Buffer.alloc(0);
@@ -110,7 +110,7 @@ describe('Descriptor', function () {
     });
 
     it('should callback', function () {
-      var calledback = false;
+      let calledback = false;
 
       descriptor.writeValue(mockData, function () {
         calledback = true;
@@ -121,7 +121,7 @@ describe('Descriptor', function () {
     });
 
     it('should not call callback twice', function () {
-      var calledback = 0;
+      let calledback = 0;
 
       descriptor.writeValue(mockData, function () {
         calledback += 1;

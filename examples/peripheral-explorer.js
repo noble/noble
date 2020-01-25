@@ -1,8 +1,8 @@
 /* eslint-disable handle-callback-err */
-var async = require('async');
-var noble = require('../index');
+const async = require('async');
+const noble = require('../index');
 
-var peripheralIdOrAddress = process.argv[2].toLowerCase();
+const peripheralIdOrAddress = process.argv[2].toLowerCase();
 
 noble.on('stateChange', function (state) {
   if (state === 'poweredOn') {
@@ -17,13 +17,13 @@ noble.on('discover', function (peripheral) {
     noble.stopScanning();
 
     console.log('peripheral with ID ' + peripheral.id + ' found');
-    var advertisement = peripheral.advertisement;
+    const advertisement = peripheral.advertisement;
 
-    var localName = advertisement.localName;
-    var txPowerLevel = advertisement.txPowerLevel;
-    var manufacturerData = advertisement.manufacturerData;
-    var serviceData = advertisement.serviceData;
-    var serviceUuids = advertisement.serviceUuids;
+    const localName = advertisement.localName;
+    const txPowerLevel = advertisement.txPowerLevel;
+    const manufacturerData = advertisement.manufacturerData;
+    const serviceData = advertisement.serviceData;
+    const serviceUuids = advertisement.serviceUuids;
 
     if (localName) {
       console.log('  Local Name        = ' + localName);
@@ -60,15 +60,15 @@ function explore (peripheral) {
 
   peripheral.connect(function (error) {
     peripheral.discoverServices([], function (error, services) {
-      var serviceIndex = 0;
+      let serviceIndex = 0;
 
       async.whilst(
         function () {
           return (serviceIndex < services.length);
         },
         function (callback) {
-          var service = services[serviceIndex];
-          var serviceInfo = service.uuid;
+          const service = services[serviceIndex];
+          let serviceInfo = service.uuid;
 
           if (service.name) {
             serviceInfo += ' (' + service.name + ')';
@@ -76,15 +76,15 @@ function explore (peripheral) {
           console.log(serviceInfo);
 
           service.discoverCharacteristics([], function (error, characteristics) {
-            var characteristicIndex = 0;
+            let characteristicIndex = 0;
 
             async.whilst(
               function () {
                 return (characteristicIndex < characteristics.length);
               },
               function (callback) {
-                var characteristic = characteristics[characteristicIndex];
-                var characteristicInfo = '  ' + characteristic.uuid;
+                const characteristic = characteristics[characteristicIndex];
+                let characteristicInfo = '  ' + characteristic.uuid;
 
                 if (characteristic.name) {
                   characteristicInfo += ' (' + characteristic.name + ')';
@@ -123,7 +123,7 @@ function explore (peripheral) {
                     if (characteristic.properties.indexOf('read') !== -1) {
                       characteristic.read(function (error, data) {
                         if (data) {
-                          var string = data.toString('ascii');
+                          const string = data.toString('ascii');
 
                           characteristicInfo += '\n    value       ' + data.toString('hex') + ' | \'' + string + '\'';
                         }
