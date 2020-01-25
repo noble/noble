@@ -103,7 +103,7 @@ let findServices = function (noble, peripheral) {
       let service = services[i]
 
       service.on('characteristicsDiscovered', (characteristics) => {
-	// store the list of characteristics per service
+        // store the list of characteristics per service
         meta.characteristics[service.uuid] = characteristics
 
         console.log('SRV\t' + service.uuid + ' characteristic GATT data: ')
@@ -118,30 +118,30 @@ let findServices = function (noble, peripheral) {
           let ch = characteristics[j]
           console.log('\t' + service.uuid + ' chara.\t ' + ' ' + j + ' ' + ch)
 
-	  if ( ch.name === CHANNEL) {
-	    console.log('found ' + CHANNEL + ' characteristic!')
-	    sensorCharacteristic = ch
-	  }
+          if ( ch.name === CHANNEL) {
+            console.log('found ' + CHANNEL + ' characteristic!')
+            sensorCharacteristic = ch
+          }
         }
 
-	servicesToRead--
-	if (!servicesToRead) {
-	  console.log('----------------- FINISHED')
-	  console.log(JSON.stringify(meta, null, 4))
-	  // write to file
-	  fs.writeFile(meta.uuid + EXT, JSON.stringify(meta,null,2), function(err) {
-	    if(err) {
+        servicesToRead--
+        if (!servicesToRead) {
+          console.log('----------------- FINISHED')
+          console.log(JSON.stringify(meta, null, 4))
+          // write to file
+          fs.writeFile(meta.uuid + EXT, JSON.stringify(meta,null,2), function(err) {
+            if(err) {
               return console.log(err);
-	    }
-	    console.log("The data was saved to " , meta.uuid + EXT);
-	  });
+            }
+            console.log("The data was saved to " , meta.uuid + EXT);
+          });
 
-	  if (sensorCharacteristic) {
-	    console.log('Listening for temperature data...')
+          if (sensorCharacteristic) {
+            console.log('Listening for temperature data...')
 
-	    tRead = Date.now()
+            tRead = Date.now()
       
-	    sensorCharacteristic.on('data', (data) => {
+            sensorCharacteristic.on('data', (data) => {
         if (BITS === 16 ) {
           console.log(' new ' + CHANNEL + ' ' + (data.readUInt16LE() * FACTOR)  )
         } else if (BITS === 32) {
@@ -149,13 +149,13 @@ let findServices = function (noble, peripheral) {
         } else {
           console.log(' Cannot cope with BITS value '+ BITS) 
         }
-	    })
-	    sensorCharacteristic.read()
-	  }
+            })
+            sensorCharacteristic.read()
+          }
 
-	  console.log('Timespan from discovery to connected: ' + (tConn -tDisco) + ' ms')
-	  console.log('Timespan from connected to reading  : ' + (tRead -tConn)  + ' ms')
-	}
+          console.log('Timespan from discovery to connected: ' + (tConn -tDisco) + ' ms')
+          console.log('Timespan from connected to reading  : ' + (tRead -tConn)  + ' ms')
+        }
       })
     }
   })
