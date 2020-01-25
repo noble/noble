@@ -43,15 +43,17 @@
   },
   "devDependencies": {
     "async": "^3.1.0",
-    "jshint": "latest",
+    "eslint": "^6.8.0",
     "mocha": "^6.2.0",
     "node-gyp": "^5.0.3",
+    "prettier": "^1.19.1",
     "should": "~13.2.3",
     "sinon": "~7.4.2",
     "ws": "^7.1.2"
   },
   "scripts": {
-    "pretest": "jshint *.js lib/. test/.",
+    "lint": "eslint '**/*.js'",
+    "pretest": "npm run lint",
     "test": "mocha -R spec test/*.js"
   },
   "browser": {
