@@ -123,6 +123,9 @@ describe('Peripheral', function () {
       var calledbackRssi = null;
 
       peripheral.updateRssi(function (error, rssi) {
+        if (error) {
+          throw new Error(error);
+        }
         calledbackRssi = rssi;
       });
       peripheral.emit('rssiUpdate', mockRssi);
@@ -162,6 +165,9 @@ describe('Peripheral', function () {
       var calledbackServices = null;
 
       peripheral.discoverServices(null, function (error, services) {
+        if (error) {
+          throw new Error(error);
+        }
         calledbackServices = services;
       });
       peripheral.emit('servicesDiscover', mockServices);
@@ -229,6 +235,9 @@ describe('Peripheral', function () {
       var calledbackCharacteristics = null;
 
       peripheral.discoverSomeServicesAndCharacteristics(mockServiceUuids, mockCharacteristicUuids, function (err, services, characteristics) {
+        if (err) {
+          throw new Error(err);
+        }
         calledbackServices = services;
         calledbackCharacteristics = characteristics;
       });
@@ -283,6 +292,9 @@ describe('Peripheral', function () {
       var calledbackData = null;
 
       peripheral.readHandle(mockHandle, function (error, data) {
+        if (error) {
+          throw new Error(error);
+        }
         calledbackData = data;
       });
       peripheral.emit('handleRead' + mockHandle, mockData);

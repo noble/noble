@@ -77,6 +77,9 @@ describe('Descriptor', function () {
       var callbackData = null;
 
       descriptor.readValue(function (error, data) {
+        if (error) {
+          throw new Error(error);
+        }
         callbackData = data;
       });
       descriptor.emit('valueRead', mockData);

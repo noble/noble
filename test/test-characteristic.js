@@ -72,6 +72,9 @@ describe('Characteristic', function () {
       var callbackData = null;
 
       characteristic.read(function (error, data) {
+        if (error) {
+          throw new Error(error);
+        }
         callbackData = data;
       });
       characteristic.emit('read', mockData);
@@ -230,6 +233,9 @@ describe('Characteristic', function () {
       var callbackDescriptors = null;
 
       characteristic.discoverDescriptors(function (error, descriptors) {
+        if (error) {
+          throw new Error(error);
+        }
         callbackDescriptors = descriptors;
       });
       characteristic.emit('descriptorsDiscover', mockDescriptors);
