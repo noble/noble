@@ -320,7 +320,8 @@ peripheral = {
         ...
     ]
   },
-  rssi: <rssi>
+  rssi: <rssi>,
+  mtu: <mtu> // MTU will be null, until device is connected and hci-socket is used
 };
 
 noble.on('discover', callback(peripheral));
