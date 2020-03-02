@@ -18,7 +18,6 @@ jobs:
           macos-latest,
         ]
         node: [
-          6,
           8,
           10,
           12,
