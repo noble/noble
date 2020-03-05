@@ -39,10 +39,10 @@
     "node-addon-api": "^2.0.0"
   },
   "optionalDependencies": {
-    "@abandonware/bluetooth-hci-socket": "^0.5.3-4"
+    "@abandonware/bluetooth-hci-socket": "^0.5.3-5"
   },
   "devDependencies": {
-    "async": "^3.1.1",
+    "async": "^3.2.0",
     "eslint": "^6.8.0",
     "eslint-config-semistandard": "^15.0.0",
     "eslint-config-standard": "^14.1.0",
@@ -51,7 +51,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "install": "^0.13.0",
-    "mocha": "^7.0.1",
+    "mocha": "^7.1.0",
     "node-gyp": "^6.1.0",
     "prettier": "^1.19.1",
     "should": "~13.2.3",
