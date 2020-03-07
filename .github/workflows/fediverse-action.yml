@@ -1,0 +1,11 @@
+# YAML
+---
+name: fediverse-action
+on: [push]
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rzr/fediverse-action@master
+        with:
+          access-token: ${{ secrets.MASTODON_ACCESS_TOKEN }}
