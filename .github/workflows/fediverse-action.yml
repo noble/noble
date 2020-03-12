@@ -6,6 +6,10 @@ jobs:
   post:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
+      - id: log
+        run: echo "::set-output name=message::$(git log --no-merges -1 --oneline)"
       - uses: rzr/fediverse-action@master
         with:
           access-token: ${{ secrets.MASTODON_ACCESS_TOKEN }}
+          message: "https://github.com/${{ github.repository }}/commit/${{ steps.log.outputs.message }} ~ #FediVerseAction"
