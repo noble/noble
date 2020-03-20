@@ -13,10 +13,8 @@
 
 import events = require("events");
 
-export declare function startScanning(callback?: (error?: Error) => void): void;
+export declare function startScanning(): void;
 export declare function startScanningAsync(): Promise<void>;
-export declare function startScanning(serviceUUIDs: string[], callback?: (error?: Error) => void): void;
-export declare function startScanningAsync(serviceUUIDs: string[]): Promise<void>;
 export declare function startScanning(serviceUUIDs: string[], allowDuplicates: boolean, callback?: (error?: Error) => void): void;
 export declare function startScanningAsync(serviceUUIDs: string[], allowDuplicates: boolean): Promise<void>;
 export declare function stopScanning(callback?: () => void): void;
@@ -60,6 +58,8 @@ export declare class Peripheral extends events.EventEmitter {
     disconnectAsync(): Promise<void>;
     updateRssi(callback?: (error: string, rssi: number) => void): void;
     updateRssiAsync(): Promise<number>;
+    discoverServices(): void;
+    discoverServicesAsync(): Promise<Service[]>;
     discoverServices(serviceUUIDs: string[], callback?: (error: string, services: Service[]) => void): void;
     discoverServicesAsync(serviceUUIDs: string[]): Promise<Service[]>;
     discoverAllServicesAndCharacteristics(callback?: (error: string, services: Service[], characteristics: Characteristic[]) => void): void;
@@ -98,8 +98,12 @@ export declare class Service extends events.EventEmitter {
     includedServiceUuids: string[];
     characteristics: Characteristic[];
 
+    discoverIncludedServices(): void;
+    discoverIncludedServicesAsync(): Promise<string[]>;
     discoverIncludedServices(serviceUUIDs: string[], callback?: (error: string, includedServiceUuids: string[]) => void): void;
     discoverIncludedServicesAsync(serviceUUIDs: string[]): Promise<string[]>;
+    discoverCharacteristics(): void;
+    discoverCharacteristicsAsync(): Promise<Characteristic[]>;
     discoverCharacteristics(characteristicUUIDs: string[], callback?: (error: string, characteristics: Characteristic[]) => void): void;
     discoverCharacteristicsAsync(characteristicUUIDs: string[]): Promise<Characteristic[]>;
     toString(): string;
