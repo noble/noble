@@ -13,10 +13,16 @@
 
 import events = require("events");
 
-export declare function startScanning(): void;
-export declare function startScanningAsync(): Promise<void>;
-export declare function startScanning(serviceUUIDs: string[], allowDuplicates: boolean, callback?: (error?: Error) => void): void;
-export declare function startScanningAsync(serviceUUIDs: string[], allowDuplicates: boolean): Promise<void>;
+/**
+ * @deprecated
+ */
+export declare function startScanning(callback?: (error?: Error) => void): void;
+/**
+ * @deprecated
+ */
+export declare function startScanning(serviceUUIDs: string[], callback?: (error?: Error) => void): void;
+export declare function startScanning(serviceUUIDs?: string[], allowDuplicates?: boolean, callback?: (error?: Error) => void): void;
+export declare function startScanningAsync(serviceUUIDs?: string[], allowDuplicates?: boolean): Promise<void>;
 export declare function stopScanning(callback?: () => void): void;
 export declare function stopScanningAsync(): Promise<void>;
 
