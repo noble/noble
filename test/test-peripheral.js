@@ -82,6 +82,33 @@ describe('Peripheral', function () {
     });
   });
 
+  describe('connectAsync', () => {
+    it('should resolve', async () => {
+      const promise = peripheral.connectAsync();
+
+      peripheral.emit('connect');
+
+      await promise.should.be.fulfilled();
+    });
+
+    it('should reject on error', async () => {
+      const promise = peripheral.connectAsync();
+
+      peripheral.emit('connect', new Error('error'));
+
+      await promise.should.be.rejectedWith('error');
+    });
+
+    it('should delegate to noble', async () => {
+      const promise = peripheral.connectAsync();
+
+      peripheral.emit('connect');
+      await promise;
+
+      mockNoble.connect.calledWithExactly(mockId).should.equal(true);
+    });
+  });
+
   describe('disconnect', function () {
     it('should delegate to noble', function () {
       peripheral.disconnect();
@@ -98,6 +125,22 @@ describe('Peripheral', function () {
       peripheral.emit('disconnect');
 
       calledback.should.equal(true);
+    });
+  });
+
+  describe('disconnectAsync', function () {
+    it('should resolve', async () => {
+      const promise = peripheral.disconnectAsync();
+
+      peripheral.emit('disconnect');
+
+      await promise.should.be.fulfilled();
+    });
+
+    it('should delegate to noble', () => {
+      peripheral.disconnect();
+
+      mockNoble.disconnect.calledWithExactly(mockId).should.equal(true);
     });
   });
 
@@ -131,6 +174,25 @@ describe('Peripheral', function () {
       peripheral.emit('rssiUpdate', mockRssi);
 
       calledbackRssi.should.equal(mockRssi);
+    });
+  });
+
+  describe('updateRssiAsync', () => {
+    it('should resolve with rssi', async () => {
+      const promise = peripheral.updateRssiAsync();
+
+      peripheral.emit('rssiUpdate', mockRssi);
+
+      await promise.should.be.fulfilledWith(mockRssi);
+    });
+
+    it('should delegate to noble', async () => {
+      const promise = peripheral.updateRssiAsync();
+
+      peripheral.emit('rssiUpdate');
+      await promise;
+
+      mockNoble.updateRssi.calledWithExactly(mockId).should.equal(true);
     });
   });
 
@@ -173,6 +235,35 @@ describe('Peripheral', function () {
       peripheral.emit('servicesDiscover', mockServices);
 
       calledbackServices.should.equal(mockServices);
+    });
+  });
+
+  describe('discoverServicesAsync', () => {
+    it('should resolve with services', async () => {
+      const mockServices = 'discoveredServices';
+
+      const promise = peripheral.discoverServicesAsync();
+      peripheral.emit('servicesDiscover', mockServices);
+
+      await promise.should.be.fulfilledWith(mockServices);
+    });
+
+    it('should delegate to noble', async () => {
+      const promise = peripheral.discoverServicesAsync();
+      peripheral.emit('servicesDiscover');
+      await promise;
+
+      mockNoble.discoverServices.calledWithExactly(mockId, undefined).should.equal(true);
+    });
+
+    it('should delegate to noble, service uuids', async () => {
+      const mockServiceUuids = [];
+
+      const promise = peripheral.discoverServicesAsync(mockServiceUuids);
+      peripheral.emit('servicesDiscover');
+      await promise;
+
+      mockNoble.discoverServices.calledWithExactly(mockId, mockServiceUuids).should.equal(true);
     });
   });
 
@@ -258,6 +349,74 @@ describe('Peripheral', function () {
     });
   });
 
+  describe('discoverSomeServicesAndCharacteristicsAsync', () => {
+    const mockServiceUuids = [];
+    const mockCharacteristicUuids = [];
+    let mockServices = null;
+
+    beforeEach(function () {
+      peripheral.discoverServices = sinon.spy();
+
+      mockServices = [
+        {
+          uuid: '1',
+          discoverCharacteristics: sinon.spy()
+        },
+        {
+          uuid: '2',
+          discoverCharacteristics: sinon.spy()
+        }
+      ];
+    });
+
+    it('should call discoverServices', async () => {
+      peripheral.discoverSomeServicesAndCharacteristicsAsync(mockServiceUuids);
+
+      peripheral.discoverServices.calledWith(mockServiceUuids).should.equal(true);
+    });
+
+    it('should call discoverCharacteristics on each service discovered', () => {
+      peripheral.discoverSomeServicesAndCharacteristicsAsync(mockServiceUuids, mockCharacteristicUuids);
+
+      const discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
+
+      discoverServicesCallback(null, mockServices);
+
+      mockServices[0].discoverCharacteristics.calledWith(mockCharacteristicUuids).should.equal(true);
+      mockServices[1].discoverCharacteristics.calledWith(mockCharacteristicUuids).should.equal(true);
+    });
+
+    it('should reject on error', async () => {
+      const promise = peripheral.discoverSomeServicesAndCharacteristicsAsync(mockServiceUuids);
+
+      const discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
+
+      discoverServicesCallback(new Error('error'));
+
+      await promise.should.be.rejectedWith('error');
+    });
+
+    it('should resolve with the services and characteristics discovered', async () => {
+      const promise = peripheral.discoverSomeServicesAndCharacteristicsAsync(mockServiceUuids, mockCharacteristicUuids);
+
+      const discoverServicesCallback = peripheral.discoverServices.getCall(0).args[1];
+
+      discoverServicesCallback(null, mockServices);
+
+      const mockCharacteristic1 = { uuid: '1' };
+      const mockCharacteristic2 = { uuid: '2' };
+      const mockCharacteristic3 = { uuid: '3' };
+
+      mockServices[0].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic1]);
+      mockServices[1].discoverCharacteristics.getCall(0).args[1](null, [mockCharacteristic2, mockCharacteristic3]);
+
+      const result = await promise;
+
+      result.services.should.equal(mockServices);
+      result.characteristics.should.eql([mockCharacteristic1, mockCharacteristic2, mockCharacteristic3]);
+    });
+  });
+
   describe('discoverAllServicesAndCharacteristics', function () {
     it('should call discoverSomeServicesAndCharacteristics', function () {
       const mockCallback = sinon.spy();
@@ -267,6 +426,21 @@ describe('Peripheral', function () {
       peripheral.discoverAllServicesAndCharacteristics(mockCallback);
 
       peripheral.discoverSomeServicesAndCharacteristics.calledWithExactly([], [], mockCallback).should.equal(true);
+    });
+  });
+
+  describe('discoverAllServicesAndCharacteristicsAsync', () => {
+    it('should call discoverSomeServicesAndCharacteristics', async () => {
+      peripheral.discoverSomeServicesAndCharacteristics = sinon.spy();
+
+      const promise = peripheral.discoverAllServicesAndCharacteristicsAsync();
+      const callback = peripheral.discoverSomeServicesAndCharacteristics.getCall(0).args[2];
+
+      callback(null);
+      await promise;
+
+      peripheral.discoverSomeServicesAndCharacteristics.getCall(0).args[0].should.eql([]);
+      peripheral.discoverSomeServicesAndCharacteristics.getCall(0).args[1].should.eql([]);
     });
   });
 
@@ -300,6 +474,25 @@ describe('Peripheral', function () {
       peripheral.emit(`handleRead${mockHandle}`, mockData);
 
       calledbackData.should.equal(mockData);
+    });
+  });
+
+  describe('readHandleAsync', () => {
+    it('should delegate to noble', async () => {
+      const promise = peripheral.readHandleAsync(mockHandle);
+
+      peripheral.emit(`handleRead${mockHandle}`);
+      await promise;
+
+      mockNoble.readHandle.calledWithExactly(mockId, mockHandle).should.equal(true);
+    });
+
+    it('should resolve with data', async () => {
+      const promise = peripheral.readHandleAsync(mockHandle);
+
+      peripheral.emit(`handleRead${mockHandle}`, mockData);
+
+      await promise.should.be.fulfilledWith(mockData);
     });
   });
 
@@ -337,6 +530,43 @@ describe('Peripheral', function () {
       peripheral.emit(`handleWrite${mockHandle}`);
 
       calledback.should.equal(true);
+    });
+  });
+
+  describe('writeHandleAsync', () => {
+    beforeEach(() => {
+      mockData = Buffer.alloc(0);
+    });
+
+    it('should only accept data as a buffer', async () => {
+      mockData = {};
+
+      await peripheral.writeHandleAsync(mockHandle, mockData).should.be.rejectedWith('data must be a Buffer');
+    });
+
+    it('should delegate to noble, withoutResponse false', async () => {
+      const promise = peripheral.writeHandleAsync(mockHandle, mockData, false);
+
+      peripheral.emit(`handleWrite${mockHandle}`);
+      await promise;
+
+      mockNoble.writeHandle.calledWithExactly(mockId, mockHandle, mockData, false).should.equal(true);
+    });
+
+    it('should delegate to noble, withoutResponse true', async () => {
+      const promise = peripheral.writeHandleAsync(mockHandle, mockData, true);
+
+      peripheral.emit(`handleWrite${mockHandle}`);
+      await promise;
+
+      mockNoble.writeHandle.calledWithExactly(mockId, mockHandle, mockData, true).should.equal(true);
+    });
+
+    it('should resolve', async () => {
+      const promise = peripheral.writeHandleAsync(mockHandle, mockData, false);
+
+      peripheral.emit(`handleWrite${mockHandle}`);
+      await promise.should.be.resolvedWith();
     });
   });
 });
