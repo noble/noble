@@ -88,6 +88,26 @@ describe('Descriptor', function () {
     });
   });
 
+  describe('readValueAsync', function () {
+    it('should delegate to noble', async () => {
+      const promise = descriptor.readValueAsync();
+      descriptor.emit('valueRead');
+      await promise;
+
+      mockNoble.readValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid).should.equal(true);
+    });
+
+    it('should resolve with data', async () => {
+      const mockData = Buffer.alloc(0);
+
+      const promise = descriptor.readValueAsync();
+      descriptor.emit('valueRead', mockData);
+      const result = await promise;
+
+      result.should.equal(mockData);
+    });
+  });
+
   describe('writeValue', function () {
     let mockData = null;
 
@@ -130,6 +150,36 @@ describe('Descriptor', function () {
       descriptor.emit('valueWrite');
 
       calledback.should.equal(1);
+    });
+  });
+
+  describe('writeValueAsync', function () {
+    let mockData = null;
+
+    beforeEach(function () {
+      mockData = Buffer.alloc(0);
+    });
+
+    it('should only accept data as a buffer', async () => {
+      mockData = {};
+
+      await descriptor.writeValueAsync(mockData).should.be.rejectedWith('data must be a Buffer');
+    });
+
+    it('should delegate to noble', async () => {
+      const promise = descriptor.writeValueAsync(mockData);
+      descriptor.emit('valueWrite');
+      await promise;
+
+      mockNoble.writeValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid, mockData).should.equal(true);
+    });
+
+    it('should resolve', async () => {
+      const promise = descriptor.writeValueAsync(mockData);
+      descriptor.emit('valueWrite');
+      await promise;
+
+      await promise.should.be.resolved();
     });
   });
 });
