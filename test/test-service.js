@@ -82,6 +82,35 @@ describe('service', function () {
     });
   });
 
+  describe('discoverIncludedServicesAsync', function () {
+    it('should delegate to noble', async () => {
+      const promise = service.discoverIncludedServicesAsync();
+      service.emit('includedServicesDiscover');
+      await promise;
+
+      mockNoble.discoverIncludedServices.calledWithExactly(mockPeripheralId, mockUuid, undefined).should.equal(true);
+    });
+
+    it('should delegate to noble, with uuids', async () => {
+      const mockUuids = [];
+      const promise = service.discoverIncludedServicesAsync(mockUuids);
+      service.emit('includedServicesDiscover');
+      await promise;
+
+      mockNoble.discoverIncludedServices.calledWithExactly(mockPeripheralId, mockUuid, mockUuids).should.equal(true);
+    });
+
+    it('should resolve with data', async () => {
+      const mockIncludedServiceUuids = [];
+
+      const promise = service.discoverIncludedServicesAsync();
+      service.emit('includedServicesDiscover', mockIncludedServiceUuids);
+      const result = await promise;
+
+      result.should.equal(mockIncludedServiceUuids);
+    });
+  });
+
   describe('discoverCharacteristics', function () {
     it('should delegate to noble', function () {
       service.discoverCharacteristics();
@@ -121,6 +150,35 @@ describe('service', function () {
       service.emit('characteristicsDiscover', mockCharacteristics);
 
       callbackCharacteristics.should.equal(mockCharacteristics);
+    });
+  });
+
+  describe('discoverCharacteristicsAsync', () => {
+    it('should delegate to noble', async () => {
+      const promise = service.discoverCharacteristicsAsync();
+      service.emit('characteristicsDiscover');
+      await promise;
+
+      mockNoble.discoverCharacteristics.calledWithExactly(mockPeripheralId, mockUuid, undefined).should.equal(true);
+    });
+
+    it('should delegate to noble, with uuids', async () => {
+      const mockUuids = [];
+      const promise = service.discoverCharacteristicsAsync(mockUuids);
+      service.emit('characteristicsDiscover');
+      await promise;
+
+      mockNoble.discoverCharacteristics.calledWithExactly(mockPeripheralId, mockUuid, mockUuids).should.equal(true);
+    });
+
+    it('should resolve with data', async () => {
+      const mockCharacteristics = [];
+
+      const promise = service.discoverCharacteristicsAsync();
+      service.emit('characteristicsDiscover', mockCharacteristics);
+      const result = await promise;
+
+      result.should.equal(mockCharacteristics);
     });
   });
 });
