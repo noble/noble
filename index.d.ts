@@ -45,7 +45,7 @@ export declare var state: string;
 export interface ServicesAndCharacteristics {
   services: Service[];
   characteristics: Characteristic[];
-};
+}
 
 export declare class Peripheral extends events.EventEmitter {
     id: string;
