@@ -66,6 +66,7 @@ noble.on('discover', async (peripheral) => {
 
  * Kernel version 3.6 or above
  * `libbluetooth-dev`
+ * [Notice the comment when running node without sudo-rights](https://github.com/abandonware/noble#running-without-rootsudo-linux-specific)
 
 ##### Ubuntu, Debian, Raspbian
 
