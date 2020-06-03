@@ -66,7 +66,7 @@ noble.on('discover', async (peripheral) => {
 
  * Kernel version 3.6 or above
  * `libbluetooth-dev`
- * [Notice the comment when running node without sudo-rights](https://github.com/abandonware/noble#running-without-rootsudo-linux-specific)
+ * Run the following command to grant node the necessary priviliges to read BLE data: `sudo setcap cap_net_raw+eip $(eval readlink -f $(which node))` ([Explanation](https://github.com/abandonware/noble#running-without-rootsudo-linux-specific))
 
 ##### Ubuntu, Debian, Raspbian
 
