@@ -48,6 +48,8 @@ export declare function removeAllListeners(event?: string): events.EventEmitter;
 
 export declare var state: string;
 
+export var _bindings: any;
+
 export interface ServicesAndCharacteristics {
   services: Service[];
   characteristics: Characteristic[];
