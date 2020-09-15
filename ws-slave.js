@@ -1,7 +1,4 @@
 /* jshint loopfunc: true */
-var events = require('events');
-
-var debug = require('debug')('slave');
 var WebSocket = require('ws');
 
 var noble = require('./index');
@@ -9,7 +6,6 @@ var noble = require('./index');
 var serverMode = !process.argv[2];
 var port = 0xB1e;
 var host = process.argv[2];
-
 
 var ws;
 var wss;
@@ -20,19 +16,19 @@ if (serverMode) {
     port: 0xB1e
   });
 
-  wss.on('connection', function(ws_) {
+  wss.on('connection', function (ws_) {
     console.log('ws -> connection');
 
     ws = ws_;
 
     ws.on('message', onMessage);
 
-    ws.on('close', function() {
+    ws.on('close', function () {
       console.log('ws -> close');
       noble.stopScanning();
     });
 
-    noble.on('stateChange', function(state) {
+    noble.on('stateChange', function (state) {
       sendEvent({
         type: 'stateChange',
         state: state
@@ -40,27 +36,25 @@ if (serverMode) {
     });
 
     // Send poweredOn if already in this state.
-    if (noble.state == "poweredOn") {
+    if (noble.state === 'poweredOn') {
       sendEvent({
         type: 'stateChange',
-        state: "poweredOn"
+        state: 'poweredOn'
       });
     }
-
-
   });
 } else {
   ws = new WebSocket('ws://' + host + ':' + port);
 
-  ws.on('open', function() {
+  ws.on('open', function () {
     console.log('ws -> open');
   });
 
-  ws.on('message', function(message) {
+  ws.on('message', function (message) {
     onMessage(message);
   });
 
-  ws.on('close', function() {
+  ws.on('close', function () {
     console.log('ws -> close');
 
     noble.stopScanning();
@@ -71,7 +65,7 @@ var peripherals = {};
 
 // TODO: open/close ws on state change
 
-function sendEvent(event) {
+function sendEvent (event) {
   var message = JSON.stringify(event);
 
   console.log('ws -> send: ' + message);
@@ -83,7 +77,7 @@ function sendEvent(event) {
   }
 }
 
-var onMessage = function(message) {
+var onMessage = function (message) {
   console.log('ws -> message: ' + message);
 
   var command = JSON.parse(message);
@@ -94,18 +88,17 @@ var onMessage = function(message) {
   var serviceUuid = command.serviceUuid;
   var characteristicUuids = command.characteristicUuids;
   var characteristicUuid = command.characteristicUuid;
-  var data = command.data ? new Buffer(command.data, 'hex') : null;
+  var data = command.data ? Buffer.from(command.data, 'hex') : null;
   var withoutResponse = command.withoutResponse;
   var broadcast = command.broadcast;
   var notify = command.notify;
   var descriptorUuid = command.descriptorUuid;
-  var handle = handle;
+  var handle;
 
   var peripheral = peripherals[peripheralUuid];
   var service = null;
   var characteristic = null;
   var descriptor = null;
-
 
   if (peripheral && serviceUuid) {
     var services = peripheral.services;
@@ -177,17 +170,17 @@ var onMessage = function(message) {
   }
 };
 
-noble.on('discover', function(peripheral) {
+noble.on('discover', function (peripheral) {
   peripherals[peripheral.uuid] = peripheral;
 
-  peripheral.on('connect', function() {
+  peripheral.on('connect', function () {
     sendEvent({
       type: 'connect',
       peripheralUuid: this.uuid
     });
   });
 
-  peripheral.on('disconnect', function() {
+  peripheral.on('disconnect', function () {
     sendEvent({
       type: 'disconnect',
       peripheralUuid: this.uuid
@@ -207,7 +200,7 @@ noble.on('discover', function(peripheral) {
     this.removeAllListeners();
   });
 
-  peripheral.on('rssiUpdate', function(rssi) {
+  peripheral.on('rssiUpdate', function (rssi) {
     sendEvent({
       type: 'rssiUpdate',
       peripheralUuid: this.uuid,
@@ -215,11 +208,11 @@ noble.on('discover', function(peripheral) {
     });
   });
 
-  peripheral.on('servicesDiscover', function(services) {
+  peripheral.on('servicesDiscover', function (services) {
     var peripheral = this;
     var serviceUuids = [];
 
-    var includedServicesDiscover = function(includedServiceUuids) {
+    var includedServicesDiscover = function (includedServiceUuids) {
       sendEvent({
         type: 'includedServicesDiscover',
         peripheralUuid: peripheral.uuid,
@@ -228,11 +221,11 @@ noble.on('discover', function(peripheral) {
       });
     };
 
-    var characteristicsDiscover = function(characteristics) {
+    var characteristicsDiscover = function (characteristics) {
       var service = this;
       var discoveredCharacteristics = [];
 
-      var read = function(data, isNotification) {
+      var read = function (data, isNotification) {
         var characteristic = this;
 
         sendEvent({
@@ -245,7 +238,7 @@ noble.on('discover', function(peripheral) {
         });
       };
 
-      var write = function() {
+      var write = function () {
         var characteristic = this;
 
         sendEvent({
@@ -256,7 +249,7 @@ noble.on('discover', function(peripheral) {
         });
       };
 
-      var broadcast = function(state) {
+      var broadcast = function (state) {
         var characteristic = this;
 
         sendEvent({
@@ -268,7 +261,7 @@ noble.on('discover', function(peripheral) {
         });
       };
 
-      var notify = function(state) {
+      var notify = function (state) {
         var characteristic = this;
 
         sendEvent({
@@ -280,12 +273,12 @@ noble.on('discover', function(peripheral) {
         });
       };
 
-      var descriptorsDiscover = function(descriptors) {
+      var descriptorsDiscover = function (descriptors) {
         var characteristic = this;
 
         var discoveredDescriptors = [];
 
-        var valueRead = function(data) {
+        var valueRead = function (data) {
           var descriptor = this;
 
           sendEvent({
@@ -298,7 +291,7 @@ noble.on('discover', function(peripheral) {
           });
         };
 
-        var valueWrite = function(data) {
+        var valueWrite = function (data) {
           var descriptor = this;
 
           sendEvent({
@@ -367,7 +360,7 @@ noble.on('discover', function(peripheral) {
     });
   });
 
-  peripheral.on('handleRead', function(handle, data) {
+  peripheral.on('handleRead', function (handle, data) {
     sendEvent({
       type: 'handleRead',
       peripheralUuid: this.uuid,
@@ -376,7 +369,7 @@ noble.on('discover', function(peripheral) {
     });
   });
 
-  peripheral.on('handleWrite', function(handle) {
+  peripheral.on('handleWrite', function (handle) {
     sendEvent({
       type: 'handleWrite',
       peripheralUuid: this.uuid,
@@ -384,7 +377,7 @@ noble.on('discover', function(peripheral) {
     });
   });
 
-  peripheral.on('handleNotify', function(handle, data) {
+  peripheral.on('handleNotify', function (handle, data) {
     sendEvent({
       type: 'handleNotify',
       peripheralUuid: this.uuid,

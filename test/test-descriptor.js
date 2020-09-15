@@ -1,18 +1,18 @@
-var should = require('should');
-var sinon = require('sinon');
+require('should');
+const sinon = require('sinon');
 
-var Descriptor = require('../lib/descriptor');
+const Descriptor = require('../lib/descriptor');
 
-describe('Descriptor', function() {
-  var mockNoble = null;
-  var mockPeripheralId = 'mock-peripheral-id';
-  var mockServiceUuid = 'mock-service-uuid';
-  var mockCharacteristicUuid = 'mock-characteristic-uuid';
-  var mockUuid = 'mock-uuid';
+describe('Descriptor', function () {
+  let mockNoble = null;
+  const mockPeripheralId = 'mock-peripheral-id';
+  const mockServiceUuid = 'mock-service-uuid';
+  const mockCharacteristicUuid = 'mock-characteristic-uuid';
+  const mockUuid = 'mock-uuid';
 
-  var descriptor = null;
+  let descriptor = null;
 
-  beforeEach(function() {
+  beforeEach(function () {
     mockNoble = {
       readValue: sinon.spy(),
       writeValue: sinon.spy()
@@ -21,38 +21,38 @@ describe('Descriptor', function() {
     descriptor = new Descriptor(mockNoble, mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     descriptor = null;
   });
 
-  it('should have a uuid', function() {
+  it('should have a uuid', function () {
     descriptor.uuid.should.equal(mockUuid);
   });
 
-  it('should lookup name and type by uuid', function() {
+  it('should lookup name and type by uuid', function () {
     descriptor = new Descriptor(mockNoble, mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, '2900');
 
     descriptor.name.should.equal('Characteristic Extended Properties');
     descriptor.type.should.equal('org.bluetooth.descriptor.gatt.characteristic_extended_properties');
   });
 
-  describe('toString', function() {
-    it('should be uuid, name, type', function() {
+  describe('toString', function () {
+    it('should be uuid, name, type', function () {
       descriptor.toString().should.equal('{"uuid":"mock-uuid","name":null,"type":null}');
     });
   });
 
-  describe('readValue', function() {
-    it('should delegate to noble', function() {
+  describe('readValue', function () {
+    it('should delegate to noble', function () {
       descriptor.readValue();
 
       mockNoble.readValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
+    it('should callback', function () {
+      let calledback = false;
 
-      descriptor.readValue(function() {
+      descriptor.readValue(function () {
         calledback = true;
       });
       descriptor.emit('valueRead');
@@ -60,10 +60,10 @@ describe('Descriptor', function() {
       calledback.should.equal(true);
     });
 
-    it('should not call callback twice', function() {
-      var calledback = 0;
+    it('should not call callback twice', function () {
+      let calledback = 0;
 
-      descriptor.readValue(function() {
+      descriptor.readValue(function () {
         calledback += 1;
       });
       descriptor.emit('valueRead');
@@ -72,11 +72,14 @@ describe('Descriptor', function() {
       calledback.should.equal(1);
     });
 
-    it('should callback with error, data', function() {
-      var mockData = new Buffer(0);
-      var callbackData = null;
+    it('should callback with error, data', function () {
+      const mockData = Buffer.alloc(0);
+      let callbackData = null;
 
-      descriptor.readValue(function(error, data) {
+      descriptor.readValue(function (error, data) {
+        if (error) {
+          throw new Error(error);
+        }
         callbackData = data;
       });
       descriptor.emit('valueRead', mockData);
@@ -85,31 +88,51 @@ describe('Descriptor', function() {
     });
   });
 
-  describe('writeValue', function() {
-    var mockData = null;
+  describe('readValueAsync', function () {
+    it('should delegate to noble', async () => {
+      const promise = descriptor.readValueAsync();
+      descriptor.emit('valueRead');
+      await promise;
 
-    beforeEach(function() {
-      mockData = new Buffer(0);
+      mockNoble.readValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid).should.equal(true);
     });
 
-    it('should only accept data as a buffer', function() {
+    it('should resolve with data', async () => {
+      const mockData = Buffer.alloc(0);
+
+      const promise = descriptor.readValueAsync();
+      descriptor.emit('valueRead', mockData);
+      const result = await promise;
+
+      result.should.equal(mockData);
+    });
+  });
+
+  describe('writeValue', function () {
+    let mockData = null;
+
+    beforeEach(function () {
+      mockData = Buffer.alloc(0);
+    });
+
+    it('should only accept data as a buffer', function () {
       mockData = {};
 
-      (function(){
+      (function () {
         descriptor.writeValue(mockData);
       }).should.throwError('data must be a Buffer');
     });
 
-    it('should delegate to noble', function() {
+    it('should delegate to noble', function () {
       descriptor.writeValue(mockData);
 
       mockNoble.writeValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid, mockData).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
+    it('should callback', function () {
+      let calledback = false;
 
-      descriptor.writeValue(mockData, function() {
+      descriptor.writeValue(mockData, function () {
         calledback = true;
       });
       descriptor.emit('valueWrite');
@@ -117,10 +140,10 @@ describe('Descriptor', function() {
       calledback.should.equal(true);
     });
 
-    it('should not call callback twice', function() {
-      var calledback = 0;
+    it('should not call callback twice', function () {
+      let calledback = 0;
 
-      descriptor.writeValue(mockData, function() {
+      descriptor.writeValue(mockData, function () {
         calledback += 1;
       });
       descriptor.emit('valueWrite');
@@ -128,6 +151,35 @@ describe('Descriptor', function() {
 
       calledback.should.equal(1);
     });
+  });
 
+  describe('writeValueAsync', function () {
+    let mockData = null;
+
+    beforeEach(function () {
+      mockData = Buffer.alloc(0);
+    });
+
+    it('should only accept data as a buffer', async () => {
+      mockData = {};
+
+      await descriptor.writeValueAsync(mockData).should.be.rejectedWith('data must be a Buffer');
+    });
+
+    it('should delegate to noble', async () => {
+      const promise = descriptor.writeValueAsync(mockData);
+      descriptor.emit('valueWrite');
+      await promise;
+
+      mockNoble.writeValue.calledWithExactly(mockPeripheralId, mockServiceUuid, mockCharacteristicUuid, mockUuid, mockData).should.equal(true);
+    });
+
+    it('should resolve', async () => {
+      const promise = descriptor.writeValueAsync(mockData);
+      descriptor.emit('valueWrite');
+      await promise;
+
+      await promise.should.be.resolved();
+    });
   });
 });

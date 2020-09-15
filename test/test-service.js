@@ -1,16 +1,16 @@
-var should = require('should');
-var sinon = require('sinon');
+require('should');
+const sinon = require('sinon');
 
-var Service = require('../lib/service');
+const Service = require('../lib/service');
 
-describe('service', function() {
-  var mockNoble = null;
-  var mockPeripheralId = 'mock-peripheral-id';
-  var mockUuid = 'mock-uuid';
+describe('service', function () {
+  let mockNoble = null;
+  const mockPeripheralId = 'mock-peripheral-id';
+  const mockUuid = 'mock-uuid';
 
-  var service = null;
+  let service = null;
 
-  beforeEach(function() {
+  beforeEach(function () {
     mockNoble = {
       discoverIncludedServices: sinon.spy(),
       discoverCharacteristics: sinon.spy()
@@ -19,46 +19,46 @@ describe('service', function() {
     service = new Service(mockNoble, mockPeripheralId, mockUuid);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     service = null;
   });
 
-  it('should have a uuid', function() {
+  it('should have a uuid', function () {
     service.uuid.should.equal(mockUuid);
   });
 
-  it('should lookup name and type by uuid', function() {
+  it('should lookup name and type by uuid', function () {
     service = new Service(mockNoble, mockPeripheralId, '1800');
 
     service.name.should.equal('Generic Access');
     service.type.should.equal('org.bluetooth.service.generic_access');
   });
 
-  describe('toString', function() {
-    it('should be uuid, name, type, includedServiceUuids', function() {
+  describe('toString', function () {
+    it('should be uuid, name, type, includedServiceUuids', function () {
       service.toString().should.equal('{"uuid":"mock-uuid","name":null,"type":null,"includedServiceUuids":null}');
     });
   });
 
-  describe('discoverIncludedServices', function() {
-    it('should delegate to noble', function() {
+  describe('discoverIncludedServices', function () {
+    it('should delegate to noble', function () {
       service.discoverIncludedServices();
 
       mockNoble.discoverIncludedServices.calledWithExactly(mockPeripheralId, mockUuid, undefined).should.equal(true);
     });
 
-    it('should delegate to noble, with uuids', function() {
-      var mockUuids = [];
+    it('should delegate to noble, with uuids', function () {
+      const mockUuids = [];
 
       service.discoverIncludedServices(mockUuids);
 
       mockNoble.discoverIncludedServices.calledWithExactly(mockPeripheralId, mockUuid, mockUuids).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
+    it('should callback', function () {
+      let calledback = false;
 
-      service.discoverIncludedServices(null, function() {
+      service.discoverIncludedServices(null, function () {
         calledback = true;
       });
       service.emit('includedServicesDiscover');
@@ -66,11 +66,14 @@ describe('service', function() {
       calledback.should.equal(true);
     });
 
-    it('should callback with data', function() {
-      var mockIncludedServiceUuids = [];
-      var callbackIncludedServiceUuids = null;
+    it('should callback with data', function () {
+      const mockIncludedServiceUuids = [];
+      let callbackIncludedServiceUuids = null;
 
-      service.discoverIncludedServices(null, function(error, includedServiceUuids) {
+      service.discoverIncludedServices(null, function (error, includedServiceUuids) {
+        if (error) {
+          throw new Error(error);
+        }
         callbackIncludedServiceUuids = includedServiceUuids;
       });
       service.emit('includedServicesDiscover', mockIncludedServiceUuids);
@@ -79,25 +82,54 @@ describe('service', function() {
     });
   });
 
-  describe('discoverCharacteristics', function() {
-    it('should delegate to noble', function() {
+  describe('discoverIncludedServicesAsync', function () {
+    it('should delegate to noble', async () => {
+      const promise = service.discoverIncludedServicesAsync();
+      service.emit('includedServicesDiscover');
+      await promise;
+
+      mockNoble.discoverIncludedServices.calledWithExactly(mockPeripheralId, mockUuid, undefined).should.equal(true);
+    });
+
+    it('should delegate to noble, with uuids', async () => {
+      const mockUuids = [];
+      const promise = service.discoverIncludedServicesAsync(mockUuids);
+      service.emit('includedServicesDiscover');
+      await promise;
+
+      mockNoble.discoverIncludedServices.calledWithExactly(mockPeripheralId, mockUuid, mockUuids).should.equal(true);
+    });
+
+    it('should resolve with data', async () => {
+      const mockIncludedServiceUuids = [];
+
+      const promise = service.discoverIncludedServicesAsync();
+      service.emit('includedServicesDiscover', mockIncludedServiceUuids);
+      const result = await promise;
+
+      result.should.equal(mockIncludedServiceUuids);
+    });
+  });
+
+  describe('discoverCharacteristics', function () {
+    it('should delegate to noble', function () {
       service.discoverCharacteristics();
 
       mockNoble.discoverCharacteristics.calledWithExactly(mockPeripheralId, mockUuid, undefined).should.equal(true);
     });
 
-    it('should delegate to noble, with uuids', function() {
-      var mockUuids = [];
+    it('should delegate to noble, with uuids', function () {
+      const mockUuids = [];
 
       service.discoverCharacteristics(mockUuids);
 
       mockNoble.discoverCharacteristics.calledWithExactly(mockPeripheralId, mockUuid, mockUuids).should.equal(true);
     });
 
-    it('should callback', function() {
-      var calledback = false;
+    it('should callback', function () {
+      let calledback = false;
 
-      service.discoverCharacteristics(null, function() {
+      service.discoverCharacteristics(null, function () {
         calledback = true;
       });
       service.emit('characteristicsDiscover');
@@ -105,16 +137,48 @@ describe('service', function() {
       calledback.should.equal(true);
     });
 
-    it('should callback with data', function() {
-      var mockCharacteristics = [];
-      var callbackCharacteristics = null;
+    it('should callback with data', function () {
+      const mockCharacteristics = [];
+      let callbackCharacteristics = null;
 
-      service.discoverCharacteristics(null, function(error, mockCharacteristics) {
+      service.discoverCharacteristics(null, function (error, mockCharacteristics) {
+        if (error) {
+          throw new Error(error);
+        }
         callbackCharacteristics = mockCharacteristics;
       });
       service.emit('characteristicsDiscover', mockCharacteristics);
 
       callbackCharacteristics.should.equal(mockCharacteristics);
+    });
+  });
+
+  describe('discoverCharacteristicsAsync', () => {
+    it('should delegate to noble', async () => {
+      const promise = service.discoverCharacteristicsAsync();
+      service.emit('characteristicsDiscover');
+      await promise;
+
+      mockNoble.discoverCharacteristics.calledWithExactly(mockPeripheralId, mockUuid, undefined).should.equal(true);
+    });
+
+    it('should delegate to noble, with uuids', async () => {
+      const mockUuids = [];
+      const promise = service.discoverCharacteristicsAsync(mockUuids);
+      service.emit('characteristicsDiscover');
+      await promise;
+
+      mockNoble.discoverCharacteristics.calledWithExactly(mockPeripheralId, mockUuid, mockUuids).should.equal(true);
+    });
+
+    it('should resolve with data', async () => {
+      const mockCharacteristics = [];
+
+      const promise = service.discoverCharacteristicsAsync();
+      service.emit('characteristicsDiscover', mockCharacteristics);
+      const result = await promise;
+
+      result.should.equal(mockCharacteristics);
     });
   });
 });
