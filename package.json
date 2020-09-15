@@ -1,15 +1,19 @@
 {
-  "author": "Sandeep Mistry <sandeep.mistry@gmail.com>",
+  "author": "Sandeep Mistry",
+  "maintainers": [
+    "Jacob Rosenthal",
+    "Luis Montes"
+  ],
   "license": "MIT",
-  "name": "noble",
+  "name": "@abandonware/noble",
   "description": "A Node.js BLE (Bluetooth Low Energy) central library.",
-  "version": "1.8.1",
+  "version": "1.9.2-10",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sandeepmistry/noble.git"
+    "url": "https://github.com/abandonware/noble.git"
   },
   "bugs": {
-    "url": "https://github.com/sandeepmistry/noble/issues"
+    "url": "https://github.com/abandonware/noble/issues"
   },
   "keywords": [
     "bluetooth",
@@ -19,8 +23,9 @@
     "central"
   ],
   "main": "./index.js",
+  "types": "./index.d.ts",
   "engines": {
-    "node": ">=0.8"
+    "node": ">=6"
   },
   "os": [
     "darwin",
@@ -29,23 +34,32 @@
     "win32"
   ],
   "dependencies": {
-    "debug": "~2.2.0"
+    "debug": "^4.1.1",
+    "napi-thread-safe-callback": "0.0.6",
+    "node-addon-api": "^2.0.0"
   },
   "optionalDependencies": {
-    "bluetooth-hci-socket": "^0.5.1",
-    "bplist-parser": "0.0.6",
-    "xpc-connection": "~0.1.4"
+    "@abandonware/bluetooth-hci-socket": "^0.5.3-5"
   },
   "devDependencies": {
-    "jshint": "latest",
-    "mocha": "~1.8.2",
-    "should": "~1.2.2",
-    "sinon": "~1.6.0",
-    "async": "~0.2.9",
-    "ws": "~0.4.31"
+    "async": "^3.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-semistandard": "^15.0.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "install": "^0.13.0",
+    "mocha": "^7.1.0",
+    "node-gyp": "^6.1.0",
+    "prettier": "^1.19.1",
+    "should": "~13.2.3",
+    "sinon": "~9.0.0",
+    "ws": "^7.2.1"
   },
   "scripts": {
-    "pretest": "jshint *.js lib/. test/.",
+    "lint": "eslint '**/*.js'",
     "test": "mocha -R spec test/*.js"
   },
   "browser": {

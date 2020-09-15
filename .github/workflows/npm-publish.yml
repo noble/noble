@@ -1,0 +1,26 @@
+name: npm-publish
+on:
+  push:
+    branches:
+      - master # Change this to your default branch
+jobs:
+  npm-publish:
+    name: npm-publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - id: log
+        run: echo "::set-output name=message::$(git log --no-merges -1 --oneline)"
+      - if: "contains(steps.log.outputs.message, 'Release ')"
+        uses: actions/setup-node@master
+        with:
+          node-version: 10.0.0
+      - if: "contains(steps.log.outputs.message, 'Release ')"
+        uses: pascalgn/npm-publish-action@51fdb4531e99aac1873764ef7271af448dc42ab4
+        with: # All of theses inputs are optional
+          tag_name: "v%s"
+          tag_message: "v%s"
+          commit_pattern: "^Release (\\S+)"
+        env: # More info about the environment variables in the README
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
