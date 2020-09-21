@@ -1,10 +1,11 @@
+/* eslint-disable handle-callback-err */
 // Connect to a peripheral running the echo service
 // https://github.com/noble/bleno/blob/master/examples/echo
 
 // subscribe to be notified when the value changes
 // start an interval to write data to the characteristic
 
-//const noble = require('noble');
+// const noble = require('noble');
 const noble = require('..');
 
 const ECHO_SERVICE_UUID = 'ec00';
@@ -20,15 +21,14 @@ noble.on('stateChange', state => {
 });
 
 noble.on('discover', peripheral => {
-    // connect to the first peripheral that is scanned
-    noble.stopScanning();
-    const name = peripheral.advertisement.localName;
-    console.log(`Connecting to '${name}' ${peripheral.id}`);
-    connectAndSetUp(peripheral);
+  // connect to the first peripheral that is scanned
+  noble.stopScanning();
+  const name = peripheral.advertisement.localName;
+  console.log(`Connecting to '${name}' ${peripheral.id}`);
+  connectAndSetUp(peripheral);
 });
 
-function connectAndSetUp(peripheral) {
-
+function connectAndSetUp (peripheral) {
   peripheral.connect(error => {
     console.log('Connected to', peripheral.id);
 
@@ -37,24 +37,24 @@ function connectAndSetUp(peripheral) {
     const characteristicUUIDs = [ECHO_CHARACTERISTIC_UUID];
 
     peripheral.discoverSomeServicesAndCharacteristics(
-        serviceUUIDs,
-        characteristicUUIDs,
-        onServicesAndCharacteristicsDiscovered
+      serviceUUIDs,
+      characteristicUUIDs,
+      onServicesAndCharacteristicsDiscovered
     );
   });
-  
+
   peripheral.on('disconnect', () => console.log('disconnected'));
 }
 
-function onServicesAndCharacteristicsDiscovered(error, services, characteristics) {
+function onServicesAndCharacteristicsDiscovered (error, services, characteristics) {
   console.log('Discovered services and characteristics');
   const echoCharacteristic = characteristics[0];
 
   // data callback receives notifications
   echoCharacteristic.on('data', (data, isNotification) => {
-    console.log('Received: "' + data + '"');
+    console.log(`Received: "${data}"`);
   });
-  
+
   // subscribe to be notified whenever the peripheral update the characteristic
   echoCharacteristic.subscribe(error => {
     if (error) {
@@ -68,8 +68,8 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
   let count = 0;
   setInterval(() => {
     count++;
-    const message = new Buffer('hello, ble ' + count, 'utf-8');
-    console.log("Sending:  '" + message + "'");
+    const message = Buffer.from(`hello, ble ${count}`, 'utf-8');
+    console.log(`Sending:  '${message}'`);
     echoCharacteristic.write(message);
   }, 2500);
 }

@@ -1,0 +1,55 @@
+name: Node.js package
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [
+          ubuntu-latest,
+          macos-latest,
+        ]
+        node: [
+          8,
+          10,
+          12,
+          13,
+        ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install dependencies
+        run: |
+          if [ ${{ matrix.os }} = ubuntu-latest ]; then
+            sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+            sudo apt -qq update
+            sudo apt install -y g++-4.8
+          fi
+      - name: Run integration tests
+        run: |
+          if [ ${{ matrix.os }} = macos-latest -a ${{ matrix.node }} = 6 ]; then
+            # Mac bindings will currently not build on Node 6
+            exit 0
+          fi
+          if [ ${{ matrix.os }} = ubuntu-latest ]; then
+            export CC="g++-4.8"
+          fi
+          npm install
+          npm run test
+      - name: Lint
+        run: |
+          if [ ${{ matrix.node }} = 6 ]; then
+            # ESLint 6+ is not compatible with Node 6
+            exit 0
+          fi
+          npm run lint
