@@ -67,7 +67,7 @@ describe('Peripheral', function () {
     it('should delegate to noble', function () {
       peripheral.connect();
 
-      mockNoble.connect.calledWithExactly(mockId).should.equal(true);
+      mockNoble.connect.calledWithExactly(mockId, undefined).should.equal(true);
     });
 
     it('should callback', function () {
@@ -105,7 +105,7 @@ describe('Peripheral', function () {
       peripheral.emit('connect');
       await promise;
 
-      mockNoble.connect.calledWithExactly(mockId).should.equal(true);
+      mockNoble.connect.calledWithExactly(mockId, undefined).should.equal(true);
     });
   });
 
