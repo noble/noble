@@ -99,7 +99,7 @@ var onMessage = function(message) {
   var broadcast = command.broadcast;
   var notify = command.notify;
   var descriptorUuid = command.descriptorUuid;
-  var handle = handle;
+  var handle;
 
   var peripheral = peripherals[peripheralUuid];
   var service = null;

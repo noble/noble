@@ -106,10 +106,30 @@ npm install noble
 ## Usage
 
 ```javascript
-var noble = require('noble');
+var noble = require('@abandonware/noble');
 ```
 
 ### Actions
+
+All methods have two variants – one expecting a callback, one returning a Promise (denoted by `Async` suffix).
+
+For example, in case of the `Peripheral.discoverServices` method:
+
+* The `discoverServices` variant expects a callback:
+   ```javascript
+   peripheral.discoverServices((error, services) => {
+     // callback - handle error and services
+   }); 
+   ```
+* The `discoverServicesAsync` variant returns a Promise:
+  ```javascript
+  try {
+    const services = await peripheral.discoverServicesAsync();
+    // handle services
+  } catch (e) {
+    // handle error
+  }
+  ```
 
 #### Start scanning
 
@@ -320,7 +340,8 @@ peripheral = {
         ...
     ]
   },
-  rssi: <rssi>
+  rssi: <rssi>,
+  mtu: <mtu> // MTU will be null, until device is connected and hci-socket is used
 };
 
 noble.on('discover', callback(peripheral));

@@ -59,7 +59,7 @@ describe('Peripheral', function() {
 
   describe('toString', function() {
     it('should be id, address, address type, connectable, advertisement, rssi, state', function() {
-      peripheral.toString().should.equal('{"id":"mock-id","address":"mock-address","addressType":"mock-address-type","connectable":"mock-connectable","advertisement":"mock-advertisement","rssi":"mock-rssi","state":"disconnected"}');
+      peripheral.toString().should.equal('{"id":"mock-id","address":"mock-address","addressType":"mock-address-type","connectable":"mock-connectable","advertisement":"mock-advertisement","rssi":"mock-rssi","mtu":null,"state":"disconnected"}');
     });
   });
 
